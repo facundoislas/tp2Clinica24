@@ -1,0 +1,44 @@
+<!-- Header section -->
+<header class="header-section">
+    <div class="header-warp">
+      <div class="header-bar-warp d-flex">
+        <div>
+          <h2 style="text-align: center;">
+         Clinica Buena Salud</h2>
+      </div>
+        <!-- site logo -->				
+        <nav class="top-nav-area w-100">
+          <div class="user-panel" >
+            <div *ngIf="!verificarSesion()" >
+            <div ><a routerLink="login" >Ingresá</a></div>
+            <div ><a routerLink="registro" >Registrate</a></div>
+          </div>
+          <div *ngIf="verificarSesion()">
+            <div><p>Hola {{this.nombre}}!</p></div>
+            <div ><a routerLink="/" (click)="cerrarSesion()" >Cerrar sesion</a></div>
+            
+          </div></div>
+          <!-- Menu -->
+          <ul class="main-menu primary-menu" *ngIf="verificarSesion()">
+            <li><a routerLink="/home">Inicio</a></li>
+            <li><a routerLink="/juegos">Juegos</a>
+            </li>
+            <!--li><a routerLink="/listado">Listado de Resultados</a-->
+            <li><a routerLink="chat">Chat</a>
+            <li><a>Sobre Mi</a>
+              <ul class="sub-menu">
+                <li><a href="https://github.com/facundoislas" target="blank">En Github</a></li>
+                <li><a routerLink="/quienSoy">Sobre Facundo Islas</a></li>
+              </ul>
+            </li>
+            
+            
+          </ul>
+          <ul class="main-menu primary-menu" ><!--*ngIf="!verificarSesion()"-->
+  
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+  

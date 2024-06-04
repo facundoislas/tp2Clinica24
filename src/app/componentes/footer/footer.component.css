@@ -1,0 +1,18 @@
+body {
+    height: 100%;
+
+  }
+
+  
+  
+  
+    footer {
+      height: 6%;
+        flex-shrink: 0;
+        width: 100%;
+        position:fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 999;
+        text-align:justify ;
+    }
