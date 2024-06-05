@@ -7,5 +7,6 @@ export class Usuario {
     pass!: string;
     imagen1!: string;
     tipo!:string;
+    aprobado!:boolean;
 
 }

@@ -94,7 +94,8 @@ export class FormPacienteComponent {
           edad: this.paciente.edad,
           obraSocial: this.paciente.obraSocial,
           foto1: downloadURL,
-          foto2: downloadURL2
+          foto2: downloadURL2,
+          aprobado: true
         });
         sessionStorage.setItem("user",this.paciente.mail);
         sessionStorage.setItem("muestra","true");

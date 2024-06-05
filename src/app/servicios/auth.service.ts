@@ -44,11 +44,12 @@ export class AuthService {
       const user = await createUserWithEmailAndPassword(this.auth, email, password);
       sendEmailVerification(user.user).then(() => {
         alert('Registration successful! Please check your email for verification.');
-        this.router.navigate(['/login']);
+      this.router.navigate(['/login']);
       this.user = user;
       
     })
-    return user;}
+    return user;
+    }
     catch(e)
     {
       return null;
