@@ -1,52 +1,44 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { Usuario } from '../../clases/usuario';
 import { AuthService } from '../../servicios/auth.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-cabecera',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './cabecera.component.html',
   styleUrl: './cabecera.component.css'
 })
 export class CabeceraComponent {
 
-  logueado!:boolean;
-  nombre!:string;
   
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private auth: AuthService
-    ) 
-    {
-     }
-verificarSesion()
-{
-  const session = sessionStorage.getItem('user');
+  @Input() items: { label: string, link: string }[] = [];
+  @Input() usuario : any | null = null;
+  @Input() showButtons : boolean = false;
+  @Output() loadingEvent = new EventEmitter<boolean>();
+  @Output() userEvent = new EventEmitter<any|null>()
 
-        
-      if(session==null)
-      {
-      return false;
-      }
-      else{
-        this.nombre= session;
-      return true;  
-      }
-}
-
-cerrarSesion(){
-
-this.auth.logout();
-sessionStorage.clear();
-this.logueado=false;
-this.router.navigate(['/login']);
-console.log("Se cierra sesion");
-}
-
-ngOnInit() {
-}
+  constructor(private router : Router, private auth: AuthService) {
+  }
+  
+  ngOnInit() { }
+  loguot() {
+    this.loadingEvent.emit(true);
+    setTimeout(() => {
+      this.auth
+      .logout()
+      .then((e) => {
+        this.usuario = null;
+        this.userEvent.emit(null);
+        this.loadingEvent.emit(false);
+        this.router.navigate(['/bienvenida']);
+        localStorage.clear();
+      })
+      .catch((err) => {});
+    }, 1000);
+  }
 
 }

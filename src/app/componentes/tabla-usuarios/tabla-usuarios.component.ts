@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
-import { UsuariosServiceService } from '../../servicios/usuarios-service.service';
-import { Usuario } from '../../clases/usuario';
+import { FirebaseService } from '../../servicios/firebase.service';
 import { CommonModule } from '@angular/common';
-import { object } from '@angular/fire/database';
-import { MisPipesPipe } from '../../pipes/mis-pipes.pipe';
+import { FormsModule } from '@angular/forms';
+import { MisPipesPipe } from "../../pipes/mis-pipes.pipe";
 
 @Component({
   selector: 'app-tabla-usuarios',
   standalone: true,
-  imports: [CommonModule, MisPipesPipe],
+  imports: [CommonModule, FormsModule, MisPipesPipe],
   templateUrl: './tabla-usuarios.component.html',
   styleUrl: './tabla-usuarios.component.css'
 })
 export class TablaUsuariosComponent {
 
+  
   public usuarios: any[] = [];
 
-  constructor( private userService: UsuariosServiceService){
+  constructor( private userService: FirebaseService){
     
   }
 
@@ -54,5 +54,6 @@ export class TablaUsuariosComponent {
     .catch(error => console.error("error actualizando el usuario"));
     
   }
+
 
 }

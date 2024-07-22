@@ -1,7 +1,9 @@
 import { Usuario } from "./usuario";
 
 export class Especialista extends Usuario {
-    especialidad!: string;
+    especialidades!: string;
     duracionTurno!:number;
     disponibilidad:any[]=[];
+    tipo = 'especialista'
+    aprobado = false;
 }

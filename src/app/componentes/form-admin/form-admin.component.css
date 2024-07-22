@@ -1,0 +1,192 @@
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+   
+}
+
+/* Set a style for all buttons */
+
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    padding: 14px 20px;
+    background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn,.signupbtn {float:left;width:50%}
+
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+
+/*-----for border----*/
+.container{
+	font-family:Roboto,sans-serif;
+	  background-color: black ;
+    
+     border-style: 1px solid grey;
+     padding: 3.9%;
+     text-align: center;
+     opacity: 0.8;
+     max-width: 40%;
+ 
+     
+}
+/*--- for label of first and last name---*/
+.lastname{
+	
+     font-family: sans-serif;
+     font-size: 14px;
+     color: white;
+     margin-top: 10px;
+}
+.firstname{
+	
+     font-family: sans-serif;
+     font-size: 14px;
+     color: white;
+     margin-top: 5px;
+}
+#lname{
+	 margin-top:5px;
+}
+	  
+
+/*---for heading-----*/
+.heading{
+	 text-decoration:bold;
+	 text-align : center;
+	 font-size:30px;
+	 color:#F96;
+     padding-top: 35px;
+}
+/*-------for email----------*/
+  /*------label----*/
+#email{
+	  margin-top: 5px;
+}
+/*-----------for Password--------*/
+     /*-------label-----*/
+.mail{
+	
+     font-family: sans-serif;
+     color: white;
+     font-size: 14px;
+     margin-top: 13px;
+}
+.pass{
+	 color: white;
+     margin-top: 9px;
+     font-size: 14px;
+     font-family: sans-serif;
+    
+     margin-top: 9px;
+}
+#password{
+ margin-top: 6px;
+}
+/*------------for phone Number--------*/
+      /*----------label--------*/
+.pno{
+	 font-size: 18px;
+     margin-left: -13px;
+     margin-top: 10px;
+     color: #ff9;
+	
+}	
+
+/*--------------for Gender---------------*/
+     /*--------------label---------*/
+.gender {
+	 color: white;
+     font-family: sans-serif;
+     font-size: 14px;
+     margin-left: 28px;
+     margin-top: 8px;
+}
+
+/*------------For submit button---------*/
+.sbutton{
+	 color: white;
+     font-size: 20px;
+     border: 1px solid white;
+     background-color: #080808;
+     width: 32%;
+     margin-left: 41%;
+     margin-top: 16px;
+	 box-shadow: 0px 2px 2px 0px white;
+  	   
+   }
+.btn.btn-warning:hover {
+    box-shadow: 2px 1px 2px 3px #99ccff;
+	background:#5900a6;
+	color:#fff;
+	transition: background-color 1.15s ease-in-out,border-color 1.15s ease-in-out,box-shadow 1.15s ease-in-out;
+	
+}	 
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+   
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 20px;
+  }
+  
+  
+  #snackbar.Ganador {
+    background-color: rgb(223, 24, 24);
+    color:white;
+  }
+  
+  #snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+
+  form {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 10px;
+ }
+ .form-control {
+     width: 100%;
+     padding: 10px;
+     margin-top: 5px;
+ }
+ .col-sm-12 {
+     grid-column: span 2;
+ }
+
+ .validacion{
+
+     color: #ffffff;
+     font-family: Arial, Helvetica, sans-serif;
+     font-size: 15px;
+     
+ }

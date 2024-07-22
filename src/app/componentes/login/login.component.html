@@ -1,35 +1,41 @@
+<app-cabecera ></app-cabecera>
 <body>
     <div class="fondo">
     
         <div class="container">
-            <div class="d-flex justify-content-center h-100">
-                <div class="card">
-                    <div class="card-header">
+            <div class="d-flex" style="margin-top: 8%;">
+                <div class="card col-md-6 mt-5">
+                    <div class="card-header ">
                         <h3>Ingreso</h3>
             
                 
                     <div class="card-body">
-                        <form>
+                        <form [formGroup]="formRegistro">
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-user"></i></span>
                     </div>
-                    <input type="text" placeholder="Usuario" class="form-control"   name="uname" required [(ngModel)]="this.user.email">
-                            
+                    <input type="text" placeholder="Usuario" class="form-control"   name="uname" formControlName="usuario" [(ngModel)]="this.user.email">
+                    <div *ngIf="formRegistro.get('usuario')?.invalid" class="validacion">
+                      <small *ngIf="formRegistro.get('usuario')?.errors?.['required']">El email es requerida.</small>
+                      <small *ngIf="formRegistro.get('usuario')?.errors?.['email']">Debe ser formato Corre Electronico</small></div>
                                 
                             </div>
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-key"></i></span>
                     </div>
-                    <input type="password" placeholder="Clave" class="form-control"   name="psw" [(ngModel)]="this.user.password" required>
+                    <input type="password" placeholder="Clave" class="form-control"   name="psw" formControlName="pass" [(ngModel)]="this.user.password">
+                    <div *ngIf="formRegistro.get('pass')?.invalid" class="validacion">
+                      <small *ngIf="formRegistro.get('pass')?.errors?.['required']">La contraseña es requerida.</small>
+                      <small *ngIf="formRegistro.get('pass')?.errors?.['minlength']">Debe tener al menos 6 caracteres</small></div>
                             
-                            </div> 
-                            <div class="form-group" *ngIf="logeando">
-                                <button  class="btn btn-primary" (click)="entrar()" >Ingresar</button>
-                      <button   class="btn btn-primary"  (click)="admin()">Ingresar como admin</button>
-                      <button class="btn btn-primary"   (click)="usuario()">Ingresar como especialista</button>
-                      <button class="btn btn-primary"   (click)="paciente()">Ingresar como paciente</button>
+                      <div class="form-group" *ngIf="logeando"><br>
+                        <button  class="btn btn-primary" (click)="entrar()" >Ingresar</button>
+                    </div> 
+                           
+                     
+                     
                   </div>
                   <div *ngIf="!logeando">
                   <div  class="progress" >
@@ -48,8 +54,45 @@
                     
                 </div>
           </div>
+          <div class="col-md-6 mt-5" style="margin-left: 20%;">
+            <h2 class="mt-5">Accesos Rápidos</h2>
+            <div class="d-flex flex-row">
+              <!-- Botones para usuarios -->
+              <div class="d-inline-block"> <!-- Agrega la clase d-inline-block -->
+                <h5>Pacientes</h5>
+                <div class="btn btn-outline square-button" (click)="autoComplete('kobrolexobru-1395@yopmail.com','123456')">
+                  <img class="foto paciente-btn" src="https://firebasestorage.googleapis.com/v0/b/clinica-22442.appspot.com/o/pacientes%2F%C2%A1Increible-Susana-Gimenez-regresa-a-la-television-y-revela-detalles-exclusivos.jpg?alt=media&token=5ca8f684-3cde-4336-b59c-87307e5dc0c8" alt="">
+                </div>
+                <div class="btn btn-outline square-button" (click)="autoComplete('xausibeiweme-1448@yopmail.com','999999')">
+                  <img class="foto paciente-btn" src="https://firebasestorage.googleapis.com/v0/b/clinica-22442.appspot.com/o/pacientes%2F1677619311348.jpg?alt=media&token=9885f1bb-12cc-48d4-91e4-0bca4d0a1644" alt="">
+                </div>
+                <div class="btn btn-outline square-button" (click)="autoComplete('prousajeuppoddo-8188@yopmail.com','123456')">
+                  <img class="foto paciente-btn" src="https://firebasestorage.googleapis.com/v0/b/clinica-22442.appspot.com/o/pacientes%2Falberto1.jpg?alt=media&token=80f901c1-74aa-4767-901f-edd529f27ccd" alt="">
+                </div>
+              </div>
           
+              <!-- Botones para especialistas -->
+              <div class="d-inline-block"> <!-- Agrega la clase d-inline-block -->
+                <h5>Especialistas</h5>
+                <div class="btn btn-outline square-button" (click)="autoComplete('touppoibrouquotrou-9644@yopmail.com','123123')">
+                  <img class="foto especialista-btn" src="https://firebasestorage.googleapis.com/v0/b/clinica-22442.appspot.com/o/especialistas%2Fdassad_400x400.jpg?alt=media&token=18424970-fed4-40e7-91fc-7e9a5384bcb2"  alt="">
+                </div>
+                <div class="btn btn-outline square-button" (click)="autoComplete('joibrofounihe-6605@yopmail.com','123123')">
+                  <img class="foto especialista-btn" src="https://firebasestorage.googleapis.com/v0/b/clinica-22442.appspot.com/o/especialistas%2F1366_2000.jpeg?alt=media&token=225728e8-579b-4c2c-ade4-072a4a82843a" alt="">
+                </div>
+              </div>
+          
+              <!-- Botón para administrador -->
+              <div class="d-inline-block"> <!-- Agrega la clase d-inline-block -->
+                <h5>Administrador</h5>
+                <div class="btn btn-outline square-button" (click)="autoComplete('racejihoibrei-1918@yopmail.com','111111')">
+                  <img class="foto admin-btn" src="https://firebasestorage.googleapis.com/v0/b/clinica-22442.appspot.com/o/especialistas%2F318184722_169463255708064_6801540025908267373_n.jpg?alt=media&token=0da9a166-890c-45bf-8638-4b93c1cad377" alt="">
+                </div>
+              </div>
+            </div>
         </div>
+
+   
         <div>
             <div id="snackbar">{{Mensaje}}</div>
           </div>

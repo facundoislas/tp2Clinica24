@@ -1,0 +1,41 @@
+.fondo{
+
+    background: url("/assets/imagenes/slider-bg-2.jpg");
+    
+    height: 100vh;
+  }
+
+  .pantalla{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 90%;
+    width: 80%;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.backMenu{
+    border-radius: 50px;
+    background-color: #fa9b39;
+    font-size: 25px;
+    font-weight: bold;
+    img{
+        width: 50px;
+        height: 50px;
+    }
+}
+.titulo{
+    color: white;
+    margin-bottom: 20px;
+}
+
+.img-btn{
+    width: 25px;
+    height: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+

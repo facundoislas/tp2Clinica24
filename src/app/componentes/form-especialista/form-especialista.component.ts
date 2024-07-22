@@ -1,17 +1,26 @@
-import { Component } from '@angular/core';
-import { Especialista } from '../../clases/especialista';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { interval } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Especialista } from '../../clases/especialista';
 import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/storage';
 import { AuthService } from '../../servicios/auth.service';
-import { Firestore, addDoc, collection } from '@angular/fire/firestore';
+import { addDoc, collection, Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { interval } from 'rxjs';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { Captcha2Component } from '../captcha2/captcha2.component';
+import { Especialidad } from '../../clases/especialidad';
+import Swal from 'sweetalert2';
+import { EspecialidadesService } from '../../servicios/especialidades.service';
+import { HorariosEspecialista } from '../../clases/horarios-especialista';
+import { HorariosEspecialistaService } from '../../servicios/horarios-especialista.service';
+
 
 @Component({
   selector: 'app-form-especialista',
   standalone: true,
-  imports: [ CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, Captcha2Component, MatSelectModule, MatFormFieldModule],
   templateUrl: './form-especialista.component.html',
   styleUrl: './form-especialista.component.css'
 })
@@ -29,10 +38,12 @@ export class FormEspecialistaComponent {
   subscription: any;
   foto1!:File;
   private storage = getStorage();
+  resultado!:boolean;
+  especialidades:Especialidad[] = [];
 
   clase="progress-bar progress-bar-info progress-bar-striped ";
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private fire:Firestore, private router: Router){
+  constructor(private fb: FormBuilder, private authService: AuthService, private fire:Firestore, private router: Router, private serverEsp: EspecialidadesService,private horariosEsp: HorariosEspecialistaService){
     this.especialista = new Especialista ()
   }
 
@@ -42,7 +53,7 @@ export class FormEspecialistaComponent {
     apellido:['', [Validators.required, Validators.minLength(2)]],
     edad:['', [Validators.required, Validators.min(0), Validators.max(150)]],
     dni: ['', [Validators.required, Validators.min(1000000), Validators.max(100000000)]],
-    especialidad: ['', [Validators.required, Validators.minLength(2)]],
+    especialidad: ['', []],
     email:['', [Validators.required, Validators.email]],
     contrasena:['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],
     contrasena2:['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],
@@ -50,7 +61,20 @@ export class FormEspecialistaComponent {
     
   })
 
+  traerEspecialidades()
+  {
+    this.serverEsp.getEspecialidades().subscribe( (data) => {
+      this.especialidades	= data;
+      console.log(this.especialidades)
+    });
+  }
+
+  get especialidad(){
+    return this.formRegistro.get('especialidad')?.value;
+  }
+
   ngOnInit() {
+    this.traerEspecialidades();
     sessionStorage.clear();
   }
 
@@ -59,6 +83,7 @@ export class FormEspecialistaComponent {
     
     }
 
+   
   async enviar()
   {
     if(this.formRegistro.valid)
@@ -66,7 +91,7 @@ export class FormEspecialistaComponent {
       if(this.especialista.pass == this.contrasena2)
       {
         
-        const user = this.authService.register(this.especialista.mail, this.especialista.pass);
+        const user = await this.authService.register(this.especialista.email, this.especialista.pass);
         this.MoverBarraDeProgreso()
         if(await user)
         {
@@ -78,19 +103,22 @@ export class FormEspecialistaComponent {
         const downloadURL = await getDownloadURL(snapshot.ref);
         console.log(this.especialista, downloadURL);
         addDoc(col, {
-          email: this.especialista.mail,
+          email: this.especialista.email,
           nombre: this.especialista.nombre,
           apellido: this.especialista.apellido,
           tipo: this.especialista.tipo,
+          dni: this.especialista.dni,
           contraseña: this.especialista.pass,
           edad: this.especialista.edad,
-          Especialidad: this.especialista.especialidad,
+          especialidad: this.formRegistro.get('especialidad')?.value,
           foto1: downloadURL,
           aprobado: false,
+          id: user?.user.uid
         });
-        sessionStorage.setItem("user",this.especialista.mail);
+        sessionStorage.setItem("user",this.especialista.email);
         sessionStorage.setItem("muestra","true");
-        
+        this.cargarHorarioEspecialistas(this.especialista.email);
+
         this.router.navigateByUrl('/home', { replaceUrl: true });
         } 
         
@@ -174,5 +202,60 @@ export class FormEspecialistaComponent {
     });
   }
 
+  tomarResultado(resultado:boolean)
+  {
+    this.resultado = resultado;
+  }
+
+  agregarNuevaEspecialidad(){
+    Swal.fire({
+      title: "Ingrese una especialidad:",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off"
+      },
+      showCancelButton: true,
+      showConfirmButton: true,
+      showLoaderOnConfirm: true,
+      preConfirm: async (input) =>{
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try{
+          if(result.value != ''){
+            this.serverEsp.setEspecialidad(result.value)
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Especialidad generada",
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
+          else{
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Ingreso inválido",
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
+        }
+        catch(error){
+          console.log(error)
+        }
+      }
+      else{
+        Swal.close();
+      }
+    });
+  }
+  
+  cargarHorarioEspecialistas(mail:string){
+    let horarioAux = new HorariosEspecialista("",mail);
+    this.horariosEsp.cargarHorarioEspecialistas(horarioAux);
+  }
 
 }

@@ -1,5 +1,6 @@
        
   <section id="tabs" class="project-tab">
+   
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -18,9 +19,9 @@
                                       <th>Tipo</th>
                                       <th>Correo</th>
                                       <th>Obra Social</th>
-                                      <th>Especialidad</th>
                                       <th>Estado</th>
                                       <th>Acción</th>
+                                      <th>Especialidad</th>
                                     </tr>
                                 </thead>
                                 <tbody style="text-align: center">
@@ -32,12 +33,13 @@
 
                                         <td>{{user.email}}</td>
                                         <td>{{user.obraSocial}}</td>
-                                        <td>{{user.especialidad}}</td>
+                                        
                                         <td>{{user.aprobado | misPipes }}</td>
                                         <td *ngIf="user.aprobado">
                                             <button data-toggle="modal" data-target="#squarespaceModal" class="btn btn-primary center-block" (click)="deshabilitarEspecialista(user)">Deshabilitar</button></td>
                                             <td *ngIf="!user.aprobado">
                                                 <button data-toggle="modal" data-target="#squarespaceModal" class="btn btn-primary center-block" (click)="habilitarEspecialista(user)">Habilitar</button></td>
+                                                <label *ngFor="let esp of user.especialidad">{{esp.especialidad}}</label>
                                     </tr>
                                     
                                 </tbody>
@@ -51,5 +53,3 @@
         </div>
     </div>
 </section>
-
-    <!--div id="snackbar">{{Mensajes}}</div-->

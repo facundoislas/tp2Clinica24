@@ -1,134 +1,104 @@
+
+
 <body class="fondo">
     <div class="container">
-    <!---heading---->
-        <header class="heading"> Formulario de Registro de Pacientes</header>
+        <header class="heading">Formulario de Registro de Pacientes</header>
         <form [formGroup]="formRegistro" *ngIf="logeando">
-     <!---Form starting----> 
-     <div class="row " style="margin-left: 70px;">
-      <!--- For Name---->
-            <div class="col-sm-12">
-                <div class="row">
-              <div class="col-xs-4">
-                        <label class="firstname"></label> </div>
-                <div class="col-xs-8">
-                    <input type="text" name="fname" id="fname" formControlName="nombre" placeholder="Nombre" class="form-control " [(ngModel)]="this.paciente.nombre">
-                    
-                </div>
-             </div>
-        </div>
-
-        <div class="col-sm-12">
-            <div class="row">
-          <div class="col-xs-4">
-                    <label class="firstname"></label>
-            </div>
-            <div class="col-xs-8">
-                <input type="text" name="fname" id="fname" formControlName="apellido" placeholder="Apellido" class="form-control" [(ngModel)]="this.paciente.apellido">
-            </div>
-         </div>
-         <div class="col-sm-12">
-            <div class="row">
-          <div class="col-xs-4">
-                    <label class="firstname"></label>
-            </div>
-            <div class="col-xs-8">
-                <input type="text" name="fname" id="fname" formControlName="edad" placeholder="Edad" class="form-control " [(ngModel)]="this.paciente.edad">
-            </div>
-         </div></div>
-    </div>
-    <div class="col-sm-12">
-        <div class="row">
-          <div class="col-xs-4">
-                <label class="mail" ></label></div>
-          <div class="col-xs-8"	>	 
-               <input type="dni" name="email"  id="email" formControlName="dni" placeholder="DNI" class="form-control " [(ngModel)]="this.paciente.dni" >
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-12">
-        <div class="row">
-          <div class="col-xs-4">
-                <label class="mail" ></label></div>
-          <div class="col-xs-8"	>	 
-               <input type="dni" name="email"  id="email" formControlName="obraSocial" placeholder="Obra Social" class="form-control " [(ngModel)]="this.paciente.obraSocial" >
-            </div>
-        </div>
-    </div>
-        
-        <!-----For email---->
-        <div class="col-sm-12">
-            <div class="row">
-              <div class="col-xs-4">
-                    <label class="mail" ></label></div>
-              <div class="col-xs-8"	>	 
-                   <input type="email" name="email"  id="email" formControlName="email" placeholder="Correo Electrónico" class="form-control " [(ngModel)]="this.paciente.mail" >
+            <div>
+                <input type="text" name="fname" id="fname" formControlName="nombre" placeholder="Nombre" class="form-control" [(ngModel)]="this.paciente.nombre">
+                <div *ngIf="formRegistro.get('nombre')?.invalid" class="validacion">
+                  <small *ngIf="formRegistro.get('nombre')?.errors?.['required']">El nombre es requerido.</small>
+                  <small *ngIf="formRegistro.get('nombre')?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres.</small>
                 </div>
             </div>
-        </div>
-      <!-----For Password and confirm password---->
-             <div class="col-sm-12">
-                <div class="row">
-                <div class="col-xs-4">
-                        <label class="pass"></label></div>
-             <div class="col-xs-8">
-                      <input type="password" name="password" id="password" formControlName="contrasena" placeholder="Contraseña" class="form-control" [(ngModel)]="this.paciente.pass">
+            <div>
+                <input type="text" name="lname" id="lname" formControlName="apellido" placeholder="Apellido" class="form-control" [(ngModel)]="this.paciente.apellido">
+                <div *ngIf="formRegistro.get('apellido')?.invalid" class="validacion">
+                  <small *ngIf="formRegistro.get('apellido')?.errors?.['required']">El apellido es requerido.</small>
+                  <small *ngIf="formRegistro.get('apellido')?.errors?.['minlength']">El apellido debe tener al menos 2 caracteres.</small>
+                </div>
             </div>
-             </div>
-         </div>
-
-         <div class="col-sm-12">
-            <div class="row">
-            <div class="col-xs-4">
-                    <label class="pass"></label></div>
-         <div class="col-xs-8">
-                  <input type="password" name="password" id="password" formControlName="contrasena2" placeholder="Reingresar contraseña" class="form-control" [(ngModel)]="this.contrasena2">
-        </div>
-         </div>
-     </div>
-     <div class="col-sm-12">
-        <div class="row">
-          <div class="col-xs-4">
-                <label class="mail" ></label></div>
-          <div class="col-xs-8"	>	 
-               <input type="file" name="email"  id="email" formControlName="foto1" placeholder="Foto 1" class="form-control " [(ngModel)]="this.paciente.imagen1" (change)="onFileSelected($event, 1)">
+            <div>
+                <input type="number" name="edad" id="edad" formControlName="edad" placeholder="Edad" class="form-control" [(ngModel)]="this.paciente.edad">
+                <div *ngIf="formRegistro.get('edad')?.invalid" class="validacion">
+  
+                <small *ngIf="formRegistro.get('edad')?.errors?.['required']">La edad es requerida.</small>
+                <small *ngIf="formRegistro.get('edad')?.errors?.['maxlength']">Ingrese una edad real.</small></div>
             </div>
-        </div>
-    </div>
-  <!-----For Password and confirm password---->
-         <div class="col-sm-12">
-            <div class="row">
-            <div class="col-xs-4">
-                    <label class="pass"></label></div>
-         <div class="col-xs-8">
-                  <input type="file" name="password" id="password" formControlName="foto2" placeholder="Foto 2" class="form-control" [(ngModel)]="this.paciente.imagen2" (change)="onFileSelected($event, 2)">
-        </div>
-         </div></div>
-        <!-----------For Phone number-------->
+            <div>
+                <input type="number" name="dni" id="dni" formControlName="dni" placeholder="DNI" class="form-control" [(ngModel)]="this.paciente.dni">
+                <div *ngIf="formRegistro.get('dni')?.invalid" class="validacion">
+                  <small *ngIf="formRegistro.get('dni')?.errors?.['required']">El dni es requerido.</small>
+                  <small *ngIf="formRegistro.get('dni')?.errors?.['min']">El dni debe tener al menos 6 caracteres.</small>
+                  <small *ngIf="formRegistro.get('dni')?.errors?.['max']">El dni no debe tener mas de 9 caracteres.</small>
+  
+                </div>
+            </div>
+            <div>
+                <input type="text" name="obraSocial" id="obraSocial" formControlName="obraSocial" placeholder="Obra Social" class="form-control" [(ngModel)]="this.paciente.obraSocial">
+                      <div *ngIf="formRegistro.get('obraSocial')?.invalid" class="validacion">
+                          <small *ngIf="formRegistro.get('obraSocial')?.errors?.['required']">La obra Social es requerido.</small>
+                          <small *ngIf="formRegistro.get('obraSocial')?.errors?.['minlength']">La obra social debe tener al menos 3 caracteres.</small>
+                        </div>
+            </div>
+            <div>
+                <input type="email" name="email" id="email" formControlName="email" placeholder="Correo Electrónico" class="form-control" [(ngModel)]="this.paciente.email">
+                <div *ngIf="formRegistro.get('email')?.invalid" class="validacion">
+                  <small *ngIf="formRegistro.get('email')?.errors?.['required']">El email es requerido.</small>
+                  <small *ngIf="formRegistro.get('email')?.errors?.['email']">Respetar formato de correo.</small>
+  
+                </div>
+            </div>
+            <div>
+                <input type="password" name="password" id="password" formControlName="contrasena" placeholder="Contraseña" class="form-control" [(ngModel)]="this.paciente.pass">
+                <div *ngIf="formRegistro.get('contrasena')?.invalid" class="validacion">
+                  <small *ngIf="formRegistro.get('contrasena')?.errors?.['required']">La Contraseña es requerida.</small>
+                  <small *ngIf="formRegistro.get('contrasena')?.errors?.['minlength']">Debe tener mas de 6 caracteres</small>
+                  <small *ngIf="formRegistro.get('contrasena')?.errors?.['maxlength']">Debe tener menos de 9 caractere</small>
+  
+                </div>  
+            </div>
+            <div>
+                <input type="password" name="password2" id="password2" formControlName="contrasena2" placeholder="Reingresar contraseña" class="form-control" [(ngModel)]="this.contrasena2">
+                <div *ngIf="formRegistro.get('contrasena2')?.invalid" class="validacion">
+                  <small *ngIf="formRegistro.get('contrasena2')?.errors?.['required']">La Contraseña es requerida.</small>
+                  <small *ngIf="formRegistro.get('contrasena2')?.errors?.['minlength']">Debe tener mas de 6 caracteres</small>
+                  <small *ngIf="formRegistro.get('contrasena2')?.errors?.['maxlength']">Debe tener menos de 9 caractere</small>
+  
+                </div>  
+            </div>
+            <div>
+                <input type="file" name="foto1" id="foto1" formControlName="foto1" placeholder="Foto 1" class="form-control" [(ngModel)]="this.paciente.img_1" (change)="onFileSelected($event, 1)">
+                  <div *ngIf="formRegistro.get('foto1')?.invalid" class="validacion">
+                    <small *ngIf="formRegistro.get('foto1')?.errors?.['required']">La foto es requerida.</small>
+                  </div>
+            </div>
+            <div>
+                <input type="file" name="foto2" id="foto2" formControlName="foto2" placeholder="Foto 2" class="form-control" [(ngModel)]="this.paciente.imagen2" (change)="onFileSelected($event, 2)">
+                <div *ngIf="formRegistro.get('foto2')?.invalid" class="validacion">
+                  <small *ngIf="formRegistro.get('foto2')?.errors?.['required']">La foto es requerida.</small>
+                </div>
+            </div>
             <div class="col-sm-12">
-            
-            <div class="col-sm-12"style="margin-left: -34px;">
-                <div class="btn btn-warning" (click)="enviar()">Enviar</div>
-          </div>
-          <br>
-          <div class="col-sm-12" style="margin-left: -34px;">
-            <div class="btn btn-warning" routerLink="/login" >Loguearse</div>
-      </div>
-      
+                <app-captcha2 (resultadoFinal)="tomarResultado($event)"></app-captcha2>
+            </div>
+            <div class="col-sm-12" style="margin-left: -34px;" *ngIf="this.resultado != true;">
+                <button class="btn btn-warning" (click)="enviar()" disabled>Enviar</button>
+            </div>
+            <div class="col-sm-12" style="margin-left: -34px;" *ngIf="this.resultado == true;">
+                <button class="btn btn-warning" (click)="enviar()">Enviar</button>
+            </div>
+            <div class="col-sm-12" style="margin-left: -34px;">
+                <div class="btn btn-warning" routerLink="/login">Loguearse</div>
+            </div>
+        </form>
+        <div *ngIf="!logeando" style="margin-top: 90%;">
+            <div class="progress">
+                <div class="progress-bar progress-bar-info progress-bar-striped active" [class]="clase" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" [style.width]="ProgresoDeAncho">
+                    {{progresoMensaje}} - {{progreso}}%
+                </div>
+            </div>
         </div>
-       
-      </div>	 
-      
-    </form> 
-    <div *ngIf="!logeando" style="margin-top:90%">
-      <div  class="progress" >
-        <div class="progress-bar progress-bar-info progress-bar-striped active" [class]="clase" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" [style.width]="ProgresoDeAncho" >
-          {{progresoMensaje}} - {{progreso}}%
-        </div>
-    </div>
-     </div>
-      <div>
         <div id="snackbar">{{Mensaje}}</div>
-      </div>
-   </div>
-   
+    </div>
+  </body>

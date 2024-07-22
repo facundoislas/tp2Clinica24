@@ -1,92 +1,89 @@
-/* GLOBAL STYLES
--------------------------------------------------- */
-/* Padding below the footer and lighter body text */
-
 .fondo{
     display: inline-flex;
     background: url("./../../../assets/imagenes/slider-bg-2.jpg");
-    margin-block-start: 101px;
-    margin-top: -60px;
-    padding:43px;
-    width: 100vw;
-    height: 100vh;
+    
+  
+    width: 100%;
+    height: 100%;
   }
   
-  
-    
-    /* CUSTOMIZE THE CAROUSEL
-    -------------------------------------------------- */
-    
-    
-    
-    /* MARKETING CONTENT
-    -------------------------------------------------- */
     
     /* Center align the text within the three columns below the carousel */
     .marketing .col-lg-6 {
-      margin-bottom: 1.5rem;
-      text-align: center;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        
+      }
+      .marketing h2 {
+        font-weight: normal;
+      }
+      .fondo .col-lg-6 p {
+        margin-right: 10.75rem;
+        margin-left: -7.25rem;
       
-    }
-    .marketing h2 {
-      font-weight: normal;
-    }
-    .fondo .col-lg-6 p {
-      margin-right: 10.75rem;
-      margin-left: -7.25rem;
-    
-    }
-    p{
-      text-align: center;
-      color:rgb(0, 9, 107);
-      font-size: 20px;
-    }
-    h2
-    {
-      color:rgb(39, 200, 42);
-      text-align: left;
-    }
-    
-    
-    /* Featurettes
-    ------------------------- */
-    
-    .featurette-divider {
-      margin: 5rem 0; /* Space out the Bootstrap <hr> more */
-    }
-    
-    /* RESPONSIVE CSS
-    -------------------------------------------------- */
-    
-    @media (min-width: 40em) {
-      /* Bump up size of carousel content */
-      .carousel-caption p {
-        margin-bottom: 1.25rem;
-        font-size: 1.25rem;
-        line-height: 1.4;
       }
-    
-      .featurette-heading {
-        font-size: 50px;
+      p{
+        text-align: center;
+        color:rgb(0, 9, 107);
+        font-size: 20px;
       }
-    }
-    
-    @media (min-width: 62em) {
-      .featurette-heading {
-        margin-top: 7rem;
+      h2
+      {
+        color:rgb(39, 200, 42);
+        text-align: left;
       }
-    }
+      
+      
+      /* Featurettes
+      ------------------------- */
+      
+      .featurette-divider {
+        margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+      }
+      
+      /* RESPONSIVE CSS
+      -------------------------------------------------- */
+      
+      @media (min-width: 40em) {
+        /* Bump up size of carousel content */
+        .carousel-caption p {
+          margin-bottom: 1.25rem;
+          font-size: 1.25rem;
+          line-height: 1.4;
+        }
+      
+        .featurette-heading {
+          font-size: 50px;
+        }
+      }
+      
+      @media (min-width: 62em) {
+        .featurette-heading {
+          margin-top: 7rem;
+        }
+      }
+  
+      .flecha
+      {
+          position: absolute;
+          top: 110px;
+          right: 20px;
+          background-color: #f44336;
+          color: white;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 4px;
+          font-size: 16px;
+          cursor: pointer;
+      }
 
-    .flecha
-    {
-        position: absolute;
-        top: 110px;
-        right: 20px;
-        background-color: #f44336;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        font-size: 16px;
-        cursor: pointer;
-    }
+      main{
+       
+           
+        margin-left: 25%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+     
+}

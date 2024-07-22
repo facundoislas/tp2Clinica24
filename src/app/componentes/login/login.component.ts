@@ -1,21 +1,37 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { CabeceraComponent } from "../cabecera/cabecera.component";
+import { Router } from '@angular/router';
 import { AuthService } from '../../servicios/auth.service';
-import { Firestore, addDoc, collection } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { interval } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { FirebaseService } from '../../servicios/firebase.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CabeceraComponent, CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  animations: [
+    trigger('slideUp', [
+      transition(':enter', [
+        style({ transform: 'translateY(100%)' }),
+        animate('600ms ease', style({ transform: 'translateY(0%)' })),
+      ]),
+      transition(':leave', [
+        style({ transform: 'translateY(0%)' }),
+        animate('600ms ease', style({ transform: 'translateY(-100%)' })),
+      ]),
+    ])
+  ]
 })
 export class LoginComponent {
 
-    
+  
+  userData!: any;
   tipoUser!:string;
   user= { email : '', password : ''};
   Mensaje!:string;
@@ -33,7 +49,7 @@ export class LoginComponent {
   constructor(
     private router: Router,
     public authService : AuthService,
-    private firestore: Firestore) {
+    private firestore: Firestore, private fb: FormBuilder, private firebase: FirebaseService) {
       
       this.progreso=0;
       this.ProgresoDeAncho="0%";
@@ -49,14 +65,18 @@ export class LoginComponent {
           }
   }
 
+  formRegistro = this.fb.group({
+    usuario:['', [Validators.required, Validators.email]],
+    pass:['', [Validators.required, Validators.minLength(6)]],})
+
   ngOnInit() {
     sessionStorage.clear();
   }
 
   async entrar()
   {
+    if(this.formRegistro.valid){
     
-
 		const user = this.authService.login(this.user.email, this.user.password);
     this.MoverBarraDeProgreso();
 		if (await user) {
@@ -73,7 +93,7 @@ export class LoginComponent {
       this.borrar();
       this.logeando=true;
 		} 
-  
+  }
     //this.mostrarSpinner = false;
   }
 
@@ -132,23 +152,6 @@ export class LoginComponent {
       this.user.password='';
     }
 
-    admin()
-    {
-      this.user.email="admin@clinica.com";
-        this.user.password="111111";
-    }
-
-    usuario()
-    {
-      this.user.email="especialista1@clinica.com";
-        this.user.password="222222";
-    }
-
-    paciente()
-    {
-      this.user.email="paciente1@hotmail.com";
-      this.user.password="333333";
-    }
 
 
     MostarMensaje(mensaje:string,gano:boolean) {
@@ -165,5 +168,21 @@ export class LoginComponent {
   
     }
 
+    autoComplete(mail: string, pass: string){
 
+      this.formRegistro.setValue({
+        usuario: mail,
+        pass: pass
+      });
+    }
+
+    
+   async mostrarFoto(email: string){
+      await this.firebase.getUsuarioEmail(email).then(data =>{
+        return (data?.["foto1"])
+      });   
+      
+   }
+    
+   
 }

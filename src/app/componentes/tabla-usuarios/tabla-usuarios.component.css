@@ -1,10 +1,10 @@
 
 
 .project-tab {
-    padding: 10%;
-    margin-top: -8%;
+    padding: 8%;
+  
 }
-.project-tab #tabs{
+.project-tab #tabs {
     background: #007b5e;
     color: #eee;
 }
@@ -84,14 +84,7 @@ form input:focus + label, form textarea:focus + label {
 	z-index: 2;
 	text-transform: uppercase;
 }
-form label {
-	-webkit-transition: background 0.2s, color 0.2s, top 0.2s, bottom 0.2s, right 0.2s, left 0.2s;
-	transition: background 0.2s, color 0.2s, top 0.2s, bottom 0.2s, right 0.2s, left 0.2s;
-	position: absolute;
-	color: #999;
-	padding: 7px 6px;
-	font-weight: normal;
-}
+
 form textarea {
 	display: block;
 	resize: vertical;
@@ -112,3 +105,12 @@ form.go-bottom input:focus + label, form.go-bottom textarea:focus + label {
 	top: 100%;
 	margin-top: -16px;
 }
+
+label{
+    text-decoration: none;
+    color: rgb(2, 8, 34);
+    font-weight: 900;
+    background-color: rgb(162, 229, 190);
+
+}
+    

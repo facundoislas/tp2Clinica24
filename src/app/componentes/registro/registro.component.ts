@@ -1,17 +1,20 @@
 import { Component } from '@angular/core';
+import { CabeceraComponent } from "../cabecera/cabecera.component";
 import { FormPacienteComponent } from "../form-paciente/form-paciente.component";
 import { FormEspecialistaComponent } from "../form-especialista/form-especialista.component";
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-registro',
-    standalone: true,
-    templateUrl: './registro.component.html',
-    styleUrl: './registro.component.css',
-    imports: [FormPacienteComponent, FormEspecialistaComponent, CommonModule]
+  selector: 'app-registro',
+  standalone: true,
+  imports: [CabeceraComponent, FormPacienteComponent, FormEspecialistaComponent, FormsModule, CommonModule],
+  templateUrl: './registro.component.html',
+  styleUrl: './registro.component.css'
 })
 export class RegistroComponent {
 
+  
   seccion:string = 'menu';
   tipoUsuarioARegistrar:string = '';
 

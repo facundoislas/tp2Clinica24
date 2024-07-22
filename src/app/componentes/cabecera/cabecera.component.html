@@ -1,44 +1,80 @@
-<!-- Header section -->
-<header class="header-section">
-    <div class="header-warp">
-      <div class="header-bar-warp d-flex">
+<nav class="navbar fixed-top">
+    <div class="container-fluid">
         <div>
-          <h2 style="text-align: center;">
-         Clinica Buena Salud</h2>
-      </div>
-        <!-- site logo -->				
-        <nav class="top-nav-area w-100">
-          <div class="user-panel" >
-            <div *ngIf="!verificarSesion()" >
-            <div ><a routerLink="login" >Ingresá</a></div>
-            <div ><a routerLink="registro" >Registrate</a></div>
-          </div>
-          <div *ngIf="verificarSesion()">
-            <div><p>Hola {{this.nombre}}!</p></div>
-            <div ><a routerLink="/" (click)="cerrarSesion()" >Cerrar sesion</a></div>
-            
-          </div></div>
-          <!-- Menu -->
-          <ul class="main-menu primary-menu" *ngIf="verificarSesion()">
-            <li><a routerLink="/home">Inicio</a></li>
-            <li><a routerLink="/juegos">Juegos</a>
-            </li>
-            <!--li><a routerLink="/listado">Listado de Resultados</a-->
-            <li><a routerLink="chat">Chat</a>
-            <li><a>Sobre Mi</a>
-              <ul class="sub-menu">
-                <li><a href="https://github.com/facundoislas" target="blank">En Github</a></li>
-                <li><a routerLink="/quienSoy">Sobre Facundo Islas</a></li>
-              </ul>
-            </li>
-            
-            
-          </ul>
-          <ul class="main-menu primary-menu" ><!--*ngIf="!verificarSesion()"-->
+            <h2 style="text-align: center;">
+           Clinica Buena Salud</h2>
+        </div>
+      <a class="navbar-brand" href="#"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
   
-          </ul>
-        </nav>
+        <div class="dropdown" *ngIf="usuario === null">
+          <li class="nav-item dropdown">
+            <a class="dropdown-item" routerLink="/bienvenida">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="dropdown-item" routerLink="/registro">Registro</a>
+          </li>
+          <div *ngIf="!usuario">
+            <a routerLink="/login">
+              <button class="btn btn-primary">Iniciar Sesión</button>
+            </a>
+          </div>
+        </div>
+        <div class="dropdown" *ngIf="usuario?.tipo === 'admin'">
+          <li class="nav-item dropdown">
+            <a class="dropdown-item" routerLink="/login/mi-perfil">Mi Perfil</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="dropdown-item" routerLink="/login/seccion-usuarios">Usuarios</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="dropdown-item" routerLink="/login/dashboard">Registrar Usuarios</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="dropdown-item" routerLink="/login/estadisticas">Estadisticas</a>
+          </li>
+        </div>
+        <div class="dropdown" *ngIf="usuario?.tipo === 'paciente'">
+          <li class="nav-item dropdown">
+            <a class="dropdown-item" routerLink="/login/mi-perfil">Mi Perfil</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="dropdown-item" routerLink="/login/mis-turnos">Mis turnos</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="dropdown-item" routerLink="/login/solicitar-turno">Solicitar turno</a>
+          </li>
+        </div>
+        <div class="dropdown" *ngIf="usuario?.tipo === 'especialista'">
+          <li class="nav-item dropdown">
+            <a class="dropdown-item" routerLink="/login/mi-perfil">Mi Perfil</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="dropdown-item" routerLink="/login/mis-turnos">Mis turnos</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="dropdown-item" routerLink="/login/seccion-usuarios">Usuarios</a>
+          </li>
+          
+        </div>
+        <ng-container *ngIf="showButtons">
+          <div *ngIf="usuario" class="dropdown-center">
+            <button class="btn btn-lg dropdown-toggle text-light" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              {{usuario.email}}
+            </button>
+            <ul class="dropdown-menu w-100">
+              <li class="p-2">
+                <button class="btn text-light w-100 bg-danger" (click)="loguot()">Cerrar Sesión</button>
+              </li>
+            </ul>
+          </div>
+  
+          
+        </ng-container>
       </div>
     </div>
-  </header>
-  
+  </nav>

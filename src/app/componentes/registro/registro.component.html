@@ -1,6 +1,7 @@
+<app-cabecera ></app-cabecera>
 <div class="fondo">
     <!-- Three columns of text below the carousel -->
-    <div class="row" style="margin-left: 285px;" *ngIf="seccion == 'menu'">
+    <main *ngIf="seccion == 'menu'">
       <div class="col-lg-6" >
           <img _ngcontent-c3="" alt="Generic placeholder image" class="rounded-circle" height="235" src="./assets/imagenes/paciente.png" width="243">
         <h2>¡Soy Paciente!</h2>
@@ -14,7 +15,7 @@
         <p><a class="btn btn-primary btn-lg" role="button" (click)="cambiarSeccion('especialista')">Registrarse como Especialista</a></p>
       </div>    
       
-    </div>
+    </main>
     <div class="pantalla-2" *ngIf="seccion == 'seleccion'">
         <div class="contenedor-registros" *ngIf="tipoUsuarioARegistrar == 'paciente'">
            <app-form-paciente></app-form-paciente>

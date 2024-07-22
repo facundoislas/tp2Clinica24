@@ -1,4 +1,13 @@
-input[type=text], input[type=password] {
+
+.fondo{
+
+    background: url("/assets/imagenes/slider-bg-2.jpg");
+    
+    width: 100vw;
+   
+  }
+
+  input[type=text], input[type=password] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -19,10 +28,7 @@ input[type=text], input[type=password] {
 /* Float cancel and signup buttons and add an equal width */
 .cancelbtn,.signupbtn {float:left;width:50%}
 
-/* Add padding to container elements */
-.container {
-    padding: 16px;
-}
+
 
 /* The Modal (background) */
 .modal {
@@ -40,26 +46,16 @@ input[type=text], input[type=password] {
 }
 
 
-.fondo{
-
-    background: url("/assets/imagenes/slider-bg-2.jpg");
-    margin-top: -60px;
-    padding: 1%;
-    width: 100vw;
-    height: 100vh;
-  }
-
-
 /*-----for border----*/
 .container{
 	font-family:Roboto,sans-serif;
-	  background-image:url(https://image.freepik.com/free-vector/dark-blue-blurred-background_1034-589.jpg) ;
+	  background-color: black ;
     
      border-style: 1px solid grey;
      padding: 3.9%;
      text-align: center;
      opacity: 0.8;
-     max-width: 500px;
+     max-width: 40%;
  
      
 }
@@ -89,7 +85,7 @@ input[type=text], input[type=password] {
 	 text-align : center;
 	 font-size:30px;
 	 color:#F96;
-	 padding-top:10px;
+     padding-top: 35px;
 }
 /*-------for email----------*/
   /*------label----*/
@@ -180,3 +176,25 @@ input[type=text], input[type=password] {
     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
   }
+
+  form {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 10px;
+ }
+ .form-control {
+     width: 100%;
+     padding: 10px;
+     margin-top: 5px;
+ }
+ .col-sm-12 {
+     grid-column: span 2;
+ }
+
+ .validacion{
+
+     color: #ffffff;
+     font-family: Arial, Helvetica, sans-serif;
+     font-size: 15px;
+     
+ }

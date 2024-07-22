@@ -4,4 +4,6 @@ export class Paciente extends Usuario
 {
     obraSocial!: string;
     imagen2!: string;
+    tipo = 'paciente';
+    aprobado = true;
 }

@@ -1,127 +1,96 @@
 <body class="fondo">
     <div class="container">
-    <!---heading---->
-        <header class="heading"> Formulario de Registro de especialistas</header>
+        <header >Formulario de Registro de especialistas</header>
         <form [formGroup]="formRegistro" *ngIf="logeando">
-     <!---Form starting----> 
-     <div class="row " style="margin-left: 70px;">
-      <!--- For Name---->
-            <div class="col-sm-12">
-                <div class="row">
-              <div class="col-xs-4">
-                        <label class="firstname"></label> </div>
-                <div class="col-xs-8">
-                    <input type="text" name="fname" id="fname" formControlName="nombre" placeholder="Nombre" class="form-control " [(ngModel)]="this.especialista.nombre">
-                    
+            <div class="form-grid">
+                <div class="form-group">
+                    <input type="text" name="fname" id="fname" formControlName="nombre" placeholder="Nombre" class="form-control" [(ngModel)]="this.especialista.nombre">
+                    <div *ngIf="formRegistro.get('nombre')?.invalid" class="validacion">
+                        <small *ngIf="formRegistro.get('nombre')?.errors?.['required']">El nombre es requerido.</small>
+                        <small *ngIf="formRegistro.get('nombre')?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres.</small>
+                    </div>
                 </div>
-             </div>
-        </div>
-
-        <div class="col-sm-12">
-            <div class="row">
-          <div class="col-xs-4">
-                    <label class="firstname"></label>
+                <div class="form-group">
+                    <input type="text" name="lname" id="lname" formControlName="apellido" placeholder="Apellido" class="form-control" [(ngModel)]="this.especialista.apellido">
+                    <div *ngIf="formRegistro.get('apellido')?.invalid" class="validacion">
+                        <small *ngIf="formRegistro.get('apellido')?.errors?.['required']">El apellido es requerido.</small>
+                        <small *ngIf="formRegistro.get('apellido')?.errors?.['minlength']">El apellido debe tener al menos 2 caracteres.</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="edad" id="edad" formControlName="edad" placeholder="Edad" class="form-control" [(ngModel)]="this.especialista.edad">
+                    <div *ngIf="formRegistro.get('edad')?.invalid" class="validacion">
+                        <small *ngIf="formRegistro.get('edad')?.errors?.['required']">La edad es requerida.</small>
+                        <small *ngIf="formRegistro.get('edad')?.errors?.['maxlength']">Ingrese una edad real.</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="dni" id="dni" formControlName="dni" placeholder="DNI" class="form-control" [(ngModel)]="this.especialista.dni">
+                    <div *ngIf="formRegistro.get('dni')?.invalid" class="validacion">
+                        <small *ngIf="formRegistro.get('dni')?.errors?.['required']">El dni es requerido.</small>
+                        <small *ngIf="formRegistro.get('dni')?.errors?.['min']">El dni debe tener al menos 6 caracteres.</small>
+                        <small *ngIf="formRegistro.get('dni')?.errors?.['max']">El dni no debe tener más de 9 caracteres.</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>Especialidades</mat-label>
+                        <mat-select formControlName="especialidad" multiple>
+                            <mat-option *ngFor="let esp of especialidades" [value]="esp">{{esp.especialidad}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button class="btn btn-success" type="button" (click)="agregarNuevaEspecialidad()">+</button>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" id="email" formControlName="email" placeholder="Correo Electrónico" class="form-control" [(ngModel)]="this.especialista.email">
+                    <div *ngIf="formRegistro.get('email')?.invalid" class="validacion">
+                        <small *ngIf="formRegistro.get('email')?.errors?.['required']">El email es requerido.</small>
+                        <small *ngIf="formRegistro.get('email')?.errors?.['email']">Respetar formato de correo.</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" id="password" formControlName="contrasena" placeholder="Contraseña" class="form-control" [(ngModel)]="this.especialista.pass">
+                    <div *ngIf="formRegistro.get('pass')?.invalid" class="validacion">
+                        <small *ngIf="formRegistro.get('pass')?.errors?.['required']">La Contraseña es requerida.</small>
+                        <small *ngIf="formRegistro.get('pass')?.errors?.['minlength']">Debe tener más de 6 caracteres</small>
+                        <small *ngIf="formRegistro.get('pass')?.errors?.['maxlength']">Debe tener menos de 9 caracteres</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password2" id="password2" formControlName="contrasena2" placeholder="Reingresar contraseña" class="form-control" [(ngModel)]="this.contrasena2">
+                    <div *ngIf="formRegistro.get('pass')?.invalid" class="validacion">
+                        <small *ngIf="formRegistro.get('pass')?.errors?.['required']">La Contraseña es requerida.</small>
+                        <small *ngIf="formRegistro.get('pass')?.errors?.['minlength']">Debe tener más de 6 caracteres</small>
+                        <small *ngIf="formRegistro.get('pass')?.errors?.['maxlength']">Debe tener menos de 9 caracteres</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="file" name="foto1" id="foto1" formControlName="foto1" placeholder="Foto 1" class="form-control" [(ngModel)]="this.especialista.img_1" (change)="onFileSelected($event)">
+                    <div *ngIf="formRegistro.get('foto1')?.invalid" class="validacion">
+                        <small *ngIf="formRegistro.get('foto1')?.errors?.['required']">La foto es requerida.</small>
+                    </div>
+                </div>
             </div>
-            <div class="col-xs-8">
-                <input type="text" name="fname" id="fname" formControlName="apellido" placeholder="Apellido" class="form-control " [(ngModel)]="this.especialista.apellido">
+            <div class="col-sm-12">
+                <app-captcha2 (resultadoFinal)="tomarResultado($event)"></app-captcha2>
             </div>
-         </div>
-         <div class="col-sm-12">
-            <div class="row">
-          <div class="col-xs-4">
-                    <label class="firstname"></label>
+            <div class="col-sm-12" style="margin-left: -34px;" *ngIf="this.resultado != true;">
+                <button class="btn btn-warning" disabled>Enviar</button>
             </div>
-            <div class="col-xs-8">
-                <input type="text" name="fname" id="fname" formControlName="edad" placeholder="Edad" class="form-control " [(ngModel)]="this.especialista.edad">
+            <div class="col-sm-12" style="margin-left: -34px;" *ngIf="this.resultado == true;">
+                <button class="btn btn-warning" (click)="enviar()">Enviar</button>
             </div>
-         </div></div>
-    </div>
-    <div class="col-sm-12">
-        <div class="row">
-          <div class="col-xs-4">
-                <label class="mail" ></label></div>
-          <div class="col-xs-8"	>	 
-               <input type="dni" name="email"  id="email" formControlName="dni" placeholder="DNI" class="form-control " [(ngModel)]="this.especialista.dni" >
+            <div class="col-sm-12" style="margin-left: -34px;">
+                <div class="btn btn-warning" routerLink="/login">Loguearse</div>
             </div>
-        </div>
-    </div>
-
-    <div class="col-sm-12">
-        <div class="row">
-          <div class="col-xs-4">
-                <label class="mail" ></label></div>
-          <div class="col-xs-8"	>	 
-               <input type="dni" name="email"  id="email" formControlName="especialidad" placeholder="Especialidad" class="form-control " [(ngModel)]="this.especialista.especialidad" >
-            </div>
-        </div>
-    </div>
-        
-        <!-----For email---->
-        <div class="col-sm-12">
-            <div class="row">
-              <div class="col-xs-4">
-                    <label class="mail" ></label></div>
-              <div class="col-xs-8"	>	 
-                   <input type="email" name="email"  id="email" formControlName="email" placeholder="Correo Electrónico" class="form-control " [(ngModel)]="this.especialista.mail" >
+        </form>
+        <div *ngIf="!logeando" style="margin-top: 90%;">
+            <div class="progress">
+                <div class="progress-bar progress-bar-info progress-bar-striped active" [class]="clase" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" [style.width]="ProgresoDeAncho">
+                    {{progresoMensaje}} - {{progreso}}%
                 </div>
             </div>
         </div>
-      <!-----For Password and confirm password---->
-             <div class="col-sm-12">
-                <div class="row">
-                <div class="col-xs-4">
-                        <label class="pass"></label></div>
-             <div class="col-xs-8">
-                      <input type="password" name="password" id="password" formControlName="contrasena" placeholder="Contraseña" class="form-control" [(ngModel)]="this.especialista.pass">
-            </div>
-             </div>
-         </div>
-
-         <div class="col-sm-12">
-            <div class="row">
-            <div class="col-xs-4">
-                    <label class="pass"></label></div>
-         <div class="col-xs-8">
-                  <input type="password" name="password" id="password" formControlName="contrasena2" placeholder="Reingresar contraseña" class="form-control" [(ngModel)]="this.contrasena2">
-        </div>
-         </div>
-     </div>
-     <div class="col-sm-12">
-        <div class="row">
-          <div class="col-xs-4">
-                <label class="mail" ></label></div>
-          <div class="col-xs-8"	>	 
-               <input type="file" name="email"  id="email" formControlName="foto1" placeholder="Foto 1" class="form-control " [(ngModel)]="this.especialista.imagen1" (change)="onFileSelected($event)">
-            </div>
-        </div>
-    </div>
-  <!-----For Password and confirm password---->
-
-         </div>
-        <!-----------For Phone number-------->
-            <div class="col-sm-12">
-            
-            <div class="col-sm-12"style="margin-left: -34px;">
-                <div class="btn btn-warning" (click)="enviar()">Enviar</div>
-          </div>
-          <br>
-          <div class="col-sm-12" style="margin-left: -34px;">
-            <div class="btn btn-warning" routerLink="/login" >Loguearse</div>
-      </div>
-      
-        </div>
-        
-      
-    </form> 
-    <div *ngIf="!logeando" style="margin-top:90%">
-      <div  class="progress" >
-        <div class="progress-bar progress-bar-info progress-bar-striped active" [class]="clase" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" [style.width]="ProgresoDeAncho" >
-          {{progresoMensaje}} - {{progreso}}%
-        </div>
-    </div>
-     </div>
-      <div>
         <div id="snackbar">{{Mensaje}}</div>
-      </div>
-   </div>
-   
+    </div>
+</body>

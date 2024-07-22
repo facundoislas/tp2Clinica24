@@ -1,24 +1,29 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { interval } from 'rxjs';
-import { Usuario } from '../../clases/usuario';
 import { Paciente } from '../../clases/paciente';
+import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/storage';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../servicios/auth.service';
 import { addDoc, collection, Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/storage';
+import { interval } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { Captcha2Component } from "../captcha2/captcha2.component";
 
 @Component({
   selector: 'app-form-paciente',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, Captcha2Component],
   templateUrl: './form-paciente.component.html',
   styleUrl: './form-paciente.component.css'
 })
 export class FormPacienteComponent {
 
+
+  resultado!:boolean;
+
   paciente!: Paciente;
+  nuevoPaciente!: Paciente;
+
   Mensaje!:string;
   progreso!: number;
   progresoMensaje="esperando..."; 
@@ -35,6 +40,7 @@ export class FormPacienteComponent {
 
   constructor(private fb: FormBuilder, private authService: AuthService, private fire:Firestore, private router: Router){
     this.paciente = new Paciente ()
+    this.nuevoPaciente = new Paciente ()
   }
 
 
@@ -64,14 +70,18 @@ export class FormPacienteComponent {
     }
   }
 
+  tomarResultado(resultado:boolean)
+  {
+    this.resultado = resultado;
+  }
+
   async enviar()
   {
-    if(this.formRegistro.valid)
+    if(this.formRegistro.valid && this.resultado === true)
     {
       if(this.paciente.pass == this.contrasena2)
       {
-        
-        const user = this.authService.register(this.paciente.mail, this.paciente.pass);
+        const user = await this.authService.register(this.paciente.email, this.paciente.pass);
         this.MoverBarraDeProgreso()
         if(await user)
         {
@@ -82,22 +92,23 @@ export class FormPacienteComponent {
         const storageRef2 = ref(this.storage, `pacientes/${this.foto2.name}`);
         const snapshot = await uploadBytes(storageRef, this.foto1);
         const snapshot2 = await uploadBytes(storageRef2, this.foto1);
-        const downloadURL = await getDownloadURL(snapshot.ref);
-        const downloadURL2 = await getDownloadURL(snapshot2.ref);
-        console.log(this.paciente, downloadURL, downloadURL2);
+        this.paciente.img_1 = await getDownloadURL(snapshot.ref);
+        this.paciente.imagen2 = await getDownloadURL(snapshot2.ref);
         addDoc(col, {
-          email: this.paciente.mail,
+          email: this.paciente.email,
           nombre: this.paciente.nombre,
           apellido: this.paciente.apellido,
           tipo: this.paciente.tipo,
+          dni: this.paciente.dni,
           contraseña: this.paciente.pass,
           edad: this.paciente.edad,
+          foto1: this.paciente.img_1,
+          foto2: this.paciente.imagen2,
+          aprobado: true,
           obraSocial: this.paciente.obraSocial,
-          foto1: downloadURL,
-          foto2: downloadURL2,
-          aprobado: true
+          id: user?.user.uid
         });
-        sessionStorage.setItem("user",this.paciente.mail);
+        sessionStorage.setItem("user",this.paciente.email);
         sessionStorage.setItem("muestra","true");
         
         this.router.navigateByUrl('/home', { replaceUrl: true });

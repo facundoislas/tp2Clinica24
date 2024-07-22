@@ -1,12 +1,11 @@
 export class Usuario {
+    id? : string;
     nombre!: string;
     apellido!: string;
     edad!: number;
-    dni!: number;
-    mail!: string;
-    pass!: string;
-    imagen1!: string;
-    tipo!:string;
-    aprobado!:boolean;
-
+    dni!: string;
+    email!: string;
+    img_1!: string | undefined;
+    pass!:string;
+    
 }
