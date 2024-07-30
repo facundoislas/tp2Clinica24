@@ -14,7 +14,7 @@ import { Admin } from '../../clases/admin';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, Captcha2Component],
   templateUrl: './form-admin.component.html',
-  styleUrl: './form-admin.component.css'
+  styleUrls: [ './form-admin.component.css']
 })
 export class FormAdminComponent {
 

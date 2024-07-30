@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './captcha2.component.html',
-  styleUrl: './captcha2.component.css'
+  styleUrls: [ './captcha2.component.css']
 })
 export class Captcha2Component {
 

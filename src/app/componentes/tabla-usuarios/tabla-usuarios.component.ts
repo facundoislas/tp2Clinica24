@@ -1,22 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FirebaseService } from '../../servicios/firebase.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MisPipesPipe } from "../../pipes/mis-pipes.pipe";
+import { ExcelExportService } from '../../servicios/excel-export.service';
 
 @Component({
   selector: 'app-tabla-usuarios',
   standalone: true,
   imports: [CommonModule, FormsModule, MisPipesPipe],
   templateUrl: './tabla-usuarios.component.html',
-  styleUrl: './tabla-usuarios.component.css'
+  styleUrls: [ './tabla-usuarios.component.css']
 })
 export class TablaUsuariosComponent {
 
   
   public usuarios: any[] = [];
+  @Output() pacienteSeleccionado = new EventEmitter<string>();
 
-  constructor( private userService: FirebaseService){
+  constructor( private userService: FirebaseService, private excelExportService: ExcelExportService){
     
   }
 
@@ -55,5 +57,13 @@ export class TablaUsuariosComponent {
     
   }
 
+  seleccionarPaciente(email: string) {
+    this.pacienteSeleccionado.emit(email);
+  }
+
+
+  exportToExcel(): void {
+    this.excelExportService.exportAsExcelFile(this.usuarios, 'usuarios');
+  }
 
 }

@@ -14,7 +14,7 @@ import { Captcha2Component } from "../captcha2/captcha2.component";
   standalone: true,
   imports: [FormsModule, CommonModule, ReactiveFormsModule, Captcha2Component],
   templateUrl: './form-paciente.component.html',
-  styleUrl: './form-paciente.component.css'
+  styleUrls: [ './form-paciente.component.css']
 })
 export class FormPacienteComponent {
 

@@ -1,0 +1,270 @@
+<app-cabecera></app-cabecera>
+
+<div class="fondo">
+
+
+    <div class="container card mt-5">
+        <!-- Filtro -->
+        <div style="text-align: center;" class="">
+            <br>
+            <h4 for="fecha">Filtrar Turnos</h4>
+            <input name="filtro" [(ngModel)]="filtro" class="form-control" placeholder="Ingrese el nombre de la especialidad o nombre del especialista o paciente..."/>
+        </div>
+        <!-- Filtro -->
+    
+        <div class="row">
+            <!-- Lista  -->
+            <div class="col-md-4 order-md-1 mb-4">
+                <br>
+                <br>        
+                <h4 class="text-center" style="color: black">Turnos</h4>
+                <div class="list-group bg-light">
+                    <button type="button" class="list-group-item btn btn-secondary" (click)="verTurno(turno)" *ngFor="let turno of turnos | filtros:filtro">
+                        <i *ngIf="turno.estado == 'pendiente'" [ngStyle]="{'color': 'rgb(180, 180, 180)'}">{{turno.especialidad}} - {{turno.dia}} de {{turno.mes}}</i>
+                        <span *ngIf="turno.estado == 'cancelado' || turno.estado == 'rechazado'" [ngStyle]="{'color': 'red'}">{{turno.especialidad}} - {{turno.dia}} de {{turno.mes}}</span>
+                        <span *ngIf="turno.estado == 'aceptado'">{{turno.especialidad}} - {{turno.dia}} de {{turno.mes}}</span>
+                        <span *ngIf="turno.estado == 'finalizado'" [ngStyle]="{'color': 'green'}">{{turno.especialidad}} - {{turno.dia}} de {{turno.mes}}</span>
+                    </button> 
+                <div style="text-align: center;" *ngIf="turnos.length == 0">
+    
+                    <br>
+                    <p>No se encontró ningun turno</p>
+                </div> 
+                </div>
+            </div>
+            <!-- Lista  -->
+    
+            <!-- Detalles -->
+            <div class="col-md-8 order-md-2">
+                <br><br>
+                <h4 style="text-align: center;" class="mb-3">Información</h4>
+                <div class="mb-3">
+                    <label for="fecha">Fecha</label>
+                    <input name="mail" [(ngModel)]="fechaAux" [readonly]="true" class="form-control"/>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3" *ngIf="usuario.tipo == 'paciente'">
+                        <label for="fecha">Especialista</label>
+                        <input name="fecha" [(ngModel)]="especialistaNombreCompleto" [readonly]="true" class="form-control"/>
+                    </div>
+                    <div class="col-md-6 mb-3" *ngIf="usuario.tipo == 'especialista'">
+                        <label for="fecha">Paciente</label>
+                        <input name="fecha" [(ngModel)]="pacienteNombreCompleto" [readonly]="true" class="form-control"/>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="apellido">Especialidad</label>
+                        <input name="apellido" [(ngModel)]="especialidad" [readonly]="true" class="form-control"/>
+                    </div>
+                </div>
+                <div class="mb-3" *ngIf="estado == 'finalizado'">
+                    <label for="apellido">Turno</label>
+                        <div class="card" style="background-color: #fff;">
+                            <p>Diagnóstico: {{turnoElegido.comentario}}</p>
+                            <p *ngIf="usuario.tipo == 'especialista' && turnoElegido.calificacion !=='' ">Calificación: {{turnoElegido.calificacion}}</p>
+                        </div>
+                        <div *ngFor="let historia of historiaPrevia">
+                            <div class="mb-3" *ngIf="historia.paciente == turnoElegido.paciente && historia.especialista == turnoElegido.especialista">
+                                <label for="apellido">Historia Clínica</label>
+                                <div class="card" style="background-color: #fff;">
+                                    <p>Altura: {{historia.altura}}</p>
+                                    <p>Peso: {{historia.peso}}</p>
+                                    <p>Presion: {{historia.presion}}</p>
+                                    <p>Temperatura: {{historia.temperatura}}</p>
+                                    <hr>
+                                    <h5>Dinámicos</h5>
+                                    <p *ngFor="let dinamico of historia.dinamicos">{{dinamico.clave}}: {{dinamico.valor}}</p>
+    
+                                </div>
+                        </div>
+                   
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="fecha">Estado</label>
+                    <br>
+                    <button class="w-100 btn notButton" [ngClass]="{'btn-secondary': estado == 'pendiente','btn-danger': estado == 'cancelado' || estado == 'rechazado', 'btn-primary': estado == 'aceptado', 'btn-success': estado == 'finalizado'}">{{estado}}</button> 
+                </div>
+                <br><br><br>
+                <!-- Botones Paciente -->
+                <div style="text-align: center;" *ngIf="usuario.tipo == 'paciente'">
+                    <button *ngIf="estado != 'finalizado' && estado != 'cancelado' && estado != 'rechazado' && estado != ''" class="w-50 btn btn-danger" (click)="abrirPopUp('cancelar')">Cancelar turno</button> 
+                    <button *ngIf="comentario != ''" (click)="abrirPopUp('reseña')" class="w-30 btn btn-primary calificadores">Ver reseña</button> 
+                    <button *ngIf="estado == 'finalizado'" (click)="abrirPopUp('calificar')" class="w-30 btn btn-primary calificadores"> Calificar atención</button> 
+                    <button *ngIf="comentario != '' && estado == 'finalizado'" (click)="abrirPopUp('encuesta')" class="w-30 btn btn-primary calificadores">Completar encuesta</button> 
+                    <br>
+                </div>
+                <!-- Botones Paciente -->
+    
+                <!-- Botones Especialista -->
+                <div style="text-align: center;" *ngIf="usuario.tipo == 'especialista'">
+                    <button *ngIf="estado != 'aceptado' && estado != 'rechazado' && estado != 'finalizado' && estado != 'cancelado' && estado != ''" class="w-30 btn btn-primary calificadores" (click)="modificarTurnoSinComentario('aceptado')">Aceptar turno</button> 
+                    <button *ngIf="estado == 'aceptado'" class="w-50 btn btn-success" (click)="abrirPopUp('finalizado')">Finalizar turno</button> 
+                    <button *ngIf="estado != 'aceptado' && estado != 'rechazado' && estado != 'finalizado' && estado != 'cancelado' && estado != ''" class="w-30 btn btn-warning calificadores" (click)="abrirPopUp('rechazar')">Rechazar turno</button> 
+                    <button *ngIf="estado != 'aceptado' && estado != 'rechazado' && estado != 'finalizado' && estado != 'cancelado' && estado != ''" class="w-30 btn btn-danger calificadores" (click)="abrirPopUp('cancelar')">Cancelar turno</button> 
+                    <button *ngIf="comentario != ''" (click)="abrirPopUp('reseña')" class="w-50 btn btn-primary">Ver reseña</button> 
+                    <br>
+                </div>
+                <!-- Botones Especialista -->
+    
+                <!-- Botones Admin -->
+                <div style="text-align: center;" *ngIf="usuario.tipo == 'admin'">
+                    <button *ngIf="estado != 'aceptado' && estado != 'finalizado' && estado != 'rechazado' && estado != 'cancelado' && estado != ''" class="w-50 btn btn-warning" (click)="abrirPopUp('cancelar')">Cancelar turno</button> 
+                    <br>
+                </div>
+                <!-- Botones Admin -->
+            </div>
+            <!-- Detalles -->
+    
+        </div>
+    </div>
+    </div>
+    <!-- PopUp -->
+    <div class="modal fade" id="cancelarTurno" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content text-bg-dark" style="text-align: center;">
+                <!-- cancelar -->
+                <div class="card-color" *ngIf="popUpRazon == 'cancelar'">
+                    <br>
+                    <h1>Cancelar turno</h1>
+                    <br>
+                    <label class="form-label" for="textAreaExample">Comentario</label>
+                    <textarea [(ngModel)]="comentarioAux" (ngModelChange)="resetearMensajeError()" style="margin: 0 auto; float: none;" class="form-control w-50" id="textAreaExample1" rows="4"></textarea>
+                    <br>
+                    <p style="color: red;">{{mensajeError}}</p>
+                    <button class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="modificarTurno('cancelado')">Cancelar turno</button> 
+                    <br>
+                    <br>
+                </div>
+                <!-- cancelar -->
+    
+                <!-- rechazar -->
+                <div class="card-color" *ngIf="popUpRazon == 'rechazar'">
+                    <br>
+                    <h1>Rechazar turno</h1>
+                    <br>
+                    <label class="form-label" for="textAreaExample">Comentario</label>
+                    <textarea [(ngModel)]="comentarioAux" (ngModelChange)="resetearMensajeError()" style="margin: 0 auto; float: none;" class="form-control w-50" id="textAreaExample1" rows="4"></textarea>
+                    <br>
+                    <p style="color: red;">{{mensajeError}}</p>
+                    <button class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="modificarTurno('rechazado')">Rechazar turno</button> 
+                    <br>
+                    <br>
+                </div>
+                <!-- rechazar -->
+    
+                <!-- reseña -->
+                <div class="card-color" *ngIf="popUpRazon == 'reseña'">
+                    <br>
+                    <h1>Reseña</h1>
+                    {{comentario}}
+                    {{resenia}}
+                    <br>
+                    <br>
+                    <button class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="cerrarPopUp()">Cerrar</button> 
+                    <br>
+                    <br>
+                </div>
+                <!-- reseña -->
+    
+                <!-- finalizado -->
+                <div class="card-color" *ngIf="popUpRazon == 'finalizado'">
+                    <br>
+                    <h1>Finalizado</h1>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="altura">Altura</label>
+                            <input name="altura" [(ngModel)]="altura" class="form-control"/>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="peso">Peso</label>
+                            <input name="peso" [(ngModel)]="peso" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="temperatura">Temperatura</label>
+                            <input name="temperatura" [(ngModel)]="temperatura" class="form-control"/>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="presion">Presion</label>
+                            <input name="presion" [(ngModel)]="presion" class="form-control"/>
+                        </div>
+                    </div>
+                    <h4>Datos Dinamicos</h4>
+                    <div class="row" *ngFor="let item of [].constructor(cantidadDatos); let i=index">
+                        <div class="col-md-6 mb-3">
+                            <label for="temperatura">Clave</label>
+                            <input name="temperatura" placeholder="Ej: caries" [(ngModel)]="dinamicos[i].clave" class="form-control"/>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="presion">Valor</label>
+                            <input name="presion" placeholder="Ej: 4" [(ngModel)]="dinamicos[i].valor" class="form-control"/>
+                        </div>
+                    </div>
+                    <div>
+                        <button *ngIf="cantidadDatos > 0" class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="agregarValorDinamico('restar')">Restar dato</button>
+                        <button *ngIf="cantidadDatos < 3" class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="agregarValorDinamico('sumar')">Agregar dato</button>
+                    </div>
+                    <br>
+                    <label class="form-label" for="textAreaExample">Comentario</label>
+                    <textarea [(ngModel)]="comentarioAux" (ngModelChange)="resetearMensajeError()" style="margin: 0 auto; float: none;" class="form-control w-50" id="textAreaExample1" rows="4"></textarea>
+                    <br>
+                    <p style="color: red;">{{mensajeError}}</p>
+                    <button class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="finalizarTurno()">Finalizar turno</button>
+                    <br>
+                    <br>
+                    <button class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="cerrarPopUp()">Cerrar</button> 
+                    <br>
+                    <br>
+                </div>
+                <!-- finalizado -->
+    
+                <!-- Calificar -->
+                <div class="card-color" *ngIf="popUpRazon == 'calificar'">
+                    <br>
+                    <h1>¿Cómo calificarias la atencion de nuestro profecional?</h1>
+                    <div style="font-size: 40px" class="star-wrapper">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                        <span class="fa fa-star s1" (click)="calificar(5)" [ngClass]="{'checked': estrellas == 5}"></span> 
+                        <span class="fa fa-star s2" (click)="calificar(4)" [ngClass]="{'checked': estrellas >= 4}"></span> 
+                        <span class="fa fa-star s3" (click)="calificar(3)" [ngClass]="{'checked': estrellas >= 3}"></span> 
+                        <span class="fa fa-star s4" (click)="calificar(2)" [ngClass]="{'checked': estrellas >= 2}"></span> 
+                        <span class="fa fa-star s5" (click)="calificar(1)" [ngClass]="{'checked': estrellas >= 1}"></span>
+                    </div>
+                    <div>
+                        <label class="form-label" for="textAreaExample">Comentario</label>
+                        <textarea [(ngModel)]="calificacion" (ngModelChange)="resetearMensajeError()" style="margin: 0 auto; float: none;" class="form-control w-50" id="textAreaExample1" rows="4"></textarea>
+                        <br>
+                        <p style="color: red;">{{mensajeError}}</p>
+                        <button class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="calificarTurno()">Calificar</button> 
+                        <br>
+                        <br>
+                    </div>
+                </div>
+                <!-- Calificar -->
+    
+                <!-- encuesta -->
+                <div class="card-color" *ngIf="popUpRazon == 'encuesta'">
+                <br>
+                <h1>Encuesta</h1>
+                <label for="fecha">¿Cómo calificarias las instalaciones de nuestro establecimiento?</label>
+                <input name="mail" [(ngModel)]="preguntas[0]" class="w-75 form-control" style="margin: 0 auto; float: none;"/>
+                <br>
+                <label for="fecha">¿Deberiamos mejorar aspectos de nuestra clinica?</label>
+                <input name="mail" [(ngModel)]="preguntas[1]" class="w-75 form-control" style="margin: 0 auto; float: none;"/>
+                <br>
+                <label for="fecha">¿Recomendaría nuestra clínica a familiares y amigos?</label>
+                <input name="mail" [(ngModel)]="preguntas[2]" class="w-75 form-control" style="margin: 0 auto; float: none;"/>
+                <br>
+                <button class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="llenarEncuesta()">Completar encuesta</button> 
+                <p style="color: red;">{{mensajeError}}</p>
+                <br>
+                <br>
+            </div>
+            <!-- encuesta -->
+                
+            </div>
+        </div>
+    </div>
+
+

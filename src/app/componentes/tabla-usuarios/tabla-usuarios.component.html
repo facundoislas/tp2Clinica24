@@ -1,6 +1,9 @@
        
+
+  
   <section id="tabs" class="project-tab">
-   
+    <button (click)="exportToExcel()" class="btn btn-success">Exportar a Excel</button>
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -21,7 +24,7 @@
                                       <th>Obra Social</th>
                                       <th>Estado</th>
                                       <th>Acción</th>
-                                      <th>Especialidad</th>
+                                      <th>Especialidad/Historia Clinica</th>
                                     </tr>
                                 </thead>
                                 <tbody style="text-align: center">
@@ -39,6 +42,10 @@
                                             <button data-toggle="modal" data-target="#squarespaceModal" class="btn btn-primary center-block" (click)="deshabilitarEspecialista(user)">Deshabilitar</button></td>
                                             <td *ngIf="!user.aprobado">
                                                 <button data-toggle="modal" data-target="#squarespaceModal" class="btn btn-primary center-block" (click)="habilitarEspecialista(user)">Habilitar</button></td>
+                                        <td *ngIf="user.tipo == 'paciente'">
+                                            <button class="btn btn-info" (click)="seleccionarPaciente(user.email)">Historia Clinica</button>  
+                                        </td>        
+                                                
                                                 <label *ngFor="let esp of user.especialidad">{{esp.especialidad}}</label>
                                     </tr>
                                     

@@ -5,6 +5,11 @@ import { RegistroComponent } from './componentes/registro/registro.component';
 import { ErrorComponent } from './componentes/error/error.component';
 import { UsuariosComponent } from './componentes/usuarios/usuarios.component';
 import { MiPerfilComponent } from './componentes/mi-perfil/mi-perfil.component';
+import { MisTurnosComponent } from './componentes/mis-turnos/mis-turnos.component';
+import { CrearTurnoComponent } from './componentes/crear-turno/crear-turno.component';
+import { HistoriaClinicaComponent } from './componentes/historia-clinica/historia-clinica.component';
+import { MisPacientesComponent } from './componentes/mis-pacientes/mis-pacientes.component';
+import { EstadisticasComponent } from './componentes/estadisticas/estadisticas.component';
 
 
 export const routes: Routes = [
@@ -15,7 +20,11 @@ export const routes: Routes = [
     {path:'registro', component: RegistroComponent},
     {path:'usuarios', component: UsuariosComponent},
     {path:'perfil', component: MiPerfilComponent},
-
+    {path:'turnos', component: MisTurnosComponent},
+    {path:'crearTurno', component: CrearTurnoComponent},
+    {path:'historial', component: HistoriaClinicaComponent},
+    {path:'pacientes', component: MisPacientesComponent},
+    {path:'estadisticas', component: EstadisticasComponent},
 
     {path:'**', component:ErrorComponent}
 

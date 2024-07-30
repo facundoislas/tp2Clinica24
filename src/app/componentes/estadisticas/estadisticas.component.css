@@ -1,0 +1,31 @@
+.fondo{
+
+    background: url("/assets/imagenes/slider-bg-2.jpg");
+    
+    height: 100vh;
+  }
+
+  .btn {
+    margin-top: 40px;
+  }
+  
+  .text-center button {
+    margin-top: 10px;
+  }
+
+  .text-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .col-3 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  
+  .col-9 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }

@@ -1,0 +1,48 @@
+       
+  <section id="tabs" class="project-tab">
+   
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+               
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        
+                        <h1 style="text-align: center;">Mis Pacientes</h1>
+
+                        <table class="table" cellspacing="0" style="text-align: center" >
+                                <thead>
+                                    <tr>
+                                      <th>Nombre</th>
+                                      <th>Apellido</th>
+                                      <th>Edad</th>
+                       
+                                      <th>Correo</th>
+                                      <th>Obra Social</th>
+                                      <th>Historia Clinica</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center">
+                                    <tr *ngFor="let user of listaPacientesEsp">
+                                        <td>{{user.nombre}}</td>
+                                        <td>{{user.apellido}}</td>
+                                        <td>{{user.edad}}</td>
+                                       
+
+                                        <td>{{user.email}}</td>
+                                        <td>{{user.obraSocial}}</td>
+                                        <td><button class="btn btn-info" (click)="seleccionarPaciente(user.email)" >Historia Clinica</button></td>
+                                        
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+
+                            
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

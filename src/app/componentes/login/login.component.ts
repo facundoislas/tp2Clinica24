@@ -6,7 +6,6 @@ import { Firestore } from '@angular/fire/firestore';
 import { interval } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { FirebaseService } from '../../servicios/firebase.service';
 
 @Component({
@@ -14,19 +13,7 @@ import { FirebaseService } from '../../servicios/firebase.service';
   standalone: true,
   imports: [CabeceraComponent, CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
-  animations: [
-    trigger('slideUp', [
-      transition(':enter', [
-        style({ transform: 'translateY(100%)' }),
-        animate('600ms ease', style({ transform: 'translateY(0%)' })),
-      ]),
-      transition(':leave', [
-        style({ transform: 'translateY(0%)' }),
-        animate('600ms ease', style({ transform: 'translateY(-100%)' })),
-      ]),
-    ])
-  ]
+  styleUrls: [ './login.component.css']
 })
 export class LoginComponent {
 
@@ -84,6 +71,8 @@ export class LoginComponent {
       await new Promise(resolve => setTimeout(resolve, 2500));
       sessionStorage.setItem("user",this.user.email);
       sessionStorage.setItem("muestra","true");
+      this.firebase.guardarLogLogin(this.user.email);
+
 			//this.router.navigateByUrl('/home', { replaceUrl: true });
       //this.guardarLogLogin();
       

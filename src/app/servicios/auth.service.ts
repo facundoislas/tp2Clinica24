@@ -20,7 +20,7 @@ export class AuthService {
       if(user.user.emailVerified)
         {
           alert("Login Exitoso");
-          this.router.navigate(['/bienvenido']);
+          this.router.navigate(['/perfil']);
           return user;
         }
         else{

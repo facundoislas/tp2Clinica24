@@ -38,7 +38,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between">
                     <h1 class="card-title">{{userData?.nombre}} {{userData?.apellido}}</h1>
-                    <button *ngIf="this.userData?.tipo == 'paciente'" class="btn btn-info" >Historial Clínico</button>
+                    <button *ngIf="this.userData?.tipo == 'paciente'" class="btn btn-info" routerLink="/historial">Historial Clínico</button>
                   </div>
                   <p appLupa class="card-text">Rol: {{userData?.tipo}}</p>
                   <p appLupa class="card-text">Email: {{userData?.email}}</p>

@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [CabeceraComponent, CommonModule, RouterLink],
   templateUrl: './bienvenido.component.html',
-  styleUrl: './bienvenido.component.css',
+  styleUrls: ['./bienvenido.component.css'],
   animations: [
     trigger('slideUp', [
       transition(':enter', [

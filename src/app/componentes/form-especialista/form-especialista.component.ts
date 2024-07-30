@@ -22,7 +22,7 @@ import { HorariosEspecialistaService } from '../../servicios/horarios-especialis
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, Captcha2Component, MatSelectModule, MatFormFieldModule],
   templateUrl: './form-especialista.component.html',
-  styleUrl: './form-especialista.component.css'
+  styleUrls: [ './form-especialista.component.css']
 })
 export class FormEspecialistaComponent {
 

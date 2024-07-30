@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CabeceraComponent, FormPacienteComponent, FormEspecialistaComponent, FormsModule, CommonModule],
   templateUrl: './registro.component.html',
-  styleUrl: './registro.component.css'
+  styleUrls: [ './registro.component.css']
 })
 export class RegistroComponent {
 

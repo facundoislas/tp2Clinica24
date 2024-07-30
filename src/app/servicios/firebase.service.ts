@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { collection, collectionData, doc, Firestore, getDocs, getFirestore, query, updateDoc, where } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, Firestore, getDocs, getFirestore, query, updateDoc, where } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -24,7 +24,7 @@ updateUsuario(id: string, aprobado: boolean):Promise<any>
     return collectionData(col, {idField: 'id'}) as Observable<any[]>
    }
 
-   async getUsuarioEmail(mail: string)
+   async getUsuarioEmail(mail: string | null)
    {
     try {
       const usersRef = collection(this.firestore, 'Usuarios');
@@ -45,5 +45,29 @@ updateUsuario(id: string, aprobado: boolean):Promise<any>
     }
   }
 
-  
+  getUsuariosPorTipo(tipo: string): Observable<any[]>{
+    const col = collection(this.firestore, "Usuarios");
+
+    const q = query(col, where('tipo', '==', tipo));
+
+    return new Observable(observer => {
+      getDocs(q).then(snapshot => {
+        const usuarios = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        observer.next(usuarios);
+        observer.complete();
+      }).catch(error => {
+        observer.error(error);
+      });
+    });}
+
+
+    async guardarLogLogin(email:string) {
+      const col = collection(this.firestore, 'login');
+      await addDoc(col, { email: email, fecha: new Date() });
+    }
+
+    getLogData(): Observable<any[]> {
+      const col = collection(this.firestore, 'login');
+      return collectionData(col, { idField: 'id' });
+    }
 }

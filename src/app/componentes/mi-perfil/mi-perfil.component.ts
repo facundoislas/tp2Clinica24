@@ -7,19 +7,21 @@ import { HorariosEspecialista } from '../../clases/horarios-especialista';
 import { HorariosEspecialistaService } from '../../servicios/horarios-especialista.service';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
-  imports: [CabeceraComponent, CommonModule, FormsModule,MatSelectModule, MatFormFieldModule],
+  imports: [CabeceraComponent, CommonModule, FormsModule,MatSelectModule, MatFormFieldModule, RouterLink],
   templateUrl: './mi-perfil.component.html',
-  styleUrl: './mi-perfil.component.css'
+  styleUrls: [ './mi-perfil.component.css']
 })
 export class MiPerfilComponent {
 
   mostrar = false;
 
   userData!: any;
+  porTipo: any[] = [];
   email = sessionStorage.getItem('user');
   dias=[{dia:"Lunes", ini: "", fin: ""},{dia:"Martes", ini: "", fin: ""},{dia:"Miercoles", ini: "", fin: ""},
     {dia:"Jueves", ini: "", fin: ""},{dia:"Viernes", ini: "", fin: ""},{dia:"Sabado", ini: "", fin: ""}];;
@@ -35,7 +37,9 @@ export class MiPerfilComponent {
   constructor(private firebaseService: FirebaseService, private horarioEspService: HorariosEspecialistaService) { }
 
   ngOnInit(): void {
-  
+  this.firebaseService.getUsuariosPorTipo("especialista").subscribe((usuarios: any[]) => {
+  this.porTipo = usuarios;
+  console.log(this.porTipo); });
     this.searchUser();
     this.horarioEspService.getHorarioEspecialistas().subscribe(horario => {
       horario.forEach(hora => {

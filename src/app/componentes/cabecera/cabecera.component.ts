@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './cabecera.component.html',
-  styleUrl: './cabecera.component.css'
+  styleUrls: ['./cabecera.component.css']
 })
 export class CabeceraComponent {
 

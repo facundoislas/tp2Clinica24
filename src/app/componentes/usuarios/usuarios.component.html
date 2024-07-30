@@ -2,6 +2,7 @@
 <app-cabecera></app-cabecera>
 
 <div class="fondo">
+    <div *ngIf="!emailSeleccionado">
     <div *ngIf="seccion == 'seleccion'">
         <app-form-admin></app-form-admin>
         <button class="volver-btn" (click)="volverMenuSeleccion()" >Volver</button>
@@ -10,6 +11,6 @@
     <div *ngIf="seccion == 'menu'">
         <button class="volver-btn" (click)="cambiarSeccion('admin')" >Crear usuario Admininistrador</button>
 
-        <app-tabla-usuarios></app-tabla-usuarios>
-    </div>
-
+        <app-tabla-usuarios (pacienteSeleccionado)="recibirPacienteSeleccionado($event)"></app-tabla-usuarios>
+    </div></div>
+    <div *ngIf="emailSeleccionado" >      <app-historia-clinica [emailPaciente]="emailSeleccionado"></app-historia-clinica></div>
