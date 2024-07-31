@@ -40,26 +40,28 @@ export class FormEspecialistaComponent {
   private storage = getStorage();
   resultado!:boolean;
   especialidades:Especialidad[] = [];
+  formRegistro!:any;
 
   clase="progress-bar progress-bar-info progress-bar-striped ";
 
   constructor(private fb: FormBuilder, private authService: AuthService, private fire:Firestore, private router: Router, private serverEsp: EspecialidadesService,private horariosEsp: HorariosEspecialistaService){
-    this.especialista = new Especialista ()
+    this.especialista = new Especialista ();
+    this.formRegistro = this.fb.group({
+      nombre:['', [Validators.required, Validators.minLength(3)]],
+      apellido:['', [Validators.required, Validators.minLength(2)]],
+      edad:['', [Validators.required, Validators.min(0), Validators.max(150)]],
+      dni: ['', [Validators.required, Validators.min(1000000), Validators.max(100000000)]],
+      especialidad: ['', []],
+      email:['', [Validators.required, Validators.email]],
+      contrasena:['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],
+      contrasena2:['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],
+      foto1 : ['', [Validators.required]],})
   }
 
 
-  formRegistro = this.fb.group({
-    nombre:['', [Validators.required, Validators.minLength(3)]],
-    apellido:['', [Validators.required, Validators.minLength(2)]],
-    edad:['', [Validators.required, Validators.min(0), Validators.max(150)]],
-    dni: ['', [Validators.required, Validators.min(1000000), Validators.max(100000000)]],
-    especialidad: ['', []],
-    email:['', [Validators.required, Validators.email]],
-    contrasena:['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],
-    contrasena2:['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],
-    foto1 : ['', [Validators.required]],
+ 
     
-  })
+  
 
   traerEspecialidades()
   {

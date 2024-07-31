@@ -1,8 +1,10 @@
-.fondo{
-
-    background: url("/assets/imagenes/slider-bg-2.jpg");
-    
-    height: 100vh;
+.fondo {
+    background: url('./../../../assets/imagenes/slider-bg-2.jpg');
+    background-size: cover;
+    height: calc(100% - 0%); /* Assuming your header is 60px tall */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .pantalla{

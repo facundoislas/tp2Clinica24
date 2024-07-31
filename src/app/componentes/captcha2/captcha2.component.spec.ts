@@ -11,7 +11,7 @@ describe('Captcha2Component', () => {
       imports: [Captcha2Component]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(Captcha2Component);
     component = fixture.componentInstance;
     fixture.detectChanges();

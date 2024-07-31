@@ -10,6 +10,7 @@ import { CrearTurnoComponent } from './componentes/crear-turno/crear-turno.compo
 import { HistoriaClinicaComponent } from './componentes/historia-clinica/historia-clinica.component';
 import { MisPacientesComponent } from './componentes/mis-pacientes/mis-pacientes.component';
 import { EstadisticasComponent } from './componentes/estadisticas/estadisticas.component';
+import { TurnosEspecialidadComponent } from './componentes/turnos-especialidad/turnos-especialidad.component';
 
 
 export const routes: Routes = [
@@ -25,7 +26,6 @@ export const routes: Routes = [
     {path:'historial', component: HistoriaClinicaComponent},
     {path:'pacientes', component: MisPacientesComponent},
     {path:'estadisticas', component: EstadisticasComponent},
-
     {path:'**', component:ErrorComponent}
 
 ];

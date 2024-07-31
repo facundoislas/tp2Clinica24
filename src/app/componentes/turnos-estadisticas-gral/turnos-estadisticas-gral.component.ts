@@ -5,9 +5,8 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './turnos-estadisticas-gral.component.html',
-  styleUrls: [ './turnos-estadisticas-gral.component.css']
+  styleUrl: './turnos-estadisticas-gral.component.css'
 })
 export class TurnosEstadisticasGralComponent {
-
 
 }

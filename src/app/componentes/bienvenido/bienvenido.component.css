@@ -2,16 +2,23 @@
     width: 100vw;
   }
   
-  .fondo{
-    display: inline-flex;
-    background: url("./../../../assets/imagenes/slider-bg-2.jpg");
-    
-  
-    width: 100%;
+  html, body {
     height: 100%;
+    margin: 0;
   }
   
+  .fondo {
+    background: url('./../../../assets/imagenes/slider-bg-2.jpg');
+    background-size: cover;
+    height: calc(100% - 0%); /* Assuming your header is 60px tall */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   
+  .container {
+    text-align: center;
+  }
     
     /* CUSTOMIZE THE CAROUSEL
     -------------------------------------------------- */

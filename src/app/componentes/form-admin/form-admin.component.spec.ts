@@ -11,7 +11,7 @@ describe('FormAdminComponent', () => {
       imports: [FormAdminComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(FormAdminComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

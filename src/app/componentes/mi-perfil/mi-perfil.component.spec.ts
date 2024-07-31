@@ -11,7 +11,7 @@ describe('MiPerfilComponent', () => {
       imports: [MiPerfilComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(MiPerfilComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

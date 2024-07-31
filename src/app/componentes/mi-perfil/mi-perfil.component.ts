@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterLink } from '@angular/router';
 
+
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
@@ -16,8 +17,9 @@ import { RouterLink } from '@angular/router';
   templateUrl: './mi-perfil.component.html',
   styleUrls: [ './mi-perfil.component.css']
 })
-export class MiPerfilComponent {
 
+export class MiPerfilComponent {
+  
   mostrar = false;
 
   userData!: any;

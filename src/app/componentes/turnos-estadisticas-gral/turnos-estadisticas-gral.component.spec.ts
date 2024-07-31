@@ -11,7 +11,7 @@ describe('TurnosEstadisticasGralComponent', () => {
       imports: [TurnosEstadisticasGralComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(TurnosEstadisticasGralComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

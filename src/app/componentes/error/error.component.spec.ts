@@ -11,7 +11,7 @@ describe('ErrorComponent', () => {
       imports: [ErrorComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(ErrorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

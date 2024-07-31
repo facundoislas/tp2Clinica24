@@ -11,7 +11,7 @@ describe('TablaUsuariosComponent', () => {
       imports: [TablaUsuariosComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(TablaUsuariosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

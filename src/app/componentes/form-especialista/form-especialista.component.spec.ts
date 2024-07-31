@@ -11,7 +11,7 @@ describe('FormEspecialistaComponent', () => {
       imports: [FormEspecialistaComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(FormEspecialistaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

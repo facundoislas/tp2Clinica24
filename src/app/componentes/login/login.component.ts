@@ -28,6 +28,7 @@ export class LoginComponent {
   logeando=true;
   logueado!:boolean;
   ProgresoDeAncho!:string;
+  formRegistro!:any;
  
 
   clase="progress-bar progress-bar-info progress-bar-striped ";
@@ -50,11 +51,12 @@ export class LoginComponent {
           else{
           this.logueado=true;  
           }
+          this.formRegistro = this.fb.group({
+            usuario:['', [Validators.required, Validators.email]],
+            pass:['', [Validators.required, Validators.minLength(6)]],})
   }
 
-  formRegistro = this.fb.group({
-    usuario:['', [Validators.required, Validators.email]],
-    pass:['', [Validators.required, Validators.minLength(6)]],})
+ 
 
   ngOnInit() {
     sessionStorage.clear();

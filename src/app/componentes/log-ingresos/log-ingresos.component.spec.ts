@@ -11,7 +11,7 @@ describe('LogIngresosComponent', () => {
       imports: [LogIngresosComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(LogIngresosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

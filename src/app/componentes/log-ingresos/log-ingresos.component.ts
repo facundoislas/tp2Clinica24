@@ -3,6 +3,9 @@ import { FirebaseService } from '../../servicios/firebase.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FormatoFechaPipe } from "../../pipes/formato-fecha.pipe";
+import { ExcelExportService } from '../../servicios/excel-export.service';
+
+
 
 @Component({
   selector: 'app-log-ingresos',
@@ -15,7 +18,7 @@ export class LogIngresosComponent {
 
   logs: any[] = [];
 
-  constructor(private logService: FirebaseService) {}
+  constructor(private logService: FirebaseService, private excelExportService: ExcelExportService) {}
 
   ngOnInit(): void {
     this.logService.getLogData().subscribe(data => {
@@ -23,7 +26,8 @@ export class LogIngresosComponent {
     });
   }
 
-
+  exportToExcel(): void {
+    this.excelExportService.exportAsExcelFile(this.logs, 'login');
+  }
   
-
 }

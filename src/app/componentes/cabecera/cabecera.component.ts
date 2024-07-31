@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Usuario } from '../../clases/usuario';
 import { AuthService } from '../../servicios/auth.service';
@@ -21,7 +21,7 @@ export class CabeceraComponent {
   @Output() loadingEvent = new EventEmitter<boolean>();
   @Output() userEvent = new EventEmitter<any|null>()
 
-  constructor(private router : Router, private auth: AuthService) {
+  constructor(private router : Router, @Inject(AuthService) private auth: AuthService) {
   }
   
   ngOnInit() { }

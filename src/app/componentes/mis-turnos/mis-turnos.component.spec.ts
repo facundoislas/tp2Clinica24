@@ -11,7 +11,7 @@ describe('MisTurnosComponent', () => {
       imports: [MisTurnosComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(MisTurnosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
