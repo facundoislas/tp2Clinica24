@@ -7,6 +7,9 @@ import { interval } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FirebaseService } from '../../servicios/firebase.service';
+import { AlertServiceService } from '../../servicios/alert-service.service';
+
+
 
 @Component({
   selector: 'app-login',
@@ -37,7 +40,7 @@ export class LoginComponent {
   constructor(
     private router: Router,
     public authService : AuthService,
-    private firestore: Firestore, private fb: FormBuilder, private firebase: FirebaseService) {
+    private firestore: Firestore, private fb: FormBuilder, private firebase: FirebaseService, private alert: AlertServiceService) {
       
       this.progreso=0;
       this.ProgresoDeAncho="0%";
@@ -70,9 +73,9 @@ export class LoginComponent {
     this.MoverBarraDeProgreso();
 		if (await user) {
       //this.mostrarSpinner = true;
-      await new Promise(resolve => setTimeout(resolve, 2500));
       sessionStorage.setItem("user",this.user.email);
-      sessionStorage.setItem("muestra","true");
+            sessionStorage.setItem("muestra","true");
+     
       this.firebase.guardarLogLogin(this.user.email);
 
 			//this.router.navigateByUrl('/home', { replaceUrl: true });
@@ -80,7 +83,7 @@ export class LoginComponent {
       
       
 		} else {
-			this.MostarMensaje("Usuario o Clave incorrectos", true);
+			this.alert.showSuccessAlert1("","Usuario o clave incorrectos","error")
       this.borrar();
       this.logeando=true;
 		} 

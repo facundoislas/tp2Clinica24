@@ -70,4 +70,7 @@ updateUsuario(id: string, aprobado: boolean):Promise<any>
       const col = collection(this.firestore, 'login');
       return collectionData(col, { idField: 'id' });
     }
+
+
+    
 }

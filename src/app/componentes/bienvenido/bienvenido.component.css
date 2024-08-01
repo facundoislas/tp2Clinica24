@@ -1,11 +1,7 @@
 .row{
     width: 100vw;
   }
-  
-  html, body {
-    height: 100%;
-    margin: 0;
-  }
+
   
   .fondo {
     background: url('./../../../assets/imagenes/slider-bg-2.jpg');
@@ -50,7 +46,7 @@
     h2
     {
       color:rgb(39, 200, 42);
-      text-align: left;
+      text-align: center;
     }
     
     
@@ -86,7 +82,6 @@
     main{
        
            
-            margin-left: 25%;
             display: flex;
             justify-content: center;
             align-items: center;

@@ -1,0 +1,29 @@
+.table-container {
+    width: 100%; /* Asegura que el contenedor de la tabla ocupe el 100% del ancho del padre */
+  }
+  
+  .wider-table {
+    width: 100%; /* Hace que la tabla ocupe el 100% del ancho del contenedor */
+  }
+  
+  .table-striped > tbody > tr:nth-of-type(odd) {
+    --bs-table-accent-bg: rgba(0, 0, 0, 0.05);
+  }
+  
+  .table-bordered {
+    border: 1px solid #dee2e6;
+  }
+  
+  .thead-dark th {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #454d55;
+  }
+  
+  .container {
+    max-width: 1200px; /* Puedes ajustar este valor para definir un ancho máximo para el contenedor */
+  }
+  
+  .table {
+    min-width: 600px; /* Ancho mínimo de la tabla */
+  }

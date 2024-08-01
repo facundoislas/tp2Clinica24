@@ -1,2 +1,4 @@
-
-<router-outlet></router-outlet>
+<app-cabecera ></app-cabecera>
+<div [@routeAnimations]="prepareRoute(outlet)" class="fondo">
+  <router-outlet #outlet="outlet"></router-outlet>
+</div>

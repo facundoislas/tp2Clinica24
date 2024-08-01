@@ -1,31 +1,33 @@
-.fondo{
-
-    background: url("/assets/imagenes/slider-bg-2.jpg");
-    
-    height: 100vh;
-  }
-
-  .btn {
+.btn {
     margin-top: 40px;
-  }
-  
-  .text-center button {
-    margin-top: 10px;
-  }
+}
 
-  .text-left {
+h2{
+    margin-top: 80px;
+    text-align: center;
+}
+
+.text-left {
     display: flex;
     align-items: center;
-  }
-  
-  .col-3 {
-    display: flex;
-    align-items: flex-start;
     justify-content: flex-start;
-  }
-  
-  .col-9 {
+}
+
+.col-3, .col-9 {
     display: flex;
-    align-items: flex-start;
+    align-items: center;  /* Centrando verticalmente */
+}
+
+.col-3 {
     justify-content: flex-start;
-  }
+}
+
+.col-9 {
+    justify-content: flex-start; /* Alinea el contenido a la izquierda */
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Espaciado entre filas */
+}

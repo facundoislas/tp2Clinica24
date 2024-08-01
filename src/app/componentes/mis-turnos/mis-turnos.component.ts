@@ -11,12 +11,14 @@ import { FirebaseService } from '../../servicios/firebase.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FiltrosPipe } from '../../pipes/filtros.pipe';
+import { EstadoColorDirective } from '../../directivas/estado-color.directive';
+
 declare var window: any;
 
 @Component({
   selector: 'app-mis-turnos',
   standalone: true,
-  imports: [CabeceraComponent, CommonModule, FormsModule, ReactiveFormsModule, FiltrosPipe],
+  imports: [CabeceraComponent, CommonModule, FormsModule, ReactiveFormsModule, FiltrosPipe,EstadoColorDirective],
   templateUrl: './mis-turnos.component.html',
   styleUrls: [ './mis-turnos.component.css']
 })
@@ -59,7 +61,7 @@ export class MisTurnosComponent {
   peso:number = 0;
   temperatura:number = 0;
   presion:number = 0;
-  dinamicos: {clave: string, valor: string}[] = [];
+  dinamicos: {clave: string, valor: string, rango: number, numero: number, eleccion: boolean}[] = [];
   cantidadDatos = 0;
   historiaPrevia: HistoriaClinica[]=[];
   
@@ -145,7 +147,7 @@ export class MisTurnosComponent {
   agregarValorDinamico(valor:string){
     if(valor == 'sumar' && this.cantidadDatos < 3){
       this.cantidadDatos++;
-      this.dinamicos.push({clave: "", valor: ""});
+      this.dinamicos.push({clave: "", valor: "", rango: 0, numero:0, eleccion: false});
     }
     else if(valor == 'restar' && this.cantidadDatos > 0){
       this.cantidadDatos--;

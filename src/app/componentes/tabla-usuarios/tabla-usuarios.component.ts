@@ -66,4 +66,11 @@ export class TablaUsuariosComponent {
     this.excelExportService.exportAsExcelFile(this.usuarios, 'usuarios');
   }
 
+  getEspecialidades(user:any): string {
+    if (user.especialidad && user.especialidad.length > 0) {
+      return user.especialidad.map((esp:any) => esp.especialidad).join(', ');
+    }
+    return '';
+  }
+
 }

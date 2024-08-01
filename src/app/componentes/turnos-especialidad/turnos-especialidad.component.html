@@ -1,4 +1,13 @@
-<div class="pie-chart-container">
-    <div class="pie-chart" id="especialistas-chart"></div>
-    <div class="pie-chart" id="especialidades-chart"></div>
-  </div>
+
+<div style="background-color: aliceblue;">
+<ngx-charts-pie-chart
+[view]="[700, 400]"
+[scheme]="colorScheme"
+[results]="data"
+[gradient]="false"
+[legend]="true"
+[labels]="true"
+[doughnut]="false"
+
+>
+</ngx-charts-pie-chart></div>

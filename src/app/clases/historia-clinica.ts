@@ -3,14 +3,14 @@ export class HistoriaClinica {
     id:string;
     paciente:string;
     especialista:string;
-    dinamicos: {clave: string, valor: string}[];
+    dinamicos: {clave: string, valor: string, rango:number, numero:number, eleccion:boolean}[];
     altura:string;
     peso:number;
     temperatura:string;
     presion:string;
     especialidad:string
 
-    constructor(id:string,paciente:string,especialista:string,dinamicos: {clave: string, valor: string}[],altura:string,peso:number,
+    constructor(id:string,paciente:string,especialista:string,dinamicos: {clave: string, valor: string,rango:number, numero:number, eleccion:boolean}[],altura:string,peso:number,
         temperatura:string,presion:string,especialidad:string){
         this.id = id;
         this.paciente = paciente;

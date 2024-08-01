@@ -1,11 +1,40 @@
-<app-cabecera></app-cabecera>
-<div class="fondo">
-    <h2>Estadisticas</h2>
+<h2>Estadísticas</h2>
+
+<div class="row align-items-center">
     <div class="col-3 text-left">
         <button class="btn btn-info mx-2" (click)="toggleTable()">
             {{ showTableLog ? 'Ocultar' : 'Mostrar' }} Tabla de Logueos
-          </button></div>
+        </button>
+    </div>
+    <div class="col-3 text-left">
+        <button class="btn btn-info mx-2" (click)="toggleTable2()">
+            {{ showTableEst ? 'Ocultar' : 'Mostrar' }} Turnos por Especialidad
+        </button>
+    </div>
+    <div class="col-3 text-left">
+        <button class="btn btn-info mx-2" (click)="toggleTable3()">
+            {{ showTableEstMed ? 'Ocultar' : 'Mostrar' }} Turnos por Especialidad
+        </button>
+    </div>
+    <div class="col-3 text-left">
+        <button class="btn btn-info mx-2" (click)="toggleTable4()">
+            {{ showTableEstMedFin ? 'Ocultar' : 'Mostrar' }} Turnos por Especialidad Finalizados
+        </button>
+    </div>
     
-      <div *ngIf="showTableLog" class="col-9">
-    <app-log-ingresos></app-log-ingresos></div>
+</div>
+
+<div class="row justify-content-center align-items-center">
+    <div *ngIf="showTableLog" class="col-9">
+        <app-log-ingresos></app-log-ingresos>
+    </div>
+    <div *ngIf="showTableEst" class="col-9">
+        <app-turnos-especialidad></app-turnos-especialidad>
+    </div>
+    <div *ngIf="showTableEstMed" class="col-9">
+        <app-turnos-por-medico></app-turnos-por-medico>
+    </div>
+    <div *ngIf="showTableEstMedFin" class="col-9">
+        <app-turnos-por-medico-finalizados></app-turnos-por-medico-finalizados>
+    </div>
 </div>

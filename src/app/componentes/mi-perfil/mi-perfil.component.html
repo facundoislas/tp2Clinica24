@@ -1,6 +1,4 @@
-<app-cabecera></app-cabecera>
-
-<div class="fondo">
+<app-logo [showSpinner]="loading"></app-logo>
     <div class="container-fluid d-flex justify-content-center aling-content-center">
         <div class="pantalla d-flex flex-column position-relative">
           <div class="card m-5 p-3" style="width: 80%; max-width: 90%;">
@@ -59,7 +57,7 @@
                 </div>
               </div>
             </div>
-            <div class="container-fluid contenedor p-4 text-center mt-5" *ngIf="userData?.tipo === 'especialista' && mostrar === true">
+            <div class="container-fluid contenedor p-4 text-center " *ngIf="userData?.tipo === 'especialista' && mostrar === true">
                 <div class="modal-content card" style="text-align: center; max-width: 1200px;max-height: 600px; margin: 0 auto;">
                   <br>
                   <h1 class="title">Disponibilidad Horaria</h1>
@@ -126,9 +124,10 @@
                         </div>
                       </div>
                     </div>
+                    
                   </div>
-                  <br>
                   <button style="margin: 0 auto; float: none;" class="btn btn-primary" (click)="cerrarModulo()">Confirmar</button>
+
                   <br>
                 </div>
                 
@@ -137,4 +136,3 @@
          
         </div>
       </div>
-    </div>

@@ -2,15 +2,24 @@
     <br>
     <h1>Historia Clinica de: {{paciente.nombre}} {{paciente.apellido}}</h1>
 </div>
-<br><br>
-<div class="text-light" *ngFor="let historia of historias">
-    <ul class="list-group">
-        <li class="list-group-item"><b>Altura: </b><span>{{historia.altura}}</span></li>
-        <li class="list-group-item"><b>Peso: </b><span>{{historia.peso}}</span></li>
-        <li class="list-group-item"><b>Temperatura: </b><span>{{historia.temperatura}}</span></li>
-        <li class="list-group-item"><b>Presion: </b><span>{{historia.presion}}</span></li>
-        <li class="list-group-item"><b>Especialidad: </b><span>{{historia.especialidad}}</span></li>
-        <li *ngFor="let dinamico of historia.dinamicos" class="list-group-item"><b>{{dinamico.clave}}: </b><span>{{dinamico.valor}}</span></li>
-    </ul>
-    <br>
+
+
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div *ngFor="let historia of historias" class="card mb-4 shadow-sm historia-card">
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item historia-item"><b>Altura: </b><span>{{historia.altura}} cm</span></li>
+                        <li class="list-group-item historia-item"><b>Peso: </b><span>{{historia.peso}} kg</span></li>
+                        <li class="list-group-item historia-item"><b>Temperatura: </b><span>{{historia.temperatura}} °C</span></li>
+                        <li class="list-group-item historia-item"><b>Presión: </b><span>{{historia.presion}} mmHg</span></li>
+                        <li class="list-group-item historia-item"><b>Especialidad: </b><span>{{historia.especialidad}}</span></li>
+                        <li *ngFor="let dinamico of historia.dinamicos" class="list-group-item historia-item"><b>{{dinamico.clave}}: </b><span>{{dinamico.valor}}</span><span>{{dinamico.numero}}</span><span>{{dinamico.rango}}</span><span>{{dinamico.eleccion}}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

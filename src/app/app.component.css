@@ -1,0 +1,11 @@
+.fondo {
+    background: url('./../assets/imagenes/slider-bg-2.jpg');
+    /*height: calc(100% - 0%); /* Assuming your header is 60px tall */
+    background-size: cover; /* Asegura que la imagen cubra todo el fondo */
+    min-height: 100vh;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+}

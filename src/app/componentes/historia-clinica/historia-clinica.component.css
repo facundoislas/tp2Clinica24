@@ -1,0 +1,42 @@
+
+/* Estilo para el título del paciente */
+.paciente-titulo {
+    color: #4A90E2;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para las tarjetas de historia */
+.historia-card {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.historia-card:hover {
+    transform: scale(1.05);
+}
+
+/* Estilo para los elementos de la lista de historia */
+.historia-item {
+    font-family: 'Verdana', sans-serif;
+    font-size: 16px;
+    background-color: #f8f9fa;
+    border: none;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.historia-item:last-child {
+    border-bottom: none;
+}
+
+/* Estilo para los ítems dinámicos */
+.historia-item b {
+    color: #17a2b8;
+}
+
+.historia-item span {
+    margin-left: 5px;
+    color: #6c757d;
+}

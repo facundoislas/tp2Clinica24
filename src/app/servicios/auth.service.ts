@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import {Auth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut} from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { sendEmailVerification } from 'firebase/auth';
+import { BehaviorSubject } from 'rxjs';
+import { AlertServiceService } from './alert-service.service';
+
 
 
 @Injectable({
@@ -9,7 +12,13 @@ import { sendEmailVerification } from 'firebase/auth';
 })
 export class AuthService {
 
-  constructor(private auth:Auth, private router: Router) { }
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+  isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  constructor(private auth:Auth, private router: Router, private alert: AlertServiceService) {
+
+    const userEmail = sessionStorage.getItem('userEmail');
+    this.isAuthenticatedSubject.next(!!userEmail);
+   }
 
   user: any = "";
   
@@ -19,12 +28,16 @@ export class AuthService {
       this.user = user;
       if(user.user.emailVerified)
         {
-          alert("Login Exitoso");
+          setTimeout(()=>{
+           
+          },2500);
           this.router.navigate(['/perfil']);
+          this.isAuthenticatedSubject.next(true);
+
           return user;
         }
         else{
-          alert("email no chequeado");
+          this.alert.showSuccessAlert1("","El email no se encuentra validado", "error")
           this.router.navigate(['/login']);
           return null;
         }
@@ -35,6 +48,8 @@ export class AuthService {
 	}
 
 	async logout() {
+    this.isAuthenticatedSubject.next(false);
+
 		return signOut(this.auth);
 	}
 
@@ -60,4 +75,6 @@ export class AuthService {
   {
     return this.user;
   }
+
+  
 }

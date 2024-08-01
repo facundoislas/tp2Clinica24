@@ -4,41 +4,47 @@
     
     height: 100vh;
   }
-
-  .card{
-    background-color: #49a22b;
+  .card {
+    background-color: #243725;
+    color: #fff;
+    margin-top: 23px;
 }
 
-ul, li{
-    list-style: none;
+.card-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
-.btn{
+
+.especialidad-card, .especialista-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.especialidad-card:hover, .especialista-card:hover {
+    transform: scale(1.05);
+}
+
+.especialidad-card .card-text, .especialista-card .card-text {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.modal-content {
+    background-color: #e5eff6;
+    color: #000000;
+}
+
+.btn {
     margin: 20px;
+}
+
+.btn-primary, .btn-success {
     width: 150px;
 }
-.rounded-4{
-    background-color: #004373;
-    color: #fff;
-}
-.horarios{
-    width: 190px;
-    height: 50px;
-    margin: 2px;
-}
-.especialidad-btn{
-    width: 250px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.img-especialidad, .imagen-especialista{
-    height: 80px;
-}
-.btn-especialista{
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
+.horarios {
+    width: 100%;
+    margin: 2px 0;
 }

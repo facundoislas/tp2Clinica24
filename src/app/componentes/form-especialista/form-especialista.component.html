@@ -72,12 +72,11 @@
                 </div>
             </div>
             <div class="col-sm-12">
-                <app-captcha2 (resultadoFinal)="tomarResultado($event)"></app-captcha2>
-            </div>
-            <div class="col-sm-12" style="margin-left: -34px;" *ngIf="this.resultado != true;">
+                <div appCaptcha (resultadoFinal)="tomarResultado($event)"></div>            </div>
+            <div class="col-sm-12" style="margin-left: -34px;" *ngIf="this.captchaValidado != true;">
                 <button class="btn btn-warning" disabled>Enviar</button>
             </div>
-            <div class="col-sm-12" style="margin-left: -34px;" *ngIf="this.resultado == true;">
+            <div class="col-sm-12" style="margin-left: -34px;" *ngIf="this.captchaValidado == true;">
                 <button class="btn btn-warning" (click)="enviar()">Enviar</button>
             </div>
             <div class="col-sm-12" style="margin-left: -34px;">

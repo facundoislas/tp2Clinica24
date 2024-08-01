@@ -8,73 +8,89 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-  
-        <div class="dropdown" *ngIf="usuario === null">
-          <li class="nav-item dropdown">
-            <a class="dropdown-item" routerLink="/bienvenida">Home</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="dropdown-item" routerLink="/registro">Registro</a>
-          </li>
-          <div *ngIf="!usuario">
-            <a routerLink="/login">
-              <button class="btn btn-primary">Iniciar Sesión</button>
-            </a>
-          </div>
+      
+      <div class="offcanvas offcanvas-end"     style="background-color: aliceblue;"  tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 id="offcanvasNavbarLabel">Menú</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="dropdown" *ngIf="usuario?.tipo === 'admin'">
-          <li class="nav-item dropdown">
-            <a class="dropdown-item" routerLink="/login/mi-perfil">Mi Perfil</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="dropdown-item" routerLink="/login/seccion-usuarios">Usuarios</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="dropdown-item" routerLink="/login/dashboard">Registrar Usuarios</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="dropdown-item" routerLink="/login/estadisticas">Estadisticas</a>
-          </li>
-        </div>
-        <div class="dropdown" *ngIf="usuario?.tipo === 'paciente'">
-          <li class="nav-item dropdown">
-            <a class="dropdown-item" routerLink="/login/mi-perfil">Mi Perfil</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="dropdown-item" routerLink="/login/mis-turnos">Mis turnos</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="dropdown-item" routerLink="/login/solicitar-turno">Solicitar turno</a>
-          </li>
-        </div>
-        <div class="dropdown" *ngIf="usuario?.tipo === 'especialista'">
-          <li class="nav-item dropdown">
-            <a class="dropdown-item" routerLink="/login/mi-perfil">Mi Perfil</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="dropdown-item" routerLink="/login/mis-turnos">Mis turnos</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="dropdown-item" routerLink="/login/seccion-usuarios">Usuarios</a>
-          </li>
-          
-        </div>
-        <ng-container *ngIf="showButtons">
-          <div *ngIf="usuario" class="dropdown-center">
-            <button class="btn btn-lg dropdown-toggle text-light" type="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              {{usuario.email}}
-            </button>
-            <ul class="dropdown-menu w-100">
-              <li class="p-2">
-                <button class="btn text-light w-100 bg-danger" (click)="loguot()">Cerrar Sesión</button>
+        <div class="offcanvas-body">
+          <!-- No autenticado -->
+          <div *ngIf="!isAuthenticated">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/bienvenido">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/registro">Registro</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-primary" routerLink="/login">Iniciar Sesión</a>
               </li>
             </ul>
           </div>
-  
-          
-        </ng-container>
-      </div>
-    </div>
+      
+          <!-- Admin -->
+          <div *ngIf="usuario?.tipo === 'admin'">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" routerLink="perfil">Mi Perfil</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/usuarios">Usuarios</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/registro">Registrar Usuarios</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="estadisticas">Estadísticas</a>
+              </li>
+            </ul>
+          </div>
+      
+          <!-- Paciente -->
+          <div *ngIf="usuario?.tipo === 'paciente'">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/perfil">Mi Perfil</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/turnos">Mis turnos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/crearTurno">Solicitar turno</a>
+              </li>
+            </ul>
+          </div>
+      
+          <!-- Especialista -->
+          <div *ngIf="usuario?.tipo === 'especialista'">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/perfil">Mi Perfil</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/turnos">Mis turnos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/pacientes">Mis Pacientes</a>
+              </li>
+            </ul>
+          </div>
+      
+          <!-- Botón de usuario -->
+          <ng-container *ngIf="showButtons">
+            <div *ngIf="usuario" class="dropdown">
+              <button class="btn btn-lg btn-secondary dropdown-toggle w-100 text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{usuario.email}}
+              </button>
+              <ul class="dropdown-menu w-100">
+                <li>
+                  <button class="btn btn-danger w-100" (click)="loguot()">Cerrar Sesión</button>
+                </li>
+              </ul>
+            </div>
+          </ng-container>
+        </div>
+      </div></div>
   </nav>

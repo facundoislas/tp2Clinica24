@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { map, Observable, Subject, switchMap } from 'rxjs';
 import { HistoriaClinica } from '../clases/historia-clinica';
-import { addDoc, collection, collectionData, doc, Firestore, updateDoc } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
 import { Turno } from '../clases/turno';
+import { Especialista } from '../clases/especialista';
 
 @Injectable({
   providedIn: 'root'
@@ -62,4 +63,101 @@ export class TurnosService {
         especialidad:historia.especialidad
       });
     }
+
+    getTurnosPorEspecialidad(): Observable<{ especialidad: string, count: number }[]> {
+      return new Observable(observer => {
+        this.getTurnosDB().subscribe(turnos => {
+          const especialidades = turnos.reduce((acc, turno) => {
+            acc[turno.especialidad] = (acc[turno.especialidad] || 0) + 1;
+            return acc;
+          }, {} as Record<string, number>);
+  
+          const result = Object.keys(especialidades).map(key => ({
+            especialidad: key,
+            count: especialidades[key]
+          }));
+  
+          observer.next(result);
+          observer.complete();
+        });
+      });
+    }
+
+    getEspecialistas(): Observable<Especialista[]> {
+      const col = collection(this.firestore, 'Usuarios');
+      const q = query(col, where('tipo', '==', 'especialista'));
+  
+      return collectionData(q, { idField: 'id' }) as Observable<Especialista[]>;
+    }
+
+    getTurnosDB2(startDate?: Date, endDate?: Date): Observable<Turno[]> {
+      let col = collection(this.firestore, 'turnos');
+      let q = query(col);
+  
+      if (startDate && endDate) {
+        q = query(col, where('fecha', '>=', startDate), where('fecha', '<=', endDate));
+      }
+  
+      return collectionData(q, { idField: 'id' }) as Observable<Turno[]>;
+    }
+  
+  
+    getTurnosPorEspecialista(startDate?: Date, endDate?: Date): Observable<any[]> {
+      return this.getTurnosDB2(startDate, endDate).pipe(
+        switchMap(turnos => {
+          return this.getEspecialistas().pipe(
+            map(especialistas => {
+              const especialistasMap = new Map(
+                especialistas.map(e => [e.email, `${e.nombre} ${e.apellido}`])
+              );
+  
+              const turnosPorEspecialista = turnos.reduce((acc, turno) => {
+                const nombreCompletoEspecialista = especialistasMap.get(turno.especialista);
+                if (nombreCompletoEspecialista) {
+                  acc[nombreCompletoEspecialista] = (acc[nombreCompletoEspecialista] || 0) + 1;
+                }
+                return acc;
+              }, {} as Record<string, number>);
+  
+              return Object.entries(turnosPorEspecialista).map(([nombre, count]) => ({ name: nombre, value: count }));
+            })
+          );
+        })
+      );
+    }
+
+    getTurnosFinalizados(): Observable<Turno[]> {
+      let col = collection(this.firestore, 'turnos');
+      let q = query(col);
+
+        q = query(col, where('estado', '==', 'finalizado'));
+      
+  
+      return collectionData(q, { idField: 'id' }) as Observable<Turno[]>;
+    }
+
+    getTurnosPorEspecialistaFinalizados(startDate?: Date, endDate?: Date): Observable<any[]> {
+      return this.getTurnosFinalizados().pipe(
+        switchMap(turnos => {
+          return this.getEspecialistas().pipe(
+            map(especialistas => {
+              const especialistasMap = new Map(
+                especialistas.map(e => [e.email, `${e.nombre} ${e.apellido}`])
+              );
+  
+              const turnosPorEspecialista = turnos.reduce((acc, turno) => {
+                const nombreCompletoEspecialista = especialistasMap.get(turno.especialista);
+                if (nombreCompletoEspecialista) {
+                  acc[nombreCompletoEspecialista] = (acc[nombreCompletoEspecialista] || 0) + 1;
+                }
+                return acc;
+              }, {} as Record<string, number>);
+  
+              return Object.entries(turnosPorEspecialista).map(([nombre, count]) => ({ name: nombre, value: count }));
+            })
+          );
+        })
+      );
+    }
+  
 }

@@ -80,15 +80,15 @@
             <div class="col-sm-12">
                 <app-captcha2 (resultadoFinal)="tomarResultado($event)"></app-captcha2>
             </div>
-            <div class="col-sm-12" style="margin-left: -34px;" *ngIf="this.resultado != true;">
+            <div class="col-sm-6" style="margin-left: -34px;" *ngIf="this.resultado != true;">
                 <button class="btn btn-warning" (click)="enviar()" disabled>Enviar</button>
             </div>
-            <div class="col-sm-12" style="margin-left: -34px;" *ngIf="this.resultado == true;">
+            <div class="col-sm-6" style="margin-left: -34px;" *ngIf="this.resultado == true;">
                 <button class="btn btn-warning" (click)="enviar()">Enviar</button>
             </div>
-            <div class="col-sm-12" style="margin-left: -34px;">
+            <!--div class="col-sm-6" style="margin-left: -34px;">
                 <div class="btn btn-warning" routerLink="/login">Loguearse</div>
-            </div>
+            </div-->
         </form>
         <div *ngIf="!logeando" style="margin-top: 90%;">
             <div class="progress">

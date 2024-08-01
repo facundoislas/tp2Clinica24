@@ -1,10 +1,6 @@
-<app-cabecera></app-cabecera>
 
-<div class="fondo">
-
-
-    <div class="h-100" style="text-align: center;">
-        <div class="container-fluid contenedor p-4 mt-5">
+    <div class="h-100 text-center">
+        <div class="container-fluid p-4 mt-5">
           <div class="card">
             <h1 *ngIf="etapa != 'confirmar' && etapa != 'fin'">Solicitar Turno</h1>
       
@@ -16,101 +12,75 @@
                 <h4>Especialidad</h4>
               </div>
               <div *ngFor="let especialidad of especialidades" class="col-md-3 mb-3">
-                <div class="container">
-                  <div class="overlay imagenBoton">
-                    <div (click)="elegirEspecialidad(especialidad.especialidad)" class="btn btn-primary especialidad-btn">
-                      <p>Especialidad {{especialidad.especialidad}}</p>
-                    </div>
+                <div class="card especialidad-card" (click)="elegirEspecialidad(especialidad.especialidad)">
+                  <div class="card-body">
+                    <p class="card-text">{{especialidad.especialidad}}</p>
                   </div>
                 </div>
               </div>
-             
             </div>
             <!-- Dropdown especialidades -->
       
             <!-- Dropdown especialistas -->
-            <div class="form-floating mb-3" *ngIf="etapa == 'especialista'">
-              <div class="col-12">
-                <h4>Especialista</h4>
-              </div>
+            <div *ngIf="etapa == 'especialista'">
               <div class="row">
                 <div class="col-12">
-                  <p *ngIf="especialistasPorEspecialidad.length == 0"><br>No se encuentran especialistas con esta especialidad <br>Elija otra por favor</p>
+                  <h4>Especialista</h4>
+                  <p *ngIf="especialistasPorEspecialidad.length == 0">No se encuentran especialistas con esta especialidad. Elija otra por favor.</p>
                 </div>
-                <br><br>
                 <div *ngFor="let esp of especialistasPorEspecialidad" class="col-md-3 mb-3">
-                  <div class="container">
-                    <div class="overlay btn-especialista">
-                      <div (click)="elegirEspecialista(esp.nombre, esp.apellido)" class="btn btn-primary btn-especialista">
-                        {{esp.nombre + ' ' + esp.apellido}}
-                        <img class="imagen-especialista" src="{{esp.img_1}}" height="100px" width="100px" alt="{{esp.apellido}}">
-                      </div>
+                  <div class="card especialista-card" (click)="elegirEspecialista(esp.nombre, esp.apellido)">
+                    <img [src]="esp.img_1" class="card-img-top" [alt]="esp.apellido">
+                    <div class="card-body">
+                      <p class="card-text">{{esp.nombre + ' ' + esp.apellido}}</p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-12" style="text-align: right;">
+              <div class="col-12 text-end">
                 <button class="btn btn-success" (click)="volver('especialidad')">Volver</button>
               </div>
             </div>
             <!-- Dropdown especialistas -->
       
             <!-- HORARIOS DISPONIBLES -->
-            <div class="modal-content rounded-4 shadow" style="text-align: center; max-width: 1250px; max-height: 600px; margin: 0 auto;" *ngIf="etapa == 'horario'">
+            <div class="modal-content rounded-4 shadow text-center" *ngIf="etapa == 'horario'">
               <div class="modal-body p-5 pt-0">
-                <br>
-                <div style="text-align: right;">
-                  {{diaString}} {{dia}} de {{mes}}
-                  <button class="btn" [ngClass]="{'btn-primary': restarDia, 'btn-secondary': !restarDia}" (click)="sumarRestarDias('antes')"><</button>
-                  <button class="btn" [ngClass]="{'btn-primary': sumarDia, 'btn-secondary': !sumarDia}" (click)="sumarRestarDias('despues')">></button>
+                <div class="d-flex justify-content-end align-items-center">
+                  <span>{{diaString}} {{dia}} de {{mes}}</span>
+                  <button class="btn btn-secondary mx-2" (click)="sumarRestarDias('antes')" [disabled]="restarDia"><</button>
+                  <button class="btn btn-secondary" (click)="sumarRestarDias('despues')" [disabled]="!sumarDia">></button>
                 </div>
-                <br>
-                <div class="table">
-                  <h4 style="text-align: center;">Horarios disponibles</h4>
-                  <div class="row">
-                    <h3>{{noHayDatos}}</h3>
-                    <div class="col-6 col-md-2" *ngFor="let horario of horariosDisponiblesOtroFormato; let i=index">
-                      <button type="button" class="btn btn-success horarios" (click)="elegirHorario(horario)">{{horario}}</button>
-                    </div>
+                <h4 class="mt-4">Horarios disponibles</h4>
+                <div class="row">
+                  <h3>{{noHayDatos}}</h3>
+                  <div *ngFor="let horario of horariosDisponiblesOtroFormato" class="col-6 col-md-2 mb-2">
+                    <button type="button" class="btn btn-success w-100" (click)="elegirHorario(horario)">{{horario}}</button>
                   </div>
                 </div>
-                <button class="btn btn-primary" (click)="volver('especialista')">Volver</button>
+                <button class="btn btn-primary mt-3" (click)="volver('especialista')">Volver</button>
               </div>
             </div>
             <!-- HORARIOS DISPONIBLES -->
       
             <!-- Confirmar turno -->
-            <div class="form-floating mb-3" *ngIf="etapa == 'confirmar'">
+            <div *ngIf="etapa == 'confirmar'" class="my-3">
               <h1>Confirmar turno</h1>
-              <br>
-              <p>Especialidad <br>
-                {{especialidadElegida}}</p>
-              <br>
-              <p>Especialista <br>
-                {{especialistaElegidoStr}}</p>
-              <br>
-              <p>Horario <br>
-                {{diaElegido}}</p>
+              <p>Especialidad <br>{{especialidadElegida}}</p>
+              <p>Especialista <br>{{especialistaElegidoStr}}</p>
+              <p>Horario <br>{{diaElegido}}</p>
               <button class="btn btn-success" (click)="confirmar()">Confirmar</button>
-              <br><br>
-              <div style="text-align: right;">
-                <button class="btn btn-primary" (click)="volver('horario')">Volver</button>
-              </div>
+              <button class="btn btn-primary mt-3" (click)="volver('horario')">Volver</button>
             </div>
             <!-- Confirmar turno -->
       
             <!-- Turno Solicitado -->
-            <div class="form-floating mb-3" *ngIf="etapa == 'fin'">
+            <div *ngIf="etapa == 'fin'" class="my-3">
               <h1>Turno Solicitado</h1>
               <p>Ir a mis turnos</p>
-              <br><br>
-              <button class="btn btn-success" (click)="volver('irMisTurno')">Mis Turnos</button>
+              <button class="btn btn-success mt-3" (click)="volver('irMisTurno')">Mis Turnos</button>
             </div>
             <!-- Turno Solicitado -->
           </div>
         </div>
       </div>
-      
-
-
-</div>

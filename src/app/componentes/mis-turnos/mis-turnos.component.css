@@ -6,11 +6,13 @@
   }
 
   .card{
-    background-color: #49a22b;
-    padding: 10px;
+    background-color: #919390;
+    padding: 70px;
+    opacity: 0.9;
+    
 }
 .card-color{
-    background-color: #49a22b;
+    background-color: #ac9741;
 }
 .star-wrapper {
     direction: rtl;
@@ -47,3 +49,4 @@ color: gold;
 .calificadores{
     margin: 10px;
 }
+

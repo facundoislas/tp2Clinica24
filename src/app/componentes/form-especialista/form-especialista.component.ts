@@ -15,12 +15,14 @@ import Swal from 'sweetalert2';
 import { EspecialidadesService } from '../../servicios/especialidades.service';
 import { HorariosEspecialista } from '../../clases/horarios-especialista';
 import { HorariosEspecialistaService } from '../../servicios/horarios-especialista.service';
+import { CaptchaDirective } from '../../directivas/captcha.directive';
+
 
 
 @Component({
   selector: 'app-form-especialista',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, Captcha2Component, MatSelectModule, MatFormFieldModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, Captcha2Component, MatSelectModule, MatFormFieldModule,CaptchaDirective],
   templateUrl: './form-especialista.component.html',
   styleUrls: [ './form-especialista.component.css']
 })
@@ -43,6 +45,9 @@ export class FormEspecialistaComponent {
   formRegistro!:any;
 
   clase="progress-bar progress-bar-info progress-bar-striped ";
+
+  captchaValidado: boolean = false;
+
 
   constructor(private fb: FormBuilder, private authService: AuthService, private fire:Firestore, private router: Router, private serverEsp: EspecialidadesService,private horariosEsp: HorariosEspecialistaService){
     this.especialista = new Especialista ();
@@ -204,9 +209,9 @@ export class FormEspecialistaComponent {
     });
   }
 
-  tomarResultado(resultado:boolean)
+  tomarResultado(resultado:any)
   {
-    this.resultado = resultado;
+    this.captchaValidado = resultado;
   }
 
   agregarNuevaEspecialidad(){

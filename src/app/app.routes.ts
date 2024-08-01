@@ -15,17 +15,17 @@ import { TurnosEspecialidadComponent } from './componentes/turnos-especialidad/t
 
 export const routes: Routes = [
 
-    {path:'', component: BienvenidoComponent},
-    {path:'bienvenido', component: BienvenidoComponent},
-    {path:'login', component: LoginComponent},
-    {path:'registro', component: RegistroComponent},
-    {path:'usuarios', component: UsuariosComponent},
-    {path:'perfil', component: MiPerfilComponent},
-    {path:'turnos', component: MisTurnosComponent},
-    {path:'crearTurno', component: CrearTurnoComponent},
-    {path:'historial', component: HistoriaClinicaComponent},
-    {path:'pacientes', component: MisPacientesComponent},
-    {path:'estadisticas', component: EstadisticasComponent},
-    {path:'**', component:ErrorComponent}
+     { path: '', component: BienvenidoComponent, data: { animation: 'BienvenidoPage' } },
+  { path: 'bienvenido', component: BienvenidoComponent, data: { animation: 'BienvenidoPage' } },
+  { path: 'login', component: LoginComponent, data: { animation: 'LoginPage' } },
+  { path: 'registro', loadComponent:()=> import('./componentes/registro/registro.component').then((c) => c.RegistroComponent), data: { animation: 'RegistroPage' } },
+  { path: 'usuarios', component: UsuariosComponent, data: { animation: 'UsuariosPage' } },
+  { path: 'perfil', component: MiPerfilComponent, data: { animation: 'PerfilPage' } },
+  { path: 'turnos', component: MisTurnosComponent, data: { animation: 'TurnosPage' } },
+  { path: 'crearTurno', component: CrearTurnoComponent, data: { animation: 'CrearTurnoPage' } },
+  { path: 'historial', component: HistoriaClinicaComponent, data: { animation: 'HistorialPage' } },
+  { path: 'pacientes', component: MisPacientesComponent, data: { animation: 'PacientesPage' } },
+  { path: 'estadisticas',loadComponent:()=> import('./componentes/estadisticas/estadisticas.component').then((c) => c.EstadisticasComponent), data: { animation: 'EstadisticasPage' } },
+  { path: '**', component: ErrorComponent, data: { animation: 'ErrorPage' } }
 
 ];

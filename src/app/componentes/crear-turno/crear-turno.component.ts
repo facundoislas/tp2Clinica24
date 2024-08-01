@@ -97,10 +97,10 @@ async cargarUsuario() {
 }
 
   elegirEspecialidad(especialidadElegida:string){
+    this.especialistasPorEspecialidad = [];
     let indice = -1;
     this.especialidadElegida = especialidadElegida;
     this.especialistas.forEach((esp, index) => {
-      console.log(esp)
       esp.especialidad.forEach((especialidad)=>{
         if(especialidad.especialidad == especialidadElegida){
           indice = index;
@@ -311,7 +311,7 @@ async cargarUsuario() {
       this.etapa = "fin";
     }
     else{
-      this.router.navigateByUrl("/login/mis-turnos");
+      this.router.navigateByUrl("/turnos");
     }
   }
 

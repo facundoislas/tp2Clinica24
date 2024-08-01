@@ -8,23 +8,23 @@ import { HorariosEspecialistaService } from '../../servicios/horarios-especialis
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterLink } from '@angular/router';
+import { LogoComponent } from '../logo/logo.component';
 
 
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
-  imports: [CabeceraComponent, CommonModule, FormsModule,MatSelectModule, MatFormFieldModule, RouterLink],
+  imports: [CabeceraComponent, CommonModule, FormsModule,MatSelectModule, MatFormFieldModule, RouterLink, LogoComponent],
   templateUrl: './mi-perfil.component.html',
   styleUrls: [ './mi-perfil.component.css']
 })
 
 export class MiPerfilComponent {
-  
+  loading = true;
   mostrar = false;
-
+  email!:any;
   userData!: any;
   porTipo: any[] = [];
-  email = sessionStorage.getItem('user');
   dias=[{dia:"Lunes", ini: "", fin: ""},{dia:"Martes", ini: "", fin: ""},{dia:"Miercoles", ini: "", fin: ""},
     {dia:"Jueves", ini: "", fin: ""},{dia:"Viernes", ini: "", fin: ""},{dia:"Sabado", ini: "", fin: ""}];;
   horasDefault=[8,9,10,11,12,13,14,15,16,17,18,19];
@@ -39,14 +39,19 @@ export class MiPerfilComponent {
   constructor(private firebaseService: FirebaseService, private horarioEspService: HorariosEspecialistaService) { }
 
   ngOnInit(): void {
+    this.email = sessionStorage.getItem('user');
+
+     setTimeout(()=>{
+      this.loading = false;
+    },2500);
   this.firebaseService.getUsuariosPorTipo("especialista").subscribe((usuarios: any[]) => {
   this.porTipo = usuarios;
   console.log(this.porTipo); });
-    this.searchUser();
+  this.searchUser().then(() => {
     this.horarioEspService.getHorarioEspecialistas().subscribe(horario => {
       horario.forEach(hora => {
         console.log(hora);
-        if(this.userData.email == hora.email){
+        if (this.userData.email == hora.email) {
           this.horariosEspecialista = hora;
           this.disponibilidades = this.horariosEspecialista.estados;
           this.especialidadesPorDia = this.horariosEspecialista.especialidadesPorDia;
@@ -54,13 +59,13 @@ export class MiPerfilComponent {
         }
       });
     });
+  });
   }
 
    async searchUser() {
-    if (this.email) {
       console.log("entre aca")
       this.userData = await this.firebaseService.getUsuarioEmail(this.email);
-    }
+  
   }
 
   

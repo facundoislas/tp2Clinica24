@@ -1,0 +1,19 @@
+<div style="background-color: aliceblue;">
+<ngx-charts-pie-chart
+  [results]="data"
+  [view]="[700, 400]"
+  [scheme]="'vivid'"
+  [doughnut]="false"
+  [gradient]="false"
+  [legend]="true"
+  [labels]="true"
+  [explodeSlices]="false"
+  [trimLabels]="true"
+  [arcWidth]="0.25"
+  [animations]="true">
+</ngx-charts-pie-chart>
+<input type="date" [(ngModel)]="startDate">
+<input type="date" [(ngModel)]="endDate">
+<button (click)="ngOnInit()">Actualizar</button>
+
+</div>

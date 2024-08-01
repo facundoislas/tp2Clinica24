@@ -5,44 +5,57 @@ nav{
     height: 80px;
     .navbar-brand, .navbar-toggler-icon
     {
-        color: #49a22b!important;
+        color: #096995!important;
     }
   }
- 
-  .navbar-toggler{
-    color: #49a22b !important;
-    background-color: #fff;
-  }
-  .navbar-toggler-icon{
-    color: white !important;
+  .navbar-toggler {
+    color: #e20606 !important;
     background-color: #fff;
   }
   
-  li{
-    list-style: none;
+  .navbar-toggler-icon {
+    color: rgb(197, 16, 16) !important;
+    background-color: #fff;
   }
-  .nav-link{
-    color: #49a22b;
+  
+  .nav-link {
+    color: #0b035e;
     font-size: 1.5rem;
-    margin: 15px;
-  }
-  .btn{
-    margin: 15px;
     text-decoration: none;
-    background-color: #49a22b;
-    border: 1px solid #49a22b;
   }
-  .btn:hover{
-    background-color: #377721;
+  
+  .nav-link:hover {
+    color: #d0620e;
   }
-  .dropdown-menu{
-    background-color: #136199;
+  
+  .btn {
+    text-decoration: none;
+    background-color: #887088;
+    border: 1px solid #887088;
+    font-size: 17px;
+  }
+  
+  .btn:hover {
+    background-color: #213977;
+  }
+  
+  .offcanvas-body {
+    padding: 1rem;
+  }
+  
+  .dropdown-menu {
     color: #fff;
   }
-  .dropdown-item{
+  
+  .dropdown-item {
     color: #49a22b;
     padding-left: 20px;
   }
-  .dropdown-item:hover{
+  
+  .dropdown-item:hover {
     background-color: #004373;
+  }
+  
+  .dropdown {
+    text-align: center;
   }

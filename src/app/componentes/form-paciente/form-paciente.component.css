@@ -188,8 +188,11 @@
      margin-top: 5px;
  }
  .col-sm-12 {
-     grid-column: span 2;
- }
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
 
  .validacion{
 
@@ -198,3 +201,5 @@
      font-size: 15px;
      
  }
+ 
+ 

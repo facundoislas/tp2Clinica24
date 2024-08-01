@@ -3,6 +3,8 @@ import { CaptchaService } from '../../servicios/captcha.service';
 import { Captcha } from '../../clases/captcha';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AlertServiceService } from './../../servicios/alert-service.service';
+
 
 @Component({
   selector: 'app-captcha2',
@@ -21,7 +23,7 @@ export class Captcha2Component {
   public resultado!: string;
   public captchas: any[] = [];
   captchaSeleccionado: Captcha;
-  constructor(private captcha: CaptchaService){
+  constructor(private captcha: CaptchaService, private alert: AlertServiceService){
 
     this.captchaSeleccionado = new Captcha();
   }
@@ -49,11 +51,13 @@ export class Captcha2Component {
       {
         this.resul = true;
         this.resultadoFinal.emit(true);
-      alert("El resultado es ok");}
+        this.alert.showSuccessAlert1("", "El resultado es correcto", "success");
+      }
     else
     {
       this.resul = false;
-    alert("El resultado no es ok");
+      this.alert.showSuccessAlert1("", "El resultado es incorrecto", "error");
+
     this.resultadoFinal.emit(false);
     }
   }
