@@ -23,7 +23,7 @@ export class LoginComponent {
   
   userData!: any;
   tipoUser!:string;
-  user= { email : '', password : ''};
+  user= { email : '', password : '', tipo: ''};
   Mensaje!:string;
   semuestra!:boolean;
   progreso!: number;
@@ -65,6 +65,8 @@ export class LoginComponent {
     sessionStorage.clear();
   }
 
+ 
+
   async entrar()
   {
     if(this.formRegistro.valid){
@@ -72,9 +74,13 @@ export class LoginComponent {
 		const user = this.authService.login(this.user.email, this.user.password);
     this.MoverBarraDeProgreso();
 		if (await user) {
+
+      this.userData = await this.firebase.getUsuarioEmail(this.user.email);
+      console.log("email",this.userData.email)
       //this.mostrarSpinner = true;
       sessionStorage.setItem("user",this.user.email);
-            sessionStorage.setItem("muestra","true");
+      sessionStorage.setItem("muestra","true");
+      sessionStorage.setItem("tipo",this.userData.tipo);
      
       this.firebase.guardarLogLogin(this.user.email);
 

@@ -58,8 +58,8 @@ export class AuthService {
     try{
       const user = await createUserWithEmailAndPassword(this.auth, email, password);
       sendEmailVerification(user.user).then(() => {
-        alert('Registration successful! Please check your email for verification.');
-      this.router.navigate(['/login']);
+        this.alert.showSuccessAlert1("","Registracion con Exito, por favor valida tu usuario", "success")
+        this.router.navigate(['/login']);
       this.user = user;
       
     })
@@ -74,6 +74,14 @@ export class AuthService {
   isAuth()
   {
     return this.user;
+  }
+
+  isAdmin()
+  {
+    if(sessionStorage.getItem('tipo') === 'admin')
+      return true;
+      else
+      return false;
   }
 
   

@@ -25,6 +25,7 @@ export class EstadisticasComponent {
 
   toggleTable(): void {
     this.showTableLog = !this.showTableLog;
+    console.log(this.showTableLog);
   }
 
   toggleTable2(): void {
