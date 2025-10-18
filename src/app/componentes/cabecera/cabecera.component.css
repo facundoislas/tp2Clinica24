@@ -1,61 +1,278 @@
-nav{
-    
-    background-image: url("./../../../assets/imagenes/cabecera.png");
-    z-index: 9999;
-    height: 80px;
-    .navbar-brand, .navbar-toggler-icon
-    {
-        color: #096995!important;
-    }
+/* La cabecera mantiene su fondo transparente para mostrar el fondo global */
+nav {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Utilidades básicas tipo Tailwind */
+.fixed { position: fixed; }
+.top-0 { top: 0; }
+.left-0 { left: 0; }
+.right-0 { right: 0; }
+.z-50 { z-index: 50; }
+.z-9998 { z-index: 9998; }
+.z-9999 { z-index: 9999; }
+.h-20 { height: 5rem; }
+.h-full { height: 100%; }
+.w-7 { width: 1.75rem; }
+.w-8 { width: 2rem; }
+.w-5 { width: 1.25rem; }
+.w-full { width: 100%; }
+.md\:w-80 { width: 20rem; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.p-2 { padding: 0.5rem; }
+.p-6 { padding: 1.5rem; }
+.pb-6 { padding-bottom: 1.5rem; }
+.pt-4 { padding-top: 1rem; }
+.pt-6 { padding-top: 1.5rem; }
+.pr-2 { padding-right: 0.5rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-8 { margin-top: 2rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.rounded-lg { border-radius: 0.5rem; }
+.shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+.shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+.shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+.bg-white { background-color: white; }
+.bg-teal-500 { background-color: #14b8a6; }
+.bg-teal-600 { background-color: #0d9488; }
+.bg-teal-700 { background-color: #0f766e; }
+.bg-red-600 { background-color: #dc2626; }
+.bg-red-700 { background-color: #b91c1c; }
+.text-white { color: white; }
+.text-teal-700 { color: #0f766e; }
+.text-gray-600 { color: #4b5563; }
+.text-gray-800 { color: #1f2937; }
+.text-gray-500 { color: #6b7280; }
+.text-red-500 { color: #ef4444; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+.tracking-wider { letter-spacing: 0.05em; }
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.transition { transition: all 0.15s ease-in-out; }
+.duration-300 { transition-duration: 300ms; }
+.transform { transform: translateZ(0); }
+.hover\:scale-105:hover { transform: scale(1.05); }
+.hover\:bg-teal-600:hover { background-color: #0d9488; }
+.hover\:bg-red-700:hover { background-color: #b91c1c; }
+.hover\:text-red-500:hover { color: #ef4444; }
+.space-y-4 > * + * { margin-top: 1rem; }
+.space-y-6 > * + * { margin-top: 1.5rem; }
+.flex-grow { flex-grow: 1; }
+.overflow-y-auto { overflow-y: auto; }
+.border-b { border-bottom-width: 1px; }
+.border-t { border-top-width: 1px; }
+.border-teal-300 { border-color: #5eead4; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.absolute { position: absolute; }
+.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.opacity-75 { opacity: 0.75; }
+.relative { position: relative; }
+.container { width: 100%; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+/* Backdrop blur personalizado */
+.backdrop-blur-lg {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Fondo semi-transparente */
+.bg-white-95 {
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .md\:px-8 { padding-left: 2rem; padding-right: 2rem; }
+  .md\:text-2xl { font-size: 1.5rem; line-height: 2rem; }
+  .md\:w-80 { width: 20rem; }
+}
+
+/* Estilos para los links del menú moderno */
+.nav-link-modern {
+  display: block;
+  padding: 0.75rem 1rem;
+  font-size: 1.25rem; /* 20px */
+  font-weight: 600;
+  color: #14b8a6; /* Teal 600 - texto oscuro */
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+  text-decoration: none;
+}
+
+.nav-link-modern:hover {
+  color: #0d9488; /* Teal 700 - más oscuro al pasar el ratón */
+  background-color: rgba(20, 184, 166, 0.1); /* Teal 500 con transparencia */
+  transform: translateX(5px);
+  text-decoration: none;
+}
+
+/* Estilo para el botón de acción (Iniciar Sesión) */
+.action-btn-modern-light {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 0.75rem;
+  background: linear-gradient(90deg, #14b8a6, #06b6d4); /* Teal a Cyan */
+  color: white;
+  box-shadow: 0 4px 15px rgba(20, 184, 166, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+}
+
+.action-btn-modern-light:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.6);
+  color: white;
+  text-decoration: none;
+}
+
+/* Estilo para el botón de usuario (Dropdown) */
+.user-dropdown-btn {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #f1f5f9; /* Slate 100 - fondo muy claro */
+  color: #334155; /* Slate 700 - texto oscuro */
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+  border: none;
+}
+
+.user-dropdown-btn:hover {
+  background-color: #e2e8f0; /* Slate 200 - un poco más oscuro */
+}
+
+/* Estilo para el botón de cerrar personalizado */
+.btn-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+/* Animaciones para el canvas y offcanvas */
+.offcanvas {
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Lista sin estilos */
+.nav-item {
+  list-style: none;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Mejoras de accesibilidad */
+button:focus,
+a:focus {
+  outline: 2px solid #14b8a6;
+  outline-offset: 2px;
+}
+
+/* Dropdown menu mejorado */
+.dropdown-menu {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  position: static;
+  transform: none;
+  width: 100%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+/* Canvas de fondo animado */
+#menuCanvas {
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+/* Animación de ondas CSS como fallback */
+@keyframes wave {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.3;
   }
-  .navbar-toggler {
-    color: #e20606 !important;
-    background-color: #fff;
+  50% {
+    transform: translateY(-10px) scale(1.1);
+    opacity: 0.5;
   }
-  
-  .navbar-toggler-icon {
-    color: rgb(197, 16, 16) !important;
-    background-color: #fff;
-  }
-  
-  .nav-link {
-    color: #0b035e;
-    font-size: 1.5rem;
-    text-decoration: none;
-  }
-  
-  .nav-link:hover {
-    color: #d0620e;
-  }
-  
-  .btn {
-    text-decoration: none;
-    background-color: #887088;
-    border: 1px solid #887088;
-    font-size: 17px;
-  }
-  
-  .btn:hover {
-    background-color: #213977;
-  }
-  
-  .offcanvas-body {
-    padding: 1rem;
-  }
-  
-  .dropdown-menu {
-    color: #fff;
-  }
-  
-  .dropdown-item {
-    color: #49a22b;
-    padding-left: 20px;
-  }
-  
-  .dropdown-item:hover {
-    background-color: #004373;
-  }
-  
-  .dropdown {
-    text-align: center;
-  }
+}
+
+/* Efectos de partículas con CSS */
+.offcanvas::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(20, 184, 166, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(20, 184, 166, 0.05) 0%, transparent 50%);
+  animation: wave 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Mejorar la transición del offcanvas */
+.offcanvas.show {
+  transform: translateX(0);
+}
+
+.offcanvas:not(.show) {
+  transform: translateX(100%);
+}
+
+/* Efectos adicionales para el menú */
+.nav-link-modern {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link-modern::before {
+  content: '';
+  position: absolute;
+  left: -100%;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.nav-link-modern:hover::before {
+  left: 100%;
+}
+
+/* Efecto de cristal para el botón hamburguesa */
+nav button {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}

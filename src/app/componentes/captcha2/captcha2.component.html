@@ -1,5 +1,20 @@
-<div ><img [src]="this.captchaSeleccionado.imagen" width="100px" height="50px">
-
-    <input type="text" [(ngModel)]="resultado" class="form-control">
-    <button (click)="validarCaptCha(resultado)" class="btn-primary">Validar</button></div>
+<div class="captcha-container">
+    <div class="captcha-content">
+        <img [src]="this.captchaSeleccionado.imagen" width="100px" height="50px" class="captcha-image">
+        <div class="input-group">
+            <input 
+                type="text" 
+                [(ngModel)]="resultado" 
+                class="form-control captcha-input" 
+                maxlength="3"
+                placeholder="123"
+                autocomplete="off">
+            <button 
+                (click)="validarCaptCha(resultado)" 
+                class="btn btn-captcha">
+                <i class="fa fa-check"></i> Validar
+            </button>
+        </div>
+    </div>
+</div>
     

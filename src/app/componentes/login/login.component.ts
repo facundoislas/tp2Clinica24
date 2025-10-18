@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CabeceraComponent } from "../cabecera/cabecera.component";
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../servicios/auth.service';
 import { Firestore } from '@angular/fire/firestore';
 import { interval } from 'rxjs';
@@ -14,7 +14,7 @@ import { AlertServiceService } from '../../servicios/alert-service.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CabeceraComponent, CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CabeceraComponent, CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: [ './login.component.css']
 })
@@ -56,7 +56,7 @@ export class LoginComponent {
           }
           this.formRegistro = this.fb.group({
             usuario:['', [Validators.required, Validators.email]],
-            pass:['', [Validators.required, Validators.minLength(6)]],})
+            pass:['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],})
   }
 
  

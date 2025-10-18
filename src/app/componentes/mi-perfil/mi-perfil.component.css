@@ -1,11 +1,4 @@
-.fondo {
-    background: url('./../../../assets/imagenes/slider-bg-2.jpg');
-    background-size: cover;
-    height: calc(100% - 0%); /* Assuming your header is 60px tall */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+/* Eliminado el fondo local, ahora usa el fondo global del app.component */
 
   .pantalla{
     display: flex;

@@ -8,7 +8,7 @@ import { LogoComponent } from "../logo/logo.component";
 @Component({
   selector: 'app-bienvenido',
   standalone: true,
-  imports: [CabeceraComponent, CommonModule, RouterLink, LogoComponent],
+  imports: [CommonModule, RouterLink, LogoComponent],
   templateUrl: './bienvenido.component.html',
   styleUrls: ['./bienvenido.component.css'],
   animations: [

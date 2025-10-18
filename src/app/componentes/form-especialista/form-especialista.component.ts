@@ -5,24 +5,21 @@ import { Especialista } from '../../clases/especialista';
 import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/storage';
 import { AuthService } from '../../servicios/auth.service';
 import { addDoc, collection, Firestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { interval } from 'rxjs';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { Captcha2Component } from '../captcha2/captcha2.component';
 import { Especialidad } from '../../clases/especialidad';
 import Swal from 'sweetalert2';
 import { EspecialidadesService } from '../../servicios/especialidades.service';
 import { HorariosEspecialista } from '../../clases/horarios-especialista';
 import { HorariosEspecialistaService } from '../../servicios/horarios-especialista.service';
-import { CaptchaDirective } from '../../directivas/captcha.directive';
 
 
 
 @Component({
   selector: 'app-form-especialista',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, Captcha2Component, MatSelectModule, MatFormFieldModule,CaptchaDirective],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, Captcha2Component, RouterModule],
   templateUrl: './form-especialista.component.html',
   styleUrls: [ './form-especialista.component.css']
 })
@@ -43,6 +40,8 @@ export class FormEspecialistaComponent {
   resultado!:boolean;
   especialidades:Especialidad[] = [];
   formRegistro!:any;
+  mostrarNuevaEspecialidad: boolean = false;
+  nuevaEspecialidad: string = '';
 
   clase="progress-bar progress-bar-info progress-bar-striped ";
 
@@ -213,56 +212,58 @@ export class FormEspecialistaComponent {
   {
     this.captchaValidado = resultado;
   }
-
-  agregarNuevaEspecialidad(){
-    Swal.fire({
-      title: "Ingrese una especialidad:",
-      input: "text",
-      inputAttributes: {
-        autocapitalize: "off"
-      },
-      showCancelButton: true,
-      showConfirmButton: true,
-      showLoaderOnConfirm: true,
-      preConfirm: async (input) =>{
-      },
-      allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if (result.isConfirmed) {
-        try{
-          if(result.value != ''){
-            this.serverEsp.setEspecialidad(result.value)
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Especialidad generada",
-              showConfirmButton: false,
-              timer: 1500
-            });
-          }
-          else{
-            Swal.fire({
-              position: "center",
-              icon: "error",
-              title: "Ingreso inválido",
-              showConfirmButton: false,
-              timer: 1500
-            });
-          }
-        }
-        catch(error){
-          console.log(error)
-        }
-      }
-      else{
-        Swal.close();
-      }
-    });
-  }
   
   cargarHorarioEspecialistas(mail:string){
     let horarioAux = new HorariosEspecialista("",mail);
     this.horariosEsp.cargarHorarioEspecialistas(horarioAux);
+  }
+
+  limpiarFormulario(){
+    this.formRegistro.reset();
+    this.especialista = new Especialista();
+    this.contrasena2 = '';
+    this.captchaValidado = false;
+    this.foto1 = null as any;
+    this.mostrarNuevaEspecialidad = false;
+    this.nuevaEspecialidad = '';
+  }
+
+  onEspecialidadChange(event: any) {
+    const valor = event.target.value;
+    if (valor === 'nueva') {
+      this.mostrarNuevaEspecialidad = true;
+      this.formRegistro.patchValue({ especialidad: '' });
+    } else {
+      this.mostrarNuevaEspecialidad = false;
+    }
+  }
+
+  async agregarNuevaEspecialidad() {
+    if (this.nuevaEspecialidad.trim()) {
+      try {
+        const col = collection(this.fire, 'especialidades');
+        const nuevaEsp = { especialidad: this.nuevaEspecialidad.trim() };
+        
+        await addDoc(col, nuevaEsp);
+        
+        this.especialidades.push(nuevaEsp as Especialidad);
+        this.formRegistro.patchValue({ especialidad: this.nuevaEspecialidad.trim() });
+        // Solo asignar el string del nombre de la especialidad
+        this.especialista.especialidad = [nuevaEsp as Especialidad];
+        
+        this.cancelarNuevaEspecialidad();
+        this.MostarMensaje('Especialidad agregada exitosamente', false);
+      } catch (error) {
+        console.error('Error al agregar especialidad:', error);
+        this.MostarMensaje('Error al agregar la especialidad', true);
+      }
+    }
+  }
+
+  cancelarNuevaEspecialidad() {
+    this.mostrarNuevaEspecialidad = false;
+    this.nuevaEspecialidad = '';
+    this.formRegistro.patchValue({ especialidad: '' });
   }
 
 }

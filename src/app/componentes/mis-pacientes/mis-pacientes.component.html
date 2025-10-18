@@ -1,9 +1,11 @@
 
 
-<div class="fondo">
-        <div *ngIf="!emailSeleccionado">        <app-tabla-pacientes (pacienteSeleccionado)="recibirPacienteSeleccionado($event)"></app-tabla-pacientes>
+<div class="pacientes-container">
+        <div *ngIf="!emailSeleccionado">        
+            <app-tabla-pacientes (pacienteSeleccionado)="recibirPacienteSeleccionado($event)"></app-tabla-pacientes>
         </div>
-        <div *ngIf="emailSeleccionado" >      <app-historia-clinica [emailPaciente]="emailSeleccionado"></app-historia-clinica>
+        <div *ngIf="emailSeleccionado" >      
+            <app-historia-clinica [emailPaciente]="emailSeleccionado"></app-historia-clinica>
         </div>
     </div>
 

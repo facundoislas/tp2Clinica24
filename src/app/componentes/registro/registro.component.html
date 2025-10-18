@@ -1,29 +1,35 @@
-<div class="fondo">      
-
-    <!-- Three columns of text below the carousel -->
-    <main *ngIf="seccion == 'menu'">
-      <div class="col-lg-6" >
-          <img _ngcontent-c3="" alt="Generic placeholder image" class="rounded-circle" height="235" src="./assets/imagenes/paciente.png" width="243">
-        <h2>¡Soy Paciente!</h2>
-        <p>Te podrás registrar como paciente de nuestra clinica</p>
-        <p><a class="btn btn-primary btn-lg" role="button" (click)="cambiarSeccion('paciente')">Registrarse como Paciente</a></p>
-      </div><!-- /.col-lg-4 -->
-      <div class="col-lg-6">
-          <img _ngcontent-c3="" alt="Generic placeholder image" class="rounded-circle" height="235" src="./assets/imagenes/especialista.png" width="243">
-        <h2>¡Soy Especialista!</h2>
-        <p>Te podrás registrar como integrante de nuestro staff</p>
-        <p><a class="btn btn-primary btn-lg" role="button" (click)="cambiarSeccion('especialista')">Registrarse como Especialista</a></p>
-      </div>    
-      
-    </main>
-    <div class="pantalla-2" *ngIf="seccion == 'seleccion'">
-        <div class="contenedor-registros" *ngIf="tipoUsuarioARegistrar == 'paciente'">
-           <app-form-paciente></app-form-paciente>
-        </div>
-        <div class="contenedor-registros" *ngIf="tipoUsuarioARegistrar == 'especialista'">
-            <app-form-especialista></app-form-especialista>
-        </div>
-        <div class="boton-menu">
-            <button class="flecha" (click)="volverMenuSeleccion()">Volver</button>
+<div class="fondo-principal">
+    <div class="content-overlay">
+        <main class="container" *ngIf="seccion == 'menu'">
+            <div class="content-row">
+                <div class="card-section">
+                    <div class="welcome-card">
+                        <img alt="Registro Paciente" class="rounded-circle card-image" height="235" src="./assets/imagenes/paciente.png" width="243">
+                        <h2>¡Soy Paciente!</h2>
+                        <p>Te podrás registrar como paciente de nuestra clínica</p>
+                        <p><a class="welcome-btn" role="button" (click)="cambiarSeccion('paciente')">Registrarse como Paciente</a></p>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <div class="welcome-card">
+                        <img alt="Registro Especialista" class="rounded-circle card-image" height="235" src="./assets/imagenes/especialista.png" width="243">
+                        <h2>¡Soy Especialista!</h2>
+                        <p>Te podrás registrar como integrante de nuestro staff</p>
+                        <p><a class="welcome-btn" role="button" (click)="cambiarSeccion('especialista')">Registrarse como Especialista</a></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div class="pantalla-2" *ngIf="seccion == 'seleccion'">
+            <div class="contenedor-registros" *ngIf="tipoUsuarioARegistrar == 'paciente'">
+               <app-form-paciente></app-form-paciente>
+            </div>
+            <div class="contenedor-registros" *ngIf="tipoUsuarioARegistrar == 'especialista'">
+                <app-form-especialista></app-form-especialista>
+            </div>
+            <div class="boton-menu">
+                <button class="flecha" (click)="volverMenuSeleccion()">Volver</button>
+            </div>
         </div>
     </div>
+</div>

@@ -1,9 +1,8 @@
-.fondo{
-
-    background: url("/assets/imagenes/slider-bg-2.jpg");
-   
-    height: 100vh;
-  }
+/* Contenedor de mis pacientes - usa el fondo global */
+.pacientes-container {
+  min-height: 100vh;
+  padding: 20px;
+}
 
   .volver-btn {
     position: absolute;

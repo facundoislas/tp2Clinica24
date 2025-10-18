@@ -1,5 +1,94 @@
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Configuración global */
+html, body { 
+  height: 100%; 
+  margin: 0; 
+  padding: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Reseteo global */
+* {
+  box-sizing: border-box;
+}
+
+/* Clases utility para componentes que necesiten fondo compatible */
+.bg-clinic-primary {
+  background: url('./assets/imagenes/slider-bg-2.jpg') no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+@media (max-width: 768px) {
+  .bg-clinic-primary {
+    background-attachment: scroll;
+  }
+}
+
+/* Overlay utility para mejorar legibilidad */
+.overlay-dark {
+  position: relative;
+}
+
+.overlay-dark::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.overlay-light {
+  position: relative;
+}
+
+.overlay-light::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Asegurar que el contenido esté por encima de los overlays */
+.overlay-dark > *,
+.overlay-light > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Containers compatibles */
+.container, .container-fluid {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mantener compatibilidad con Bootstrap */
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Utility para fondos con glassmorphism */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+}
+
+.glass-panel-dark {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+}

@@ -21,13 +21,13 @@ export const routes: Routes = [
   { path: 'bienvenido', component: BienvenidoComponent, data: { animation: 'BienvenidoPage' } },
   { path: 'login', component: LoginComponent, data: { animation: 'LoginPage' } },
   { path: 'registro', loadComponent:()=> import('./componentes/registro/registro.component').then((c) => c.RegistroComponent), data: { animation: 'RegistroPage' } },
-  { path: 'usuarios', component: UsuariosComponent, canActivate:[authGuard,isLoginGuard], data: { animation: 'UsuariosPage' } },
+  { path: 'usuarios', component: UsuariosComponent, canActivate:[authGuard], data: { animation: 'UsuariosPage' } },
   { path: 'perfil', component: MiPerfilComponent, data: { animation: 'PerfilPage' } },
-  { path: 'turnos',canActivate:[isLoginGuard], component: MisTurnosComponent, data: { animation: 'TurnosPage' } },
-  { path: 'crearTurno',canActivate:[isLoginGuard], component: CrearTurnoComponent, data: { animation: 'CrearTurnoPage' } },
-  { path: 'historial',canActivate:[isLoginGuard], component: HistoriaClinicaComponent, data: { animation: 'HistorialPage' } },
-  { path: 'pacientes',canActivate:[isLoginGuard], component: MisPacientesComponent, data: { animation: 'PacientesPage' } },
-  { path: 'estadisticas',loadComponent:()=> import('./componentes/estadisticas/estadisticas.component').then((c) => c.EstadisticasComponent),canActivate:[authGuard,isLoginGuard], data: { animation: 'EstadisticasPage' } },
+  { path: 'turnos', component: MisTurnosComponent, data: { animation: 'TurnosPage' } },
+  { path: 'crearTurno', component: CrearTurnoComponent, data: { animation: 'CrearTurnoPage' } },
+  { path: 'historial', component: HistoriaClinicaComponent, data: { animation: 'HistorialPage' } },
+  { path: 'pacientes', component: MisPacientesComponent, data: { animation: 'PacientesPage' } },
+  { path: 'estadisticas',loadComponent:()=> import('./componentes/estadisticas/estadisticas.component').then((c) => c.EstadisticasComponent),canActivate:[authGuard], data: { animation: 'EstadisticasPage' } },
   { path: '**', component: ErrorComponent, data: { animation: 'ErrorPage' } }
 
 ];

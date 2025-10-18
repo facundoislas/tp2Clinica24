@@ -1,9 +1,4 @@
-.fondo{
-
-    background: url("/assets/imagenes/slider-bg-2.jpg");
-    
-    height: 100vh;
-  }
+/* Eliminado el fondo local, ahora usa el fondo global del app.component */
 
   .card{
     background-color: #919390;

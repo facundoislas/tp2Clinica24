@@ -1,10 +1,40 @@
-body {
-    margin-top:21%;
+/* Compatibilidad con el fondo global */
+:host {
+    display: block;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.error-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
 
-    }
-    .display-1 {text-align:center;color:#e1b7b7;}
-    .display-1 .fa {animation:fa-spin 5s infinite linear;}
-    .display-3 {text-align:center;color:#df726a;}
-    .lower-case {text-align:center;}
+.display-1 {
+    text-align: center;
+    color: #e1b7b7;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.display-1 .fa {
+    animation: fa-spin 5s infinite linear;
+}
+
+.display-3 {
+    text-align: center;
+    color: #df726a;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.lower-case {
+    text-align: center;
+}
      

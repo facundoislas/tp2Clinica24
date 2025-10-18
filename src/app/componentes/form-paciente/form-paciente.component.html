@@ -1,102 +1,341 @@
-<body class="fondo">
-    <div class="container">
-        <header class="heading">Formulario de Registro de Pacientes</header>
-        <form [formGroup]="formRegistro" *ngIf="logeando">
-            <div>
-                <input type="text" name="fname" id="fname" formControlName="nombre" placeholder="Nombre" class="form-control" [(ngModel)]="this.paciente.nombre">
-                <div *ngIf="formRegistro.get('nombre')?.invalid" class="validacion">
-                  <small *ngIf="formRegistro.get('nombre')?.errors?.['required']">El nombre es requerido.</small>
-                  <small *ngIf="formRegistro.get('nombre')?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres.</small>
-                </div>
+<div class="paciente-container">
+    <div class="paciente-content">
+        <div class="paciente-card">
+            <div class="card-header">
+                <h3>Registro de Paciente</h3>
+                <p class="subtitle">Complete sus datos para registrarse</p>
             </div>
-            <div>
-                <input type="text" name="lname" id="lname" formControlName="apellido" placeholder="Apellido" class="form-control" [(ngModel)]="this.paciente.apellido">
-                <div *ngIf="formRegistro.get('apellido')?.invalid" class="validacion">
-                  <small *ngIf="formRegistro.get('apellido')?.errors?.['required']">El apellido es requerido.</small>
-                  <small *ngIf="formRegistro.get('apellido')?.errors?.['minlength']">El apellido debe tener al menos 2 caracteres.</small>
-                </div>
-            </div>
-            <div>
-                <input type="number" name="edad" id="edad" formControlName="edad" placeholder="Edad" class="form-control" [(ngModel)]="this.paciente.edad">
-                <div *ngIf="formRegistro.get('edad')?.invalid" class="validacion">
-  
-                <small *ngIf="formRegistro.get('edad')?.errors?.['required']">La edad es requerida.</small>
-                <small *ngIf="formRegistro.get('edad')?.errors?.['maxlength']">Ingrese una edad real.</small></div>
-            </div>
-            <div>
-                <input type="number" name="dni" id="dni" formControlName="dni" placeholder="DNI" class="form-control" [(ngModel)]="this.paciente.dni">
-                <div *ngIf="formRegistro.get('dni')?.invalid" class="validacion">
-                  <small *ngIf="formRegistro.get('dni')?.errors?.['required']">El dni es requerido.</small>
-                  <small *ngIf="formRegistro.get('dni')?.errors?.['min']">El dni debe tener al menos 6 caracteres.</small>
-                  <small *ngIf="formRegistro.get('dni')?.errors?.['max']">El dni no debe tener mas de 9 caracteres.</small>
-  
-                </div>
-            </div>
-            <div>
-                <input type="text" name="obraSocial" id="obraSocial" formControlName="obraSocial" placeholder="Obra Social" class="form-control" [(ngModel)]="this.paciente.obraSocial">
-                      <div *ngIf="formRegistro.get('obraSocial')?.invalid" class="validacion">
-                          <small *ngIf="formRegistro.get('obraSocial')?.errors?.['required']">La obra Social es requerido.</small>
-                          <small *ngIf="formRegistro.get('obraSocial')?.errors?.['minlength']">La obra social debe tener al menos 3 caracteres.</small>
+            
+            <div class="card-body">
+                <div class="form-layout" *ngIf="logeando">
+                    <!-- Columna izquierda: Formulario -->
+                    <div class="form-column">
+                        <form [formGroup]="formRegistro" class="paciente-form">
+                    <!-- Primera fila: 4 campos -->
+                    <div class="form-row">
+                        <!-- Campo Nombre -->
+                        <div class="form-group col-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    id="nombre"
+                                    placeholder="Nombre" 
+                                    class="form-control"
+                                    [class.is-invalid]="formRegistro.get('nombre')?.invalid && formRegistro.get('nombre')?.touched"
+                                    [class.is-valid]="formRegistro.get('nombre')?.valid && formRegistro.get('nombre')?.touched"
+                                    formControlName="nombre" 
+                                    [(ngModel)]="this.paciente.nombre">
+                            </div>
+                            <div class="validation-messages" *ngIf="formRegistro.get('nombre')?.invalid && formRegistro.get('nombre')?.touched">
+                                <small class="text-danger" *ngIf="formRegistro.get('nombre')?.errors?.['required']">
+                                    <i class="fa fa-exclamation-circle"></i> Requerido
+                                </small>
+                            </div>
                         </div>
-            </div>
-            <div>
-                <input type="email" name="email" id="email" formControlName="email" placeholder="Correo Electrónico" class="form-control" [(ngModel)]="this.paciente.email">
-                <div *ngIf="formRegistro.get('email')?.invalid" class="validacion">
-                  <small *ngIf="formRegistro.get('email')?.errors?.['required']">El email es requerido.</small>
-                  <small *ngIf="formRegistro.get('email')?.errors?.['email']">Respetar formato de correo.</small>
-  
+
+                        <!-- Campo Apellido -->
+                        <div class="form-group col-3">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    id="apellido"
+                                    placeholder="Apellido" 
+                                    class="form-control"
+                                    [class.is-invalid]="formRegistro.get('apellido')?.invalid && formRegistro.get('apellido')?.touched"
+                                    [class.is-valid]="formRegistro.get('apellido')?.valid && formRegistro.get('apellido')?.touched"
+                                    formControlName="apellido" 
+                                    [(ngModel)]="this.paciente.apellido">
+                            </div>
+                            <div class="validation-messages" *ngIf="formRegistro.get('apellido')?.invalid && formRegistro.get('apellido')?.touched">
+                                <small class="text-danger" *ngIf="formRegistro.get('apellido')?.errors?.['required']">
+                                    <i class="fa fa-exclamation-circle"></i> Requerido
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Campo Edad -->
+                        <div class="form-group col-3">
+                            <label for="edad" class="form-label">Edad</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <input 
+                                    type="number" 
+                                    id="edad"
+                                    placeholder="Edad" 
+                                    class="form-control"
+                                    [class.is-invalid]="formRegistro.get('edad')?.invalid && formRegistro.get('edad')?.touched"
+                                    [class.is-valid]="formRegistro.get('edad')?.valid && formRegistro.get('edad')?.touched"
+                                    formControlName="edad" 
+                                    [(ngModel)]="this.paciente.edad">
+                            </div>
+                            <div class="validation-messages" *ngIf="formRegistro.get('edad')?.invalid && formRegistro.get('edad')?.touched">
+                                <small class="text-danger" *ngIf="formRegistro.get('edad')?.errors?.['required']">
+                                    <i class="fa fa-exclamation-circle"></i> Requerido
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Segunda fila: DNI, Obra Social y Email -->
+                    <div class="form-row">
+                        <!-- Campo DNI -->
+                        <div class="form-group col-4">
+                            <label for="dni" class="form-label">DNI</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-id-card"></i></span>
+                                </div>
+                                <input 
+                                    type="number" 
+                                    id="dni"
+                                    placeholder="DNI" 
+                                    class="form-control"
+                                    [class.is-invalid]="formRegistro.get('dni')?.invalid && formRegistro.get('dni')?.touched"
+                                    [class.is-valid]="formRegistro.get('dni')?.valid && formRegistro.get('dni')?.touched"
+                                    formControlName="dni" 
+                                    [(ngModel)]="this.paciente.dni">
+                            </div>
+                            <div class="validation-messages" *ngIf="formRegistro.get('dni')?.invalid && formRegistro.get('dni')?.touched">
+                                <small class="text-danger" *ngIf="formRegistro.get('dni')?.errors?.['required']">
+                                    <i class="fa fa-exclamation-circle"></i> Requerido
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Campo Obra Social -->
+                        <div class="form-group col-4">
+                            <label for="obraSocial" class="form-label">Obra Social</label>
+                            <div class="obra-social-container">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-hospital-o"></i></span>
+                                    </div>
+                                    <select 
+                                        id="obraSocial"
+                                        class="form-control"
+                                        [class.is-invalid]="formRegistro.get('obraSocial')?.invalid && formRegistro.get('obraSocial')?.touched"
+                                        [class.is-valid]="formRegistro.get('obraSocial')?.valid && formRegistro.get('obraSocial')?.touched"
+                                        formControlName="obraSocial" 
+                                        [(ngModel)]="this.paciente.obraSocial"
+                                        (change)="onObraSocialChange($event)">
+                                        <option value="">Seleccione obra social</option>
+                                        <option *ngFor="let obra of obrasSociales" [value]="obra.nombre">{{obra.nombre}}</option>
+                                        <option value="nueva">+ Agregar nueva</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Campo para nueva obra social -->
+                                <div class="nueva-obra-social" *ngIf="mostrarNuevaObraSocial">
+                                    <div class="input-group mt-1">
+                                        <input 
+                                            type="text" 
+                                            placeholder="Nueva obra social"
+                                            class="form-control form-control-sm"
+                                            [(ngModel)]="nuevaObraSocial"
+                                            [ngModelOptions]="{standalone: true}">
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-success btn-sm" (click)="agregarNuevaObraSocial()">
+                                                <i class="fa fa-check"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm" (click)="cancelarNuevaObraSocial()">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="validation-messages" *ngIf="formRegistro.get('obraSocial')?.invalid && formRegistro.get('obraSocial')?.touched">
+                                <small class="text-danger" *ngIf="formRegistro.get('obraSocial')?.errors?.['required']">
+                                    <i class="fa fa-exclamation-circle"></i> Requerido
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Campo Email -->
+                        <div class="form-group col-4">
+                            <label for="email" class="form-label">Email</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                </div>
+                                <input 
+                                    type="email" 
+                                    id="email"
+                                    placeholder="correo@ejemplo.com" 
+                                    class="form-control"
+                                    [class.is-invalid]="formRegistro.get('email')?.invalid && formRegistro.get('email')?.touched"
+                                    [class.is-valid]="formRegistro.get('email')?.valid && formRegistro.get('email')?.touched"
+                                    formControlName="email" 
+                                    [(ngModel)]="this.paciente.email">
+                            </div>
+                            <div class="validation-messages" *ngIf="formRegistro.get('email')?.invalid && formRegistro.get('email')?.touched">
+                                <small class="text-danger" *ngIf="formRegistro.get('email')?.errors?.['required']">
+                                    <i class="fa fa-exclamation-circle"></i> Requerido
+                                </small>
+                                <small class="text-danger" *ngIf="formRegistro.get('email')?.errors?.['email']">
+                                    <i class="fa fa-exclamation-circle"></i> Formato inválido
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tercera fila: Contraseñas y Fotos -->
+                    <div class="form-row">
+                        <!-- Campo Contraseña -->
+                        <div class="form-group col-3">
+                            <label for="contrasena" class="form-label">Contraseña</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                </div>
+                                <input 
+                                    type="password" 
+                                    id="contrasena"
+                                    placeholder="Contraseña" 
+                                    class="form-control"
+                                    [class.is-invalid]="formRegistro.get('contrasena')?.invalid && formRegistro.get('contrasena')?.touched"
+                                    [class.is-valid]="formRegistro.get('contrasena')?.valid && formRegistro.get('contrasena')?.touched"
+                                    formControlName="contrasena" 
+                                    [(ngModel)]="this.paciente.pass">
+                            </div>
+                            <div class="validation-messages" *ngIf="formRegistro.get('contrasena')?.invalid && formRegistro.get('contrasena')?.touched">
+                                <small class="text-danger" *ngIf="formRegistro.get('contrasena')?.errors?.['required']">
+                                    <i class="fa fa-exclamation-circle"></i> Requerido
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Campo Confirmar Contraseña -->
+                        <div class="form-group col-3">
+                            <label for="contrasena2" class="form-label">Confirmar</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                </div>
+                                <input 
+                                    type="password" 
+                                    id="contrasena2"
+                                    placeholder="Confirmar" 
+                                    class="form-control"
+                                    [class.is-invalid]="formRegistro.get('contrasena2')?.invalid && formRegistro.get('contrasena2')?.touched"
+                                    [class.is-valid]="formRegistro.get('contrasena2')?.valid && formRegistro.get('contrasena2')?.touched"
+                                    formControlName="contrasena2" 
+                                    [(ngModel)]="this.contrasena2">
+                            </div>
+                            <div class="validation-messages" *ngIf="formRegistro.get('contrasena2')?.invalid && formRegistro.get('contrasena2')?.touched">
+                                <small class="text-danger" *ngIf="formRegistro.get('contrasena2')?.errors?.['required']">
+                                    <i class="fa fa-exclamation-circle"></i> Requerido
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Campo Foto 1 -->
+                        <div class="form-group col-3">
+                            <label for="foto1" class="form-label">Foto Perfil</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-camera"></i></span>
+                                </div>
+                                <input 
+                                    type="file" 
+                                    id="foto1"
+                                    accept="image/*"
+                                    class="form-control file-input"
+                                    [class.is-invalid]="formRegistro.get('foto1')?.invalid && formRegistro.get('foto1')?.touched"
+                                    [class.is-valid]="formRegistro.get('foto1')?.valid && formRegistro.get('foto1')?.touched"
+                                    formControlName="foto1" 
+                                    (change)="onFileSelected($event, 1)">
+                            </div>
+                            <div class="validation-messages" *ngIf="formRegistro.get('foto1')?.invalid && formRegistro.get('foto1')?.touched">
+                                <small class="text-danger" *ngIf="formRegistro.get('foto1')?.errors?.['required']">
+                                    <i class="fa fa-exclamation-circle"></i> Requerido
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Campo Foto 2 -->
+                        <div class="form-group col-3">
+                            <label for="foto2" class="form-label">Foto Adicional</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-image"></i></span>
+                                </div>
+                                <input 
+                                    type="file" 
+                                    id="foto2"
+                                    accept="image/*"
+                                    class="form-control file-input"
+                                    [class.is-invalid]="formRegistro.get('foto2')?.invalid && formRegistro.get('foto2')?.touched"
+                                    [class.is-valid]="formRegistro.get('foto2')?.valid && formRegistro.get('foto2')?.touched"
+                                    formControlName="foto2" 
+                                    (change)="onFileSelected($event, 2)">
+                            </div>
+                            <div class="validation-messages" *ngIf="formRegistro.get('foto2')?.invalid && formRegistro.get('foto2')?.touched">
+                                <small class="text-danger" *ngIf="formRegistro.get('foto2')?.errors?.['required']">
+                                    <i class="fa fa-exclamation-circle"></i> Requerido
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Columna derecha: Captcha y Botones -->
+                    <div class="actions-column">
+                        <!-- Captcha -->
+                        <div class="captcha-section">
+                            <app-captcha2 (resultadoFinal)="tomarResultado($event)"></app-captcha2>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="button-group">
+                        <button 
+                            type="button" 
+                            class="btn btn-primary registro-btn" 
+                            [disabled]="!formRegistro.valid || !resultado"
+                            (click)="enviar()">
+                            <i class="fa fa-user-plus"></i> Registrarse
+                        </button>
+                        
+                        <div class="secondary-buttons">
+                            <button type="button" class="btn btn-outline-secondary" (click)="limpiarFormulario()">
+                                <i class="fa fa-eraser"></i> Limpiar
+                            </button>
+                            <button type="button" class="btn btn-outline-primary" routerLink="/login">
+                                <i class="fa fa-sign-in"></i> Ya tengo cuenta
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <input type="password" name="password" id="password" formControlName="contrasena" placeholder="Contraseña" class="form-control" [(ngModel)]="this.paciente.pass">
-                <div *ngIf="formRegistro.get('contrasena')?.invalid" class="validacion">
-                  <small *ngIf="formRegistro.get('contrasena')?.errors?.['required']">La Contraseña es requerida.</small>
-                  <small *ngIf="formRegistro.get('contrasena')?.errors?.['minlength']">Debe tener mas de 6 caracteres</small>
-                  <small *ngIf="formRegistro.get('contrasena')?.errors?.['maxlength']">Debe tener menos de 9 caractere</small>
-  
-                </div>  
-            </div>
-            <div>
-                <input type="password" name="password2" id="password2" formControlName="contrasena2" placeholder="Reingresar contraseña" class="form-control" [(ngModel)]="this.contrasena2">
-                <div *ngIf="formRegistro.get('contrasena2')?.invalid" class="validacion">
-                  <small *ngIf="formRegistro.get('contrasena2')?.errors?.['required']">La Contraseña es requerida.</small>
-                  <small *ngIf="formRegistro.get('contrasena2')?.errors?.['minlength']">Debe tener mas de 6 caracteres</small>
-                  <small *ngIf="formRegistro.get('contrasena2')?.errors?.['maxlength']">Debe tener menos de 9 caractere</small>
-  
-                </div>  
-            </div>
-            <div>
-                <input type="file" name="foto1" id="foto1" formControlName="foto1" placeholder="Foto 1" class="form-control" [(ngModel)]="this.paciente.img_1" (change)="onFileSelected($event, 1)">
-                  <div *ngIf="formRegistro.get('foto1')?.invalid" class="validacion">
-                    <small *ngIf="formRegistro.get('foto1')?.errors?.['required']">La foto es requerida.</small>
-                  </div>
-            </div>
-            <div>
-                <input type="file" name="foto2" id="foto2" formControlName="foto2" placeholder="Foto 2" class="form-control" [(ngModel)]="this.paciente.imagen2" (change)="onFileSelected($event, 2)">
-                <div *ngIf="formRegistro.get('foto2')?.invalid" class="validacion">
-                  <small *ngIf="formRegistro.get('foto2')?.errors?.['required']">La foto es requerida.</small>
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <app-captcha2 (resultadoFinal)="tomarResultado($event)"></app-captcha2>
-            </div>
-            <div class="col-sm-6" style="margin-left: -34px;" *ngIf="this.resultado != true;">
-                <button class="btn btn-warning" (click)="enviar()" disabled>Enviar</button>
-            </div>
-            <div class="col-sm-6" style="margin-left: -34px;" *ngIf="this.resultado == true;">
-                <button class="btn btn-warning" (click)="enviar()">Enviar</button>
-            </div>
-            <!--div class="col-sm-6" style="margin-left: -34px;">
-                <div class="btn btn-warning" routerLink="/login">Loguearse</div>
-            </div-->
-        </form>
-        <div *ngIf="!logeando" style="margin-top: 90%;">
-            <div class="progress">
-                <div class="progress-bar progress-bar-info progress-bar-striped active" [class]="clase" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" [style.width]="ProgresoDeAncho">
-                    {{progresoMensaje}} - {{progreso}}%
+                
+                <!-- Barra de Progreso -->
+                <div class="progress-container" *ngIf="!logeando">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                             [class]="clase" 
+                             role="progressbar" 
+                             [style.width]="ProgresoDeAncho"
+                             [attr.aria-valuenow]="progreso" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                            {{progresoMensaje}} - {{progreso}}%
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        
+        <!-- Mensaje de notificación -->
         <div id="snackbar">{{Mensaje}}</div>
     </div>
-  </body>
+</div>

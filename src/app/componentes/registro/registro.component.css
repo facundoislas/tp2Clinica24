@@ -1,88 +1,332 @@
-.fondo {
-    background: url('./../../../assets/imagenes/slider-bg-2.jpg');
-    background-size: cover;
-    height: calc(100% - 0%); /* Assuming your header is 60px tall */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-    /* Center align the text within the three columns below the carousel */
-    .marketing .col-lg-6 {
-        margin-bottom: 1.5rem;
-        text-align: center;
-        
-      }
-      .marketing h2 {
-        font-weight: normal;
-      }
-      .fondo .col-lg-6 p {
-        margin-right: 10.75rem;
-        margin-left: -7.25rem;
-      
-      }
-      p{
-        text-align: center;
-        color:rgb(0, 9, 107);
-        font-size: 20px;
-      }
-      h2
-      {
-        color:rgb(39, 200, 42);
-        text-align: left;
-      }
-      
-      
-      /* Featurettes
-      ------------------------- */
-      
-      .featurette-divider {
-        margin: 5rem 0; /* Space out the Bootstrap <hr> more */
-      }
-      
-      /* RESPONSIVE CSS
-      -------------------------------------------------- */
-      
-      @media (min-width: 40em) {
-        /* Bump up size of carousel content */
-        .carousel-caption p {
-          margin-bottom: 1.25rem;
-          font-size: 1.25rem;
-          line-height: 1.4;
-        }
-      
-        .featurette-heading {
-          font-size: 50px;
-        }
-      }
-      
-      @media (min-width: 62em) {
-        .featurette-heading {
-          margin-top: 7rem;
-        }
-      }
-  
-      .flecha
-      {
-          position: absolute;
-          top: 110px;
-          right: 20px;
-          background-color: #f44336;
-          color: white;
-          padding: 10px 20px;
-          border: none;
-          border-radius: 4px;
-          font-size: 16px;
-          cursor: pointer;
-      }
+/* Contenedor principal - usa el fondo global del app.component */
+.fondo-principal {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto;
+}
 
-      main{
-       
-           
-        margin-left: 25%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        box-sizing: border-box;
-        margin-top: 132px;
-     
+/* Overlay para mejorar la legibilidad del contenido */
+.content-overlay {
+  background: rgba(0, 0, 0, 0.4);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+  overflow: visible;
+}
+
+/* Contenedor principal */
+.container {
+  text-align: center;
+  z-index: 2;
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Row responsive */
+.content-row {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+/* Tarjetas de registro modernas con fondo oscuro */
+.card-section {
+  margin: 0;
+  padding: 15px;
+  flex: 1;
+  max-width: 500px;
+}
+
+.welcome-card {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 40px 30px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  height: 500px;
+  max-height: 500px;
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.welcome-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* Imágenes de las tarjetas */
+.card-image {
+  border: 5px solid #14b8a6;
+  box-shadow: 0 10px 25px rgba(20, 184, 166, 0.3);
+  transition: all 0.3s ease;
+  margin-bottom: 25px;
+}
+
+.card-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 35px rgba(20, 184, 166, 0.4);
+}
+
+/* Títulos de las tarjetas */
+h2 {
+  color: #14b8a6;
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Párrafos de descripción */
+p {
+  text-align: center;
+  color: #e5e7eb;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  font-weight: 500;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Botones modernos */
+.welcome-btn {
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
+  border: none;
+  border-radius: 50px;
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(20, 184, 166, 0.3);
+  text-decoration: none !important;
+  color: white !important;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.welcome-btn:hover {
+  background: linear-gradient(135deg, #0d9488, #0f766e);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(20, 184, 166, 0.4);
+  color: white !important;
+}
+
+.welcome-btn:active {
+  transform: translateY(-1px);
+}
+/* RESPONSIVE CSS */
+@media (max-width: 768px) {
+  .content-overlay {
+    padding: 20px 0;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .content-row {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .card-section {
+    margin-bottom: 1rem;
+    max-width: 100%;
+  }
+  
+  .welcome-card {
+    padding: 30px 20px;
+    height: 400px;
+    max-height: 400px;
+  }
+  
+  h2 {
+    font-size: 1.75rem;
+  }
+  
+  p {
+    font-size: 1rem;
+  }
+  
+  .card-image {
+    height: 150px;
+    width: 156px;
+  }
+}
+
+@media (max-width: 576px) {
+  .welcome-card {
+    padding: 25px 15px;
+    height: 350px;
+    max-height: 350px;
+    border-radius: 15px;
+  }
+  
+  .card-image {
+    height: 120px;
+    width: 125px;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  p {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+  
+  .welcome-btn {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .content-row {
+    gap: 50px;
+  }
+  
+  .welcome-card {
+    padding: 50px 40px;
+    height: 550px;
+    max-height: 550px;
+  }
+}
+      
+/* Animaciones adicionales */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.card-section:nth-child(1) .welcome-card {
+  animation-delay: 0.2s;
+}
+
+.card-section:nth-child(2) .welcome-card {
+  animation-delay: 0.4s;
+}
+
+/* Efectos adicionales para mejorar la experiencia visual */
+.welcome-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(6, 182, 212, 0.1));
+  border-radius: 20px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.welcome-card:hover::before {
+  opacity: 1;
+}
+
+/* Borde sutil con gradiente */
+.welcome-card::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.3), rgba(6, 182, 212, 0.3));
+  border-radius: 21px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.welcome-card:hover::after {
+  opacity: 1;
+}
+  
+/* Pantalla de formularios */
+.pantalla-2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.contenedor-registros {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.boton-menu {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 11;
+}
+
+.flecha {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.flecha:hover {
+  background: linear-gradient(135deg, #d32f2f, #c62828);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
 }

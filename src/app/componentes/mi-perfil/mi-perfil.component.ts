@@ -43,7 +43,7 @@ export class MiPerfilComponent {
 
      setTimeout(()=>{
       this.loading = false;
-    },2500);
+    },3500);
   this.firebaseService.getUsuariosPorTipo("especialista").subscribe((usuarios: any[]) => {
   this.porTipo = usuarios;
   console.log(this.porTipo); });

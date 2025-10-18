@@ -3,8 +3,8 @@ import { Paciente } from '../../clases/paciente';
 import { getDownloadURL, getStorage, ref, uploadBytes } from '@angular/fire/storage';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../servicios/auth.service';
-import { addDoc, collection, Firestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+import { addDoc, collection, Firestore, getDocs } from '@angular/fire/firestore';
+import { Router, RouterModule } from '@angular/router';
 import { interval } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Captcha2Component } from "../captcha2/captcha2.component";
@@ -12,12 +12,11 @@ import { Captcha2Component } from "../captcha2/captcha2.component";
 @Component({
   selector: 'app-form-paciente',
   standalone: true,
-  imports: [FormsModule, CommonModule, ReactiveFormsModule, Captcha2Component],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, Captcha2Component, RouterModule],
   templateUrl: './form-paciente.component.html',
   styleUrls: [ './form-paciente.component.css']
 })
 export class FormPacienteComponent {
-
 
   resultado!:boolean;
 
@@ -36,6 +35,11 @@ export class FormPacienteComponent {
   foto2!:File;
   private storage = getStorage();
   formRegistro!:any;
+
+  // Propiedades para obras sociales
+  obrasSociales: any[] = [];
+  mostrarNuevaObraSocial: boolean = false;
+  nuevaObraSocial: string = '';
 
   clase="progress-bar progress-bar-info progress-bar-striped ";
 
@@ -59,8 +63,87 @@ export class FormPacienteComponent {
 
   
 
-  ngOnInit() {
+  async ngOnInit() {
     sessionStorage.clear();
+    await this.cargarObrasSociales();
+  }
+
+  async cargarObrasSociales() {
+    try {
+      const col = collection(this.fire, 'obraSocial');
+      const snapshot = await getDocs(col);
+      this.obrasSociales = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+    } catch (error) {
+      console.error('Error al cargar obras sociales:', error);
+      this.obrasSociales = [
+        { nombre: 'OSDE' },
+        { nombre: 'Swiss Medical' },
+        { nombre: 'Galeno' },
+        { nombre: 'Medicus' },
+        { nombre: 'IOMA' },
+        { nombre: 'PAMI' }
+      ];
+    }
+  }
+
+  onObraSocialChange(event: any) {
+    const valor = event.target.value;
+    if (valor === 'nueva') {
+      this.mostrarNuevaObraSocial = true;
+      this.formRegistro.patchValue({ obraSocial: '' });
+    } else {
+      this.mostrarNuevaObraSocial = false;
+    }
+  }
+
+  async agregarNuevaObraSocial() {
+    if (this.nuevaObraSocial.trim()) {
+      try {
+        const col = collection(this.fire, 'obraSocial');
+        const nuevaObra = { nombre: this.nuevaObraSocial.trim() };
+        
+        await addDoc(col, nuevaObra);
+        
+        this.obrasSociales.push(nuevaObra);
+        this.formRegistro.patchValue({ obraSocial: this.nuevaObraSocial.trim() });
+        this.paciente.obraSocial = this.nuevaObraSocial.trim();
+        
+        this.cancelarNuevaObraSocial();
+        this.mostrarMensaje('Obra social agregada exitosamente');
+      } catch (error) {
+        console.error('Error al agregar obra social:', error);
+        this.mostrarMensaje('Error al agregar la obra social');
+      }
+    }
+  }
+
+  cancelarNuevaObraSocial() {
+    this.mostrarNuevaObraSocial = false;
+    this.nuevaObraSocial = '';
+    this.formRegistro.patchValue({ obraSocial: '' });
+  }
+
+  limpiarFormulario() {
+    this.formRegistro.reset();
+    this.paciente = new Paciente();
+    this.contrasena2 = '';
+    this.resultado = false;
+    this.mostrarNuevaObraSocial = false;
+    this.nuevaObraSocial = '';
+  }
+
+  mostrarMensaje(mensaje: string) {
+    this.Mensaje = mensaje;
+    const snackbar = document.getElementById("snackbar");
+    if (snackbar) {
+      snackbar.className = "show";
+      setTimeout(() => {
+        snackbar.className = snackbar.className.replace("show", "");
+      }, 3000);
+    }
   }
 
   onFileSelected(event: any, imageNumber: number) {

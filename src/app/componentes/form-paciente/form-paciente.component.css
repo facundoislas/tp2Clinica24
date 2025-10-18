@@ -1,11 +1,519 @@
 
-.fondo{
+/* Contenedor del formulario paciente - usa el fondo global */
+/* Contenedor principal del formulario de paciente */
+.paciente-container {
+  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 10px 5px 5px 5px;
+  overflow: hidden;
+}
 
-    background: url("/assets/imagenes/slider-bg-2.jpg");
-    
-    width: 100vw;
-   
+.paciente-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+/* Tarjeta principal del formulario */
+.paciente-card {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 0;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  height: 90vh;
+  max-height: 90vh;
+  overflow: hidden;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  max-height: none;
+}
+
+.card-header {
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
+  padding: 10px 15px;
+  text-align: center;
+  color: white;
+  border-radius: 20px 20px 0 0;
+  flex-shrink: 0;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.8rem;
+}
+
+.card-body {
+  padding: 10px;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Formulario */
+.paciente-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  overflow: visible;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.form-row .form-group {
+  flex: 1;
+  min-width: 280px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  color: #e5e7eb;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.input-group-prepend {
+  display: flex;
+}
+
+.input-group-text {
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
+  color: white;
+  border: none;
+  padding: 12px 15px;
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+}
+
+.form-control {
+  flex: 1;
+  padding: 12px 15px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e5e7eb;
+  border-radius: 0 10px 10px 0;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control::placeholder {
+  color: rgba(229, 231, 235, 0.6);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #14b8a6;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2);
+}
+
+.form-control.is-valid {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.form-control.is-invalid {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Campos de archivo */
+.file-input {
+  padding: 8px 15px;
+  font-size: 0.9rem;
+}
+
+.file-input::-webkit-file-upload-button {
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+/* Selector de obra social */
+.obra-social-container {
+  width: 100%;
+}
+
+/* Estilo moderno para el select de obra social */
+#obraSocial {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 2px solid rgba(20, 184, 166, 0.3) !important;
+  color: #e5e7eb !important;
+  border-radius: 8px !important;
+  padding: 0.6rem 0.8rem !important;
+  font-size: 0.9rem !important;
+  transition: all 0.3s ease !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2314b8a6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0.8rem center !important;
+  background-size: 1rem !important;
+  padding-right: 2.5rem !important;
+}
+
+#obraSocial:focus {
+  outline: none !important;
+  border-color: #14b8a6 !important;
+  background: rgba(15, 23, 42, 1) !important;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.2) !important;
+  transform: scale(1.02) !important;
+}
+
+#obraSocial:hover {
+  border-color: rgba(20, 184, 166, 0.5) !important;
+  background: rgba(15, 23, 42, 0.95) !important;
+}
+
+/* Opciones del select */
+#obraSocial option {
+  background: rgba(15, 23, 42, 0.95) !important;
+  color: #e5e7eb !important;
+  padding: 0.5rem !important;
+  border: none !important;
+}
+
+#obraSocial option:hover,
+#obraSocial option:checked {
+  background: rgba(20, 184, 166, 0.2) !important;
+  color: #14b8a6 !important;
+}
+
+/* Estados de validación para el select */
+#obraSocial.is-valid {
+  border-color: #10b981 !important;
+  background: rgba(16, 185, 129, 0.1) !important;
+}
+
+#obraSocial.is-invalid {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+.nueva-obra-social .input-group-append {
+  display: flex;
+}
+
+.nueva-obra-social .btn {
+  padding: 12px 15px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.nueva-obra-social .btn-success {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.nueva-obra-social .btn-secondary {
+  background: rgba(107, 114, 128, 0.8);
+  color: white;
+}
+
+/* Mensajes de validación */
+.validation-messages {
+  margin-top: 5px;
+}
+
+.text-danger {
+  color: #ef4444 !important;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 2px;
+}
+
+/* Barra de progreso */
+.progress-container {
+  margin: 10px 0;
+}
+
+.progress {
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  transition: width 0.3s ease;
+  border-radius: 10px;
+}
+
+.progress-bar-striped {
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-size: 1rem 1rem;
+}
+
+.progress-bar-animated {
+  animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+  0% { background-position: 1rem 0; }
+  100% { background-position: 0 0; }
+}
+
+/* Botones */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.registro-btn {
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
+  border: none;
+  padding: 15px 25px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(20, 184, 166, 0.3);
+}
+
+.registro-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0d9488, #0f766e);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4);
+}
+
+.registro-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.secondary-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.secondary-buttons .btn {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-secondary {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #e5e7eb;
+}
+
+.btn-outline-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: white;
+}
+
+.btn-outline-primary {
+  background: transparent;
+  border: 2px solid #14b8a6;
+  color: #14b8a6;
+}
+
+.btn-outline-primary:hover {
+  background: #14b8a6;
+  color: white;
+}
+
+/* Snackbar de notificaciones */
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .paciente-container {
+    padding: 10px;
+    align-items: flex-start;
   }
+  
+  .paciente-content {
+    max-width: 100%;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-row .form-group {
+    min-width: auto;
+  }
+  
+  .card-header,
+  .card-body {
+    padding: 20px 15px;
+  }
+  
+  .card-header h3 {
+    font-size: 1.5rem;
+  }
+  
+  .paciente-form {
+    gap: 15px;
+  }
+  
+  .secondary-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .paciente-container {
+    padding: 5px;
+    min-height: auto;
+  }
+  
+  .paciente-card {
+    margin: 10px 0;
+    border-radius: 15px;
+  }
+  
+  .card-header,
+  .card-body {
+    padding: 15px 10px;
+  }
+  
+  .card-header h3 {
+    font-size: 1.4rem;
+  }
+  
+  .paciente-form {
+    gap: 15px;
+  }
+  
+  .input-group-text {
+    min-width: 40px;
+    padding: 10px 8px;
+  }
+  
+  .form-control {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .form-label {
+    font-size: 0.9rem;
+  }
+}
+
+/* Animaciones */
+.paciente-card {
+  animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-paciente-container {
+  min-height: 100vh;
+  padding: 20px 0;
+}
 
   input[type=text], input[type=password] {
     width: 100%;
@@ -201,5 +709,216 @@
      font-size: 15px;
      
  }
+
+/* Estilos para campos de 4 columnas compactas */
+.form-row .col-3 {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.form-row .col-4 {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.form-row .col-6 {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+/* Optimización para formulario sin scroll */
+.container-fluid {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.paciente-card {
+  width: 100%;
+  margin-top: 13%;
+}
+
+.form-paciente {
+  min-height: auto;
+  height: fit-content;
+}/* Labels más compactos */
+.form-label {
+    margin-bottom: 0.2rem !important;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Inputs más compactos */
+.form-control {
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.85rem;
+}
+
+/* Mensajes de validación más compactos */
+.validation-messages {
+    margin-top: 0.1rem;
+}
+
+.validation-messages small {
+    font-size: 0.7rem;
+}
+
+/* Form groups más compactos */
+.form-group {
+    margin-bottom: 0.2rem;
+}
+
+/* Input groups más compactos */
+.input-group {
+    margin-bottom: 0.02rem;
+}
+
+/* Form rows más compactas */
+.form-row {
+    margin-bottom: 0.2rem;
+}
+
+/* Optimización adicional para espacios */
+.container-fluid {
+    padding: 10px 15px;
+}
+
+.form-paciente .card {
+    margin: 5px 0;
+}
+
+/* Hacer campos aún más compactos */
+.form-control, .form-select {
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.85rem;
+    height: calc(1.5em + 0.8rem + 2px);
+}
+
+/* Input group prepend más compacto */
+.input-group-text {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+}
+
+/* Botones más compactos */
+.btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Layout de dos columnas */
+.form-layout {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Columna del formulario (izquierda) */
+.form-column {
+    flex: 2;
+    min-width: 0;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Columna de acciones (derecha) */
+.actions-column {
+    flex: 0 0 260px;
+    min-width: 260px;
+    max-width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+}
+
+/* Sección del captcha */
+.captcha-section {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Botones en columna derecha */
+.actions-column .button-group {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    gap: 10px;
+}
+
+/* Optimizar botones para columna derecha */
+.actions-column .registro-btn,
+.actions-column .secondary-buttons .btn {
+    width: 100%;
+    margin-bottom: 5px;
+    justify-content: center;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+}
+
+.actions-column .secondary-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Responsive: volver a una columna en pantallas pequeñas */
+@media (max-width: 992px) {
+    .form-layout {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .actions-column {
+        position: static;
+        min-width: auto;
+        order: 2;
+    }
+    
+    .form-column {
+        order: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-layout {
+        gap: 15px;
+    }
+    
+    .actions-column {
+        min-width: auto;
+    }
+    
+    .captcha-section,
+    .actions-column .button-group {
+        padding: 15px;
+    }
+}
+
+/* Reducir espacio del captcha */
+app-captcha2 {
+    margin: 0;
+}
+
+/* Input DNI más corto */
+#dni {
+    max-width: 120px !important;
+    width: 120px !important;
+}
+
+/* Ajustar el form-group del DNI para centrarlo */
+.form-group:has(#dni) .input-group {
+    justify-content: flex-start;
+}
  
  

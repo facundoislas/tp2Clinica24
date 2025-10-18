@@ -1,20 +1,25 @@
-<app-logo [showSpinner]="loading"></app-logo>
-    <div class="content">
-          <app-logo [showSpinner]="loading"></app-logo>
-          <main class="container">
-            <div class="row" style="    margin-top: 90px;">
-              <div class="col-lg-6 text-center">
-                <img alt="Generic placeholder image" class="rounded-circle" height="235" src='./../../../assets/imagenes/login.png' width="243">
-                <h2>Iniciar Sesión</h2>
-                <p>Para poder comenzar con las gestiones, deberá ingresar con su usuario y contraseña.</p>
-                <p><a class="btn btn-primary btn-lg" href="#" role="button" routerLink="/login">Ingresar</a></p>
-              </div>
-              <div class="col-lg-6 text-center">
-                <img alt="Generic placeholder image" class="rounded-circle" height="235" src="./../../../assets/imagenes/registro.jpg" width="243">
-                <h2>Registrarse</h2>
-                <p>En caso de no contar con un usuario creado, podrá generarlo aquí</p>
-                <p><a class="btn btn-primary btn-lg" href="#" role="button" routerLink="/registro">Registrarse</a></p>
-              </div>
+<div class="fondo-principal">
+    <app-logo [showSpinner]="loading"></app-logo>
+    <div class="content-overlay">
+        <main class="container">
+            <div class="row content-row">
+                <div class="col-lg-6 text-center card-section">
+                    <div class="welcome-card">
+                        <img alt="Iniciar Sesión" class="rounded-circle card-image" height="235" src='./../../../assets/imagenes/login.png' width="243">
+                        <h2>Iniciar Sesión</h2>
+                        <p>Para poder comenzar con las gestiones, deberá ingresar con su usuario y contraseña.</p>
+                        <p><a class="btn btn-primary btn-lg welcome-btn" href="#" role="button" routerLink="/login">Ingresar</a></p>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center card-section">
+                    <div class="welcome-card">
+                        <img alt="Registrarse" class="rounded-circle card-image" height="235" src="./../../../assets/imagenes/registro.jpg" width="243">
+                        <h2>Registrarse</h2>
+                        <p>En caso de no contar con un usuario creado, podrá generarlo aquí</p>
+                        <p><a class="btn btn-primary btn-lg welcome-btn" href="#" role="button" routerLink="/registro">Registrarse</a></p>
+                    </div>
+                </div>
             </div>
-          </main>
-        </div>
+        </main>
+    </div>
+</div>
