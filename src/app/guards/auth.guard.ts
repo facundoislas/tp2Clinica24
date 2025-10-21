@@ -11,8 +11,8 @@ export const authGuard: CanActivateFn = (route, state) => {
     return true;}
   else
     {
-      alert.showSuccessAlert1("No eres un admin", "no ok", "error")
-      router.navigateByUrl('/login');
+      alert.showSuccessAlert1("No tenes permisos para acceder a esta pagina", "no ok", "error")
+      router.navigateByUrl('/perfil');
     return false;
   }
 };

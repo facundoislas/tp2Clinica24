@@ -81,7 +81,11 @@ export class FormEspecialistaComponent {
 
   ngOnInit() {
     this.traerEspecialidades();
-    sessionStorage.clear();
+    // Solo limpiar sessionStorage si NO hay un administrador logueado
+    const adminLogueado = sessionStorage.getItem("tipo") === "admin";
+    if(!adminLogueado) {
+      sessionStorage.clear();
+    }
   }
 
   onFileSelected(event: any) {
@@ -121,11 +125,20 @@ export class FormEspecialistaComponent {
           aprobado: false,
           id: user?.user.uid
         });
-        sessionStorage.setItem("user",this.especialista.email);
-        sessionStorage.setItem("muestra","true");
         this.cargarHorarioEspecialistas(this.especialista.email);
-
-        this.router.navigateByUrl('/home', { replaceUrl: true });
+        
+        // Verificar si hay un administrador logueado
+        const adminLogueado = sessionStorage.getItem("tipo") === "admin";
+        
+        if(adminLogueado) {
+          // Si es admin logueado, redirigir a usuarios
+          this.router.navigateByUrl('/usuarios', { replaceUrl: true });
+        } else {
+          // Si es registro público, redirigir a login
+          sessionStorage.setItem("user",this.especialista.email);
+          sessionStorage.setItem("muestra","true");
+          this.router.navigateByUrl('/login', { replaceUrl: true });
+        }
         } 
         
         else {

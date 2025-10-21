@@ -29,7 +29,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   width: 100%;
   overflow: hidden;
-  margin-top: 8%;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   max-height: none;
@@ -473,16 +473,19 @@
 #snackbar {
   visibility: hidden;
   min-width: 250px;
-  margin-left: -125px;
-  background-color: #333;
+  background-color: #ff0000;
   color: #fff;
   text-align: center;
   border-radius: 2px;
+  padding: 16px;
   position: fixed;
-  z-index: 1;
+  z-index: 9999;
   left: 50%;
-  bottom: 30px;
+  top: 50%;
+  transform: translate(-50%, -50%);
   font-size: 17px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  pointer-events: auto;
 }
 
 #snackbar.show {
@@ -492,21 +495,21 @@
 }
 
 @-webkit-keyframes fadein {
-  from {bottom: 0; opacity: 0;} 
-  to {bottom: 30px; opacity: 1;}
+  from {transform: translate(-50%, -50%); opacity: 0;} 
+  to {transform: translate(-50%, -50%); opacity: 1;}
 }
 
 @keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
+  from {transform: translate(-50%, -50%); opacity: 0;}
+  to {transform: translate(-50%, -50%); opacity: 1;}
 }
 
 @-webkit-keyframes fadeout {
-  from {bottom: 30px; opacity: 1;} 
-  to {bottom: 0; opacity: 0;}
+  from {transform: translate(-50%, -50%); opacity: 1;} 
+  to {transform: translate(-50%, -50%); opacity: 0;}
 }
 
 @keyframes fadeout {
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
+  from {transform: translate(-50%, -50%); opacity: 1;}
+  to {transform: translate(-50%, -50%); opacity: 0;}
 }

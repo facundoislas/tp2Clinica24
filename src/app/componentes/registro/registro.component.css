@@ -287,20 +287,20 @@ p {
   height: 100vh;
   background: rgba(0, 0, 0, 0.4);
   z-index: 10;
-  overflow: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
 
 .contenedor-registros {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 0;
+  padding: 70px 10px 20px;
   flex: 1;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .boton-menu {

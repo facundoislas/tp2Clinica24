@@ -12,12 +12,14 @@ import { AlertServiceService } from './alert-service.service';
 })
 export class AuthService {
 
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+  public isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   constructor(private auth:Auth, private router: Router, private alert: AlertServiceService) {
 
-    const userEmail = sessionStorage.getItem('userEmail');
-    this.isAuthenticatedSubject.next(!!userEmail);
+    // Verificar autenticación desde sessionStorage
+    const user = sessionStorage.getItem('user');
+    const muestra = sessionStorage.getItem('muestra');
+    this.isAuthenticatedSubject.next(!!(user && muestra === 'true'));
    }
 
   user: any = "";
@@ -28,18 +30,15 @@ export class AuthService {
       this.user = user;
       if(user.user.emailVerified)
         {
-          setTimeout(()=>{
-           
-          },2500);
-          this.router.navigate(['/perfil']);
+          // NO navegamos aquí, lo hace el componente login
+          // Actualizamos el estado de autenticación inmediatamente
           this.isAuthenticatedSubject.next(true);
-
           return user;
         }
         else{
-          this.alert.showSuccessAlert1("","El email no se encuentra validado", "error")
+          this.alert.showSuccessAlert1("","Usuario no validado. Por favor valida tu correo para poder ingresar", "error")
           this.router.navigate(['/login']);
-          return null;
+          return { emailNoVerificado: true };
         }
 			
 		} catch (e) {

@@ -62,7 +62,11 @@ export class LoginComponent {
  
 
   ngOnInit() {
-    sessionStorage.clear();
+    // Solo limpiar sessionStorage si no estamos autenticados
+    const currentUser = sessionStorage.getItem('user');
+    if (!currentUser) {
+      sessionStorage.clear();
+    }
   }
 
  
@@ -71,30 +75,112 @@ export class LoginComponent {
   {
     if(this.formRegistro.valid){
     
-		const user = this.authService.login(this.user.email, this.user.password);
     this.MoverBarraDeProgreso();
-		if (await user) {
-
+		const user = await this.authService.login(this.user.email, this.user.password);
+    
+		if (user && !(user as any).emailNoVerificado) {
+      
+      // Cargar datos del usuario desde Firebase
       this.userData = await this.firebase.getUsuarioEmail(this.user.email);
       console.log("email",this.userData.email)
-      //this.mostrarSpinner = true;
-      sessionStorage.setItem("user",this.user.email);
-      sessionStorage.setItem("muestra","true");
-      sessionStorage.setItem("tipo",this.userData.tipo);
-     
-      this.firebase.guardarLogLogin(this.user.email);
-
-			//this.router.navigateByUrl('/home', { replaceUrl: true });
-      //this.guardarLogLogin();
       
+      // Verificar que los datos se cargaron correctamente
+      if(this.userData && this.userData.email) {
+        
+        // Validación específica para Especialistas
+        if(this.userData.tipo === 'especialista') {
+          if(!this.userData.aprobado) {
+            this.alert.showSuccessAlert1("","Su cuenta aún no ha sido aprobada por un administrador","warning");
+            this.borrar();
+            this.logeando=true;
+            await this.authService.logout();
+            return;
+          }
+        }
+        
+        // Validación para Pacientes y Especialistas: email verificado (ya se valida en auth.service)
+        // Si llegamos aquí, el email ya está verificado
+        
+        // Guardar TODOS los datos en sessionStorage ANTES de navegar
+        sessionStorage.setItem("user",this.user.email);
+        sessionStorage.setItem("muestra","true");
+        sessionStorage.setItem("tipo",this.userData.tipo);
+        sessionStorage.setItem("userData", JSON.stringify(this.userData));
+        
+        // Notificar al servicio de autenticación que hay datos
+        this.authService.isAuthenticatedSubject.next(true);
+        
+        this.firebase.guardarLogLogin(this.user.email);
+        
+        console.log("Datos del usuario cargados:", this.userData);
+        console.log("Tipo de usuario:", this.userData.tipo);
+        
+        // Pequeño delay para asegurar que sessionStorage se guardó
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Navegar según el tipo de usuario
+        this.navegarSegunTipo();
+      } else {
+        console.error("No se pudieron cargar los datos del usuario");
+        this.alert.showSuccessAlert1("","Error al cargar datos del usuario","error");
+        this.borrar();
+        this.logeando=true;
+      }
       
-		} else {
+		} else if (user && (user as any).emailNoVerificado) {
+      // El mensaje ya se mostró en auth.service
+      this.borrar();
+      this.logeando=true;
+    } else {
 			this.alert.showSuccessAlert1("","Usuario o clave incorrectos","error")
       this.borrar();
       this.logeando=true;
 		} 
   }
-    //this.mostrarSpinner = false;
+  }
+
+  async navegarSegunTipo() {
+    console.log("=== NAVEGACIÓN SEGÚN TIPO ===");
+    console.log("userData completo:", this.userData);
+    console.log("sessionStorage user:", sessionStorage.getItem('user'));
+    console.log("sessionStorage tipo:", sessionStorage.getItem('tipo'));
+    console.log("sessionStorage userData:", sessionStorage.getItem('userData'));
+    
+    if(this.userData) {
+      switch(this.userData.tipo) {
+        case 'admin':
+          console.log("→ Navegando a usuarios (admin)");
+          this.router.navigate(['/perfil']);
+          break;
+        case 'paciente':
+          console.log("→ Navegando a perfil como paciente...");
+          console.log("Datos del paciente:", {
+            nombre: this.userData.nombre,
+            apellido: this.userData.apellido,
+            email: this.userData.email,
+            tipo: this.userData.tipo
+          });
+          this.router.navigate(['/perfil']);
+          break;
+        case 'especialista':
+          console.log("→ Navegando a perfil como especialista...");
+          console.log("Datos del especialista:", {
+            nombre: this.userData.nombre,
+            apellido: this.userData.apellido,
+            email: this.userData.email,
+            tipo: this.userData.tipo,
+            especialidades: this.userData.especialidad
+          });
+          this.router.navigate(['/perfil']);
+          break;
+        default:
+          console.log("→ Tipo desconocido, navegando a bienvenido");
+          this.router.navigate(['/bienvenido']);
+          break;
+      }
+    } else {
+      console.error("❌ userData es null o undefined");
+    }
   }
 
   /*guardarLogLogin()
@@ -111,7 +197,7 @@ export class LoginComponent {
     this.logeando=false;
     this.clase="progress-bar progress-bar-danger progress-bar-striped active";
     this.progresoMensaje="Iniciando comprobacion"; 
-    let timer = interval(30);
+    let timer = interval(70); // Aumentado a 70ms para proceso más largo
     this.subscription = timer.subscribe(t => {
       this.progreso=this.progreso+1;
       this.ProgresoDeAncho=this.progreso+15+"%";
@@ -124,17 +210,25 @@ export class LoginComponent {
           this.clase="progress-bar progress-bar-Info progress-bar-striped active";
           this.progresoMensaje="Verificando contraseña.."; 
           break;
+          case 45:
+          this.clase="progress-bar progress-bar-info progress-bar-striped active";
+          this.progresoMensaje="Cargando datos del usuario..";
+          break;
           case 60:
-          this.clase="progress-bar progress-bar-success progress-bar-striped active";
-          this.progresoMensaje="Recompilando Info del dispositivo..";
+          this.clase="progress-bar progress-bar-info progress-bar-striped active";
+          this.progresoMensaje="Sincronizando información..";
           break;
           case 75:
           this.clase="progress-bar progress-bar-success progress-bar-striped active";
-          this.progresoMensaje="Desencriptacion de clave ..";
+          this.progresoMensaje="Configurando sesión..";
           break;
           case 85:
           this.clase="progress-bar progress-bar-success progress-bar-striped active";
-          this.progresoMensaje="Clave ok, ingresando..";
+          this.progresoMensaje="Preparando perfil..";
+          break;
+          case 95:
+          this.clase="progress-bar progress-bar-success progress-bar-striped active";
+          this.progresoMensaje="Finalizando acceso..";
           break;
           
         case 100:

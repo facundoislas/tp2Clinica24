@@ -1,16 +1,368 @@
 /* Eliminado el fondo local, ahora usa el fondo global del app.component */
 
-  .pantalla{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 15vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    height: 90%;
-    width: 80%;
-    border-radius: 20px;
-    padding: 20px;
+/* ========================================
+   PERFIL DE ESPECIALISTA - DISEÑO MODERNO
+   ======================================== */
+
+/* Card principal del perfil (para todos los tipos de usuario) */
+.perfil-card {
+  max-width: 1200px;
+  width: 95%;
+  margin-top: 8%;
+  background-color: #f5f7fa;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
 }
+
+/* Header del perfil */
+.perfil-header {
+  padding: 32px 40px;
+  background-color: #bec7dc;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.perfil-header-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Foto de perfil */
+.perfil-foto-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.perfil-foto {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #058498;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.perfil-badge-verificado {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #22c55e;
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Información principal */
+.perfil-info-principal {
+  flex-grow: 1;
+}
+
+.perfil-bienvenida {
+  color: #058498;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin: 0 0 6px 0;
+}
+
+.perfil-nombre {
+  color: #000000;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+}
+
+.perfil-rol {
+  color: #058498;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Cuerpo del perfil */
+.perfil-body {
+  padding: 32px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  background-color: #e0e0e0;
+}
+
+.perfil-seccion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.perfil-titulo-seccion {
+  color: #1f2937;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #058498;
+}
+
+/* Especialidades */
+.perfil-especialidades {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.perfil-badge-especialidad {
+  background-color: #058498;
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(5, 132, 152, 0.3);
+}
+
+/* Información de contacto */
+.perfil-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.perfil-info-label {
+  color: #6b7280;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.perfil-info-value {
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  word-break: break-word;
+}
+
+/* Footer del perfil */
+.perfil-footer {
+  background-color: #bec7dc;
+  border-top: 1px solid #e5e7eb;
+  padding: 16px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.perfil-footer-text {
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.perfil-btn-horarios {
+  background-color: #058498;
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(5, 132, 152, 0.3);
+  transition: all 0.3s ease;
+}
+
+.perfil-btn-horarios:hover {
+  background-color: #046d7d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(5, 132, 152, 0.4);
+}
+
+.perfil-btn-horarios:active {
+  transform: translateY(0);
+}
+
+/* ========================================
+   ESTILOS ESPECÍFICOS PARA PACIENTE
+   ======================================== */
+
+.perfil-foto-container-paciente {
+  position: relative;
+  flex-shrink: 0;
+  width: 150px;
+  height: 150px;
+}
+
+.perfil-foto-carousel {
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 4px solid #058498;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#carouselPaciente {
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#carouselPaciente .carousel-control-prev,
+#carouselPaciente .carousel-control-next {
+  width: 30px;
+  opacity: 0.8;
+}
+
+#carouselPaciente .carousel-control-prev-icon,
+#carouselPaciente .carousel-control-next-icon {
+  width: 15px;
+  height: 15px;
+}
+
+/* ========================================
+   ESTILOS ESPECÍFICOS PARA ADMIN
+   ======================================== */
+
+.perfil-foto-admin {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #667eea;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.perfil-iniciales {
+  color: #ffffff;
+  font-size: 42px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.perfil-badge-admin {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #f59e0b;
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ========================================
+   MODAL DE HORARIOS
+   ======================================== */
+
+.modal-horarios-container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .perfil-header {
+    padding: 24px;
+  }
+
+  .perfil-header-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .perfil-body {
+    grid-template-columns: 1fr;
+    padding: 24px;
+    gap: 32px;
+  }
+
+  .perfil-footer {
+    flex-direction: column;
+    padding: 16px 24px;
+    text-align: center;
+  }
+
+  .perfil-btn-horarios {
+    width: 100%;
+  }
+
+  .perfil-nombre {
+    font-size: 26px;
+  }
+  
+  .perfil-info-value {
+    font-size: 16px;
+  }
+  
+  .perfil-titulo-seccion {
+    font-size: 18px;
+  }
+  
+  .perfil-badge-especialidad {
+    font-size: 14px;
+    padding: 6px 14px;
+  }
+  
+  .perfil-btn-horarios {
+    font-size: 15px;
+    padding: 12px 22px;
+  }
+
+  .perfil-foto-container-paciente {
+    width: 120px;
+    height: 120px;
+  }
+
+  .perfil-foto-carousel {
+    width: 120px;
+    height: 120px;
+  }
+
+  #carouselPaciente {
+    width: 120px;
+    height: 120px;
+  }
+
+  .perfil-foto {
+    width: 110px;
+    height: 110px;
+  }
+
+  .perfil-foto-admin {
+    width: 110px;
+    height: 110px;
+  }
+
+  .perfil-iniciales {
+    font-size: 36px;
+  }
+}
+
+/* Eliminado .pantalla - ya no se usa */
 
 .backMenu{
     border-radius: 50px;

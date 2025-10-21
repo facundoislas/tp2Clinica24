@@ -39,33 +39,73 @@ export class MiPerfilComponent {
   constructor(private firebaseService: FirebaseService, private horarioEspService: HorariosEspecialistaService) { }
 
   ngOnInit(): void {
+    console.log("=== MI-PERFIL COMPONENT INIT ===");
     this.email = sessionStorage.getItem('user');
-
-     setTimeout(()=>{
-      this.loading = false;
-    },3500);
-  this.firebaseService.getUsuariosPorTipo("especialista").subscribe((usuarios: any[]) => {
-  this.porTipo = usuarios;
-  console.log(this.porTipo); });
-  this.searchUser().then(() => {
-    this.horarioEspService.getHorarioEspecialistas().subscribe(horario => {
-      horario.forEach(hora => {
-        console.log(hora);
-        if (this.userData.email == hora.email) {
-          this.horariosEspecialista = hora;
-          this.disponibilidades = this.horariosEspecialista.estados;
-          this.especialidadesPorDia = this.horariosEspecialista.especialidadesPorDia;
-          this.cargarHorarios(hora);
-        }
-      });
-    });
-  });
+    console.log("Email desde sessionStorage:", this.email);
+    
+    // Intentar obtener los datos del usuario desde sessionStorage primero
+    const userDataString = sessionStorage.getItem('userData');
+    console.log("userData string desde sessionStorage:", userDataString);
+    
+    if (userDataString) {
+      try {
+        this.userData = JSON.parse(userDataString);
+        console.log("✅ Datos cargados desde sessionStorage:", this.userData);
+        console.log("Tipo de usuario:", this.userData.tipo);
+        console.log("Nombre completo:", this.userData.nombre, this.userData.apellido);
+        this.loading = false;
+        this.loadSpecialistData();
+      } catch (error) {
+        console.error("❌ Error al parsear userData desde sessionStorage:", error);
+        this.loadFromFirebase();
+      }
+    } else {
+      console.log("⚠️ No hay userData en sessionStorage, cargando desde Firebase...");
+      this.loadFromFirebase();
+    }
   }
 
-   async searchUser() {
-      console.log("entre aca")
-      this.userData = await this.firebaseService.getUsuarioEmail(this.email);
-  
+  async loadFromFirebase() {
+    // Si no hay datos en sessionStorage, cargarlos desde Firebase
+    await this.searchUser();
+    console.log("Datos cargados desde Firebase:", this.userData);
+    this.loading = false;
+    this.loadSpecialistData();
+    
+    this.firebaseService.getUsuariosPorTipo("especialista").subscribe((usuarios: any[]) => {
+      this.porTipo = usuarios;
+      console.log(this.porTipo); 
+    });
+  }
+
+  loadSpecialistData() {
+    if (this.userData && this.userData.tipo === 'especialista') {
+      this.horarioEspService.getHorarioEspecialistas().subscribe(horario => {
+        horario.forEach(hora => {
+          console.log(hora);
+          if (this.userData.email == hora.email) {
+            this.horariosEspecialista = hora;
+            this.disponibilidades = this.horariosEspecialista.estados;
+            this.especialidadesPorDia = this.horariosEspecialista.especialidadesPorDia;
+            this.cargarHorarios(hora);
+          }
+        });
+      });
+    }
+  }
+
+  async searchUser() {
+    console.log("Buscando usuario en Firebase para perfil con email:", this.email);
+    this.userData = await this.firebaseService.getUsuarioEmail(this.email);
+    if (this.userData) {
+      console.log("✅ Usuario encontrado en Firebase para perfil:", this.userData);
+      // Guardar en sessionStorage si no estaba
+      if (!sessionStorage.getItem('userData')) {
+        sessionStorage.setItem('userData', JSON.stringify(this.userData));
+      }
+    } else {
+      console.error("❌ No se encontró usuario en Firebase para perfil");
+    }
   }
 
   

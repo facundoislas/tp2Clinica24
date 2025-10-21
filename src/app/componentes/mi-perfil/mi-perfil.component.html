@@ -1,63 +1,234 @@
 <app-logo [showSpinner]="loading"></app-logo>
-    <div class="container-fluid d-flex justify-content-center aling-content-center">
-        <div class="pantalla d-flex flex-column position-relative">
-          <div class="card m-5 p-3" style="width: 80%; max-width: 90%;">
-            <div *ngIf="!this.mostrar"class="row g-0">
-              <div *ngIf="userData?.tipo == 'admin'" class="col-md-4">
+    <div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 90vh; padding: 20px;">
+          
+          <!-- DISEÑO MODERNO PARA ESPECIALISTA -->
+          <div *ngIf="userData?.tipo == 'especialista' && !this.mostrar" class="perfil-card">
+            
+            <!-- Encabezado del perfil con la imagen y el nombre -->
+            <div class="perfil-header">
+              <div class="perfil-header-content">
                 
-              </div>
-              <div *ngIf="userData?.tipo == 'especialista'" class="col-md-4">
-                <img [src]="userData?.foto1" class="img-fluid rounded-start" alt="...">
-              </div>
-              <div *ngIf="userData?.tipo == 'paciente'" class="col-md-4">
-                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <img [src]="userData!.foto1" class="d-block w-100 active" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                      <img [src]="userData!.foto2" class="d-block w-100" alt="...">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-              </div>
-      
-              <div class="col-md-8">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between">
-                    <h1 class="card-title">{{userData?.nombre}} {{userData?.apellido}}</h1>
-                    <button *ngIf="this.userData?.tipo == 'paciente'" class="btn btn-info" routerLink="/historial">Historial Clínico</button>
-                  </div>
-                  <p appLupa class="card-text">Rol: {{userData?.tipo}}</p>
-                  <p appLupa class="card-text">Email: {{userData?.email}}</p>
-                  <p appLupa class="card-text">Edad: {{userData?.edad}}</p>
-                  <p appLupa class="card-text">DNI: {{userData?.dni}}</p>
-                  <p appLupa *ngIf="userData?.tipo == 'paciente'" class="card-text">Obra social: {{userData?.obraSocial}}</p>
-                  <div *ngIf="userData?.tipo == 'especialista'">
-                    <p appLupa class="card-text">Especialidades:</p>
-                    <ul  *ngFor="let item of userData?.especialidad">
-                      <li>{{item.especialidad}}</li>
-                    </ul>
-                    <hr>
-                    <div>
-                        <button  class="btn btn-primary horarios largo" (click)="abrirMisHorarios()">Mis Horarios</button>
-                    </div>
-                  </div>
+                <!-- Contenedor de Imagen de Perfil -->
+                <div class="perfil-foto-container">
+                  <img class="perfil-foto"
+                       [src]="userData?.foto1"
+                       [alt]="'Foto de ' + userData?.nombre + ' ' + userData?.apellido">
                   
+                  <!-- Indicador de Verificación -->
+                 
+                </div>
+
+                <!-- Detalles principales del doctor -->
+                <div class="perfil-info-principal">
+                  <p class="perfil-bienvenida">¡BIENVENIDO DR.!</p>
+                  <h1 class="perfil-nombre">
+                    Dr. {{userData?.nombre}} {{userData?.apellido}}
+                  </h1>
+                  <p class="perfil-rol">Especialista</p>
                 </div>
               </div>
             </div>
-            <div class="container-fluid contenedor p-4 text-center " *ngIf="userData?.tipo === 'especialista' && mostrar === true">
+
+            <!-- Cuerpo del perfil (Detalles e Información de Contacto) -->
+            <div class="perfil-body">
+
+              <!-- Columna 1: Especialidades -->
+              <div class="perfil-seccion">
+                <h3 class="perfil-titulo-seccion">Especialidades</h3>
+                <div class="perfil-especialidades">
+                  <!-- Etiquetas de Especialidades dinámicas -->
+                  <span *ngFor="let item of userData?.especialidad" 
+                        class="perfil-badge-especialidad">
+                    {{item.especialidad}}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Columna 2: Información de Contacto y Personal -->
+              <div class="perfil-seccion">
+                <h3 class="perfil-titulo-seccion">Información de Contacto</h3>
+                
+                <div class="perfil-info-item">
+                  <p class="perfil-info-label">Correo Electrónico:</p>
+                  <p class="perfil-info-value">{{userData?.email}}</p>
+                </div>
+
+                <div class="perfil-info-item">
+                  <p class="perfil-info-label">Edad:</p>
+                  <p class="perfil-info-value">{{userData?.edad}} años</p>
+                </div>
+
+                <div class="perfil-info-item">
+                  <p class="perfil-info-label">DNI:</p>
+                  <p class="perfil-info-value">{{userData?.dni}}</p>
+                </div>
+              </div>
+
+            </div>
+            
+            <!-- Pie de página y Botón de Acción -->
+            <div class="perfil-footer">
+             
+
+              <!-- Botón Ver Mis Horarios -->
+              <!--button (click)="abrirMisHorarios()" class="perfil-btn-horarios">
+                Ver Mis Horarios
+              </button-->
+            </div>
+
+          </div>
+
+          <!-- DISEÑO MODERNO PARA PACIENTE -->
+          <div *ngIf="userData?.tipo == 'paciente' && !this.mostrar" class="perfil-card">
+            
+            <!-- Encabezado del perfil -->
+            <div class="perfil-header">
+              <div class="perfil-header-content">
+                
+                <!-- Carrusel de fotos para paciente -->
+                <div class="perfil-foto-container-paciente">
+                  <div id="carouselPaciente" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img [src]="userData?.foto1" class="perfil-foto-carousel" alt="Foto 1">
+                      </div>
+                      <div class="carousel-item">
+                        <img [src]="userData?.foto2" class="perfil-foto-carousel" alt="Foto 2">
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPaciente" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselPaciente" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Detalles principales del paciente -->
+                <div class="perfil-info-principal">
+                  <p class="perfil-bienvenida">¡BIENVENIDO/A!</p>
+                  <h1 class="perfil-nombre">
+                    {{userData?.nombre}} {{userData?.apellido}}
+                  </h1>
+                  <p class="perfil-rol">Paciente</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cuerpo del perfil -->
+            <div class="perfil-body">
+
+              <!-- Columna 1: Datos personales -->
+              <div class="perfil-seccion">
+                <h3 class="perfil-titulo-seccion">Datos Personales</h3>
+                
+                <div class="perfil-info-item">
+                  <p class="perfil-info-label">Edad:</p>
+                  <p class="perfil-info-value">{{userData?.edad}} años</p>
+                </div>
+
+                <div class="perfil-info-item">
+                  <p class="perfil-info-label">DNI:</p>
+                  <p class="perfil-info-value">{{userData?.dni}}</p>
+                </div>
+
+                <div class="perfil-info-item">
+                  <p class="perfil-info-label">Obra Social:</p>
+                  <p class="perfil-info-value">{{userData?.obraSocial}}</p>
+                </div>
+              </div>
+
+              <!-- Columna 2: Información de Contacto -->
+              <div class="perfil-seccion">
+                <h3 class="perfil-titulo-seccion">Información de Contacto</h3>
+                
+                <div class="perfil-info-item">
+                  <p class="perfil-info-label">Correo Electrónico:</p>
+                  <p class="perfil-info-value">{{userData?.email}}</p>
+                </div>
+              </div>
+
+            </div>
+            
+            <!-- Pie de página -->
+            <div class="perfil-footer">
+              
+
+              <!-- Botón Historial Clínico -->
+              <!--button routerLink="/historial" class="perfil-btn-horarios">
+                Ver Historial Clínico
+              </button-->
+            </div>
+
+          </div>
+
+          <!-- DISEÑO MODERNO PARA ADMIN -->
+          <div *ngIf="userData?.tipo == 'admin' && !this.mostrar" class="perfil-card">
+            
+            <!-- Encabezado del perfil -->
+            <div class="perfil-header">
+              <div class="perfil-header-content">
+                
+                <!-- Sin foto para admin, solo iniciales -->
+                <div class="perfil-foto-container">
+                  <div class="perfil-foto-admin">
+                    <span class="perfil-iniciales">{{userData?.nombre?.charAt(0)}}{{userData?.apellido?.charAt(0)}}</span>
+                  </div>
+                  
+                  <!-- Badge de admin -->
+                  
+                </div>
+
+                <!-- Detalles principales del admin -->
+                <div class="perfil-info-principal">
+                  <p class="perfil-bienvenida">ADMINISTRADOR</p>
+                  <h1 class="perfil-nombre">
+                    {{userData?.nombre}} {{userData?.apellido}}
+                  </h1>
+                  <p class="perfil-rol">Administrador del Sistema</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cuerpo del perfil -->
+            <div class="perfil-body">
+
+              <!-- Columna 1: Información Personal -->
+              <div class="perfil-seccion">
+                <h3 class="perfil-titulo-seccion">Información Personal</h3>
+                
+                <div class="perfil-info-item">
+                  <p class="perfil-info-label">Edad:</p>
+                  <p class="perfil-info-value">{{userData?.edad}} años</p>
+                </div>
+
+                <div class="perfil-info-item">
+                  <p class="perfil-info-label">DNI:</p>
+                  <p class="perfil-info-value">{{userData?.dni}}</p>
+                </div>
+              </div>
+
+              <!-- Columna 2: Información de Contacto -->
+              <div class="perfil-seccion">
+                <h3 class="perfil-titulo-seccion">Información de Contacto</h3>
+                
+                <div class="perfil-info-item">
+                  <p class="perfil-info-label">Correo Electrónico:</p>
+                  <p class="perfil-info-value">{{userData?.email}}</p>
+                </div>
+              </div>
+
+            </div>
+            
+            <!-- Pie de página -->
+            <div class="perfil-footer">
+            
+            </div>
+
+          </div>
+          <!-- MODAL DE HORARIOS PARA ESPECIALISTA -->
+          <div class="modal-horarios-container" *ngIf="userData?.tipo === 'especialista' && mostrar === true">
                 <div class="modal-content card" style="text-align: center; max-width: 1200px;max-height: 600px; margin: 0 auto;">
                   <br>
                   <h1 class="title">Disponibilidad Horaria</h1>
@@ -130,9 +301,6 @@
 
                   <br>
                 </div>
-                
-              </div>
           </div>
          
-        </div>
       </div>

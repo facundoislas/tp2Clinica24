@@ -1,14 +1,334 @@
-/* Eliminado el fondo local, ahora usa el fondo global del app.component */
+/* ========================================
+   COMPONENTE USUARIOS - ESTILOS
+   ======================================== */
 
-  .volver-btn {
-    position: absolute;
-    top: 110px;
-    right: 10%;
-    background-color: #f44336;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
+:root {
+  --color-primary: #058498;
+  --color-secondary: #004d60;
+  --color-accent: #22c55e;
+}
+
+/* Wrapper principal */
+.usuarios-wrapper {
+  min-height: 100vh;
+  padding-top: 80px;
+  font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+
+/* Sección del menú */
+.menu-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Controles superiores */
+.controles-superiores {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 16px;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 24px;
+}
+
+/* Botón exportar */
+.btn-exportar {
+  padding: 12px 24px;
+  background-color: #e5e7eb;
+  color: #374151;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-exportar:hover {
+  background-color: #d1d5db;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Botón crear usuario */
+.btn-crear-usuario {
+  padding: 14px 28px;
+  background-color: #22c55e;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-crear-usuario:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+  box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
+}
+
+/* Sección de selector */
+.selector-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.selector-container {
+  margin-top: 32px;
+}
+
+.selector-titulo {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 48px;
+  letter-spacing: 0.5px;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.selector-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.selector-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 20px;
+  padding: 40px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.selector-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  transition: height 0.4s ease;
+}
+
+.selector-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.selector-card:hover::before {
+  height: 100%;
+  opacity: 0.05;
+}
+
+.card-paciente {
+  border-color: #e0e7ff;
+}
+
+.card-paciente::before {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.card-paciente:hover {
+  border-color: #10b981;
+}
+
+.card-especialista {
+  border-color: #dbeafe;
+}
+
+.card-especialista::before {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+}
+
+.card-especialista:hover {
+  border-color: #06b6d4;
+}
+
+.card-admin {
+  border-color: #fef3c7;
+}
+
+.card-admin::before {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.card-admin:hover {
+  border-color: #f59e0b;
+}
+
+.card-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.card-paciente .card-icon {
+  background: linear-gradient(135deg, #10b981, #059669);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+}
+
+.card-especialista .card-icon {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+}
+
+.card-admin .card-icon {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+}
+
+.selector-card:hover .card-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.card-icon svg {
+  width: 48px;
+  height: 48px;
+  color: white;
+}
+
+.selector-card h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.card-paciente:hover h3 {
+  color: #10b981;
+}
+
+.card-especialista:hover h3 {
+  color: #06b6d4;
+}
+
+.card-admin:hover h3 {
+  color: #f59e0b;
+}
+
+.selector-card p {
+  font-size: 15px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Sección de formulario */
+.formulario-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px 24px 24px 24px;
+}
+
+/* Botón volver */
+.btn-volver {
+  padding: 12px 24px;
+  background-color: #ef4444;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.btn-volver:hover {
+  background-color: #dc2626;
+  transform: translateX(-4px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Sección de historia clínica */
+.historia-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .controles-superiores {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 16px;
   }
+
+  .btn-exportar,
+  .btn-crear-usuario {
+    width: 100%;
+  }
+
+  .menu-section,
+  .formulario-section,
+  .selector-section,
+  .historia-section {
+    padding: 16px;
+  }
+
+  .usuarios-wrapper {
+    padding-top: 70px;
+  }
+
+  .selector-titulo {
+    font-size: 22px;
+    margin-bottom: 32px;
+    padding: 15px;
+  }
+
+  .selector-cards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .selector-card {
+    padding: 32px 20px;
+  }
+
+  .card-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .card-icon svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .selector-card h3 {
+    font-size: 20px;
+  }
+}

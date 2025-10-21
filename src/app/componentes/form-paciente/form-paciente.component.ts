@@ -64,7 +64,11 @@ export class FormPacienteComponent {
   
 
   async ngOnInit() {
-    sessionStorage.clear();
+    // Solo limpiar sessionStorage si NO hay un administrador logueado
+    const adminLogueado = sessionStorage.getItem("tipo") === "admin";
+    if(!adminLogueado) {
+      sessionStorage.clear();
+    }
     await this.cargarObrasSociales();
   }
 
@@ -193,10 +197,19 @@ export class FormPacienteComponent {
           obraSocial: this.paciente.obraSocial,
           id: user?.user.uid
         });
-        sessionStorage.setItem("user",this.paciente.email);
-        sessionStorage.setItem("muestra","true");
         
-        this.router.navigateByUrl('/home', { replaceUrl: true });
+        // Verificar si hay un administrador logueado
+        const adminLogueado = sessionStorage.getItem("tipo") === "admin";
+        
+        if(adminLogueado) {
+          // Si es admin logueado, redirigir a usuarios
+          this.router.navigateByUrl('/usuarios', { replaceUrl: true });
+        } else {
+          // Si es registro público, redirigir a login
+          sessionStorage.setItem("user",this.paciente.email);
+          sessionStorage.setItem("muestra","true");
+          this.router.navigateByUrl('/login', { replaceUrl: true });
+        }
         } 
         
         else {

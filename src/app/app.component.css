@@ -8,25 +8,6 @@
     position: relative;
 }
 
-/* Overlay para mejorar legibilidad global */
-.fondo::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 0;
-    pointer-events: none;
-}
-
-/* Asegurar que el contenido esté por encima del overlay */
-.fondo > * {
-    position: relative;
-    z-index: 1;
-}
-
 /* Configuración global */
 html, body {
     height: 100%;

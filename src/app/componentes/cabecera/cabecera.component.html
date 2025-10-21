@@ -59,14 +59,14 @@
       <ng-container *ngIf="!isAuthenticated">
         <ul class="flex flex-col space-y-4">
           <li class="nav-item">
-            <a routerLink="/bienvenido" class="nav-link-modern">Home</a>
+            <a routerLink="/bienvenido" class="nav-link-modern" data-bs-dismiss="offcanvas">Home</a>
           </li>
           <li class="nav-item">
-            <a routerLink="/registro" class="nav-link-modern">Registro</a>
+            <a routerLink="/registro" class="nav-link-modern" data-bs-dismiss="offcanvas">Registro</a>
           </li>
           <li class="nav-item pt-4">
             <!-- Botón "Iniciar Sesión" con diseño de degradado -->
-            <a routerLink="/login" class="action-btn-modern-light">
+            <a routerLink="/login" class="action-btn-modern-light" data-bs-dismiss="offcanvas">
                 Iniciar Sesión
             </a>
           </li>
@@ -74,69 +74,62 @@
       </ng-container>
 
       <!-- Menús Autenticados (Admin, Paciente, Especialista) -->
-      <ul class="flex flex-col space-y-4" *ngIf="isAuthenticated">
-        <li class="nav-item">
-          <a routerLink="/perfil" class="nav-link-modern">Mi Perfil</a>
-        </li>
+      <ng-container *ngIf="isAuthenticated">
+        <!-- Email del usuario arriba -->
+        <div class="user-email-display mb-4 pb-4 border-b border-teal-300">
+          <h1 class="text-sm text-gray-500 mb-1">Bienvenido {{usuario?.nombre}} {{usuario?.apellido}}</h1>
+          <p class="text-base font-semibold text-teal-700 truncate">{{usuario?.email}}</p>
+        </div>
 
-        <!-- Admin Links -->
-        <ng-container *ngIf="usuario?.tipo === 'admin'">
+        <ul class="flex flex-col space-y-4">
           <li class="nav-item">
-            <a routerLink="/usuarios" class="nav-link-modern">Usuarios</a>
+            <a routerLink="/perfil" class="nav-link-modern" data-bs-dismiss="offcanvas">Mi Perfil</a>
           </li>
-          <li class="nav-item">
-            <a routerLink="/registro" class="nav-link-modern">Registrar Usuarios</a>
-          </li>
-          <li class="nav-item">
-            <a routerLink="estadisticas" class="nav-link-modern">Estadísticas</a>
-          </li>
-        </ng-container>
 
-        <!-- Paciente Links -->
-        <ng-container *ngIf="usuario?.tipo === 'paciente'">
-          <li class="nav-item">
-            <a routerLink="/turnos" class="nav-link-modern">Mis turnos</a>
-          </li>
-          <li class="nav-item">
-            <a routerLink="/crearTurno" class="nav-link-modern">Solicitar turno</a>
-          </li>
-        </ng-container>
+          <!-- Admin Links -->
+          <ng-container *ngIf="usuario?.tipo === 'admin'">
+            <li class="nav-item">
+              <a routerLink="/usuarios" class="nav-link-modern" data-bs-dismiss="offcanvas">Usuarios</a>
+            </li>
+            <!--li class="nav-item">
+              <a routerLink="/registro" class="nav-link-modern" data-bs-dismiss="offcanvas">Registrar Usuarios</a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="estadisticas" class="nav-link-modern" data-bs-dismiss="offcanvas">Estadísticas</a>
+            </li-->
+          </ng-container>
 
-        <!-- Especialista Links -->
-        <ng-container *ngIf="usuario?.tipo === 'especialista'">
-          <li class="nav-item">
-            <a routerLink="/turnos" class="nav-link-modern">Mis turnos</a>
-          </li>
-          <li class="nav-item">
-            <a routerLink="/pacientes" class="nav-link-modern">Mis Pacientes</a>
-          </li>
-        </ng-container>
-      </ul>
-      
-      <!-- Botón de Usuario/Cerrar Sesión -->
-      <ng-container *ngIf="usuario && showButtons">
-        <div class="pt-6 border-t border-teal-300">
-          <button 
-            class="user-dropdown-btn w-full text-left flex justify-between items-center" 
-            type="button" 
-            data-bs-toggle="dropdown" 
-            aria-expanded="false"
-          >
-            <span class="truncate pr-2">{{usuario.email}}</span>
-            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
+          <!-- Paciente Links -->
+          <ng-container *ngIf="usuario?.tipo === 'paciente'">
+            <li class="nav-item">
+              <a routerLink="/turnos" class="nav-link-modern" data-bs-dismiss="offcanvas">Mis turnos</a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/crearTurno" class="nav-link-modern" data-bs-dismiss="offcanvas">Solicitar turno</a>
+            </li>
+          </ng-container>
 
-          <div class="dropdown-menu w-100 mt-2">
+          <!-- Especialista Links -->
+          <ng-container *ngIf="usuario?.tipo === 'especialista'">
+            <li class="nav-item">
+              <a routerLink="/turnos" class="nav-link-modern" data-bs-dismiss="offcanvas">Mis turnos</a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="/pacientes" class="nav-link-modern" data-bs-dismiss="offcanvas">Mis Pacientes</a>
+            </li>
+          </ng-container>
+
+          <!-- Botón Cerrar Sesión como un item más -->
+          <li class="nav-item" *ngIf="showButtons">
             <button 
               (click)="loguot()"
-              class="py-3 px-4 w-full text-sm font-bold bg-red-600 hover:bg-red-700 rounded-lg text-white transition duration-300"
+              data-bs-dismiss="offcanvas"
+              class="w-full text-left bg-red-600 text-white hover:bg-red-700 font-semibold px-4 py-3 rounded-lg transition duration-300"
             >
               Cerrar Sesión
             </button>
-          </div>
-        </div>
+          </li>
+        </ul>
       </ng-container>
     </div>
     

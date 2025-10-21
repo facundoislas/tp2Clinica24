@@ -31,30 +31,75 @@ export class CabeceraComponent {
   }
   
   ngOnInit(): void {
+    // Verificar estado inicial
+    this.checkAuthenticationState();
     
+    // Suscribirse a cambios de autenticación
     this.authSubscription = this.auth.isAuthenticated$.subscribe(isAuthenticated => {
+      console.log("Cambio en estado de autenticación:", isAuthenticated);
       this.isAuthenticated = isAuthenticated;
+      if (isAuthenticated) {
+        this.loadUserData();
+      } else {
+        this.usuario = null;
+      }
     });
+    
+    // Verificar en cada cambio de ruta
     this.routerSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.email = sessionStorage.getItem('user')
-
-    setTimeout(()=>{
-    },2500);
-        // Forzar la detección de cambios si es necesario
-        this.isAuthenticated = !!sessionStorage.getItem('user');
-        console.log("entre ", this.isAuthenticated)
-        this.searchUser();
-        console.log(this.email)
+        console.log("Navegación detectada, verificando autenticación");
+        this.checkAuthenticationState();
       }
     });
   }
 
-  async searchUser() {
-    console.log("entre aca")
-    this.usuario = await this.firebaseService.getUsuarioEmail(this.email);
+  checkAuthenticationState() {
+    this.email = sessionStorage.getItem('user');
+    this.isAuthenticated = !!this.email;
+    
+    console.log("Estado de autenticación:", this.isAuthenticated);
+    console.log("Email del usuario:", this.email);
+    
+    if (this.isAuthenticated) {
+      this.loadUserData();
+    } else {
+      this.usuario = null;
+    }
+  }
 
-}
+  loadUserData() {
+    // Intentar cargar desde sessionStorage primero
+    const userDataString = sessionStorage.getItem('userData');
+    if (userDataString) {
+      try {
+        this.usuario = JSON.parse(userDataString);
+        console.log("✅ Usuario cargado desde sessionStorage en cabecera:", this.usuario);
+        console.log("Tipo de usuario en cabecera:", this.usuario?.tipo);
+      } catch (error) {
+        console.error("Error al parsear userData:", error);
+        if (this.email) {
+          this.searchUser();
+        }
+      }
+    } else if (this.email) {
+      // Si no hay datos en sessionStorage, buscar en Firebase
+      console.log("⚠️ No hay userData en sessionStorage, buscando en Firebase");
+      this.searchUser();
+    }
+  }
+
+  async searchUser() {
+    console.log("Buscando usuario en Firebase con email:", this.email);
+    this.usuario = await this.firebaseService.getUsuarioEmail(this.email);
+    if (this.usuario) {
+      console.log("✅ Usuario encontrado en Firebase:", this.usuario);
+      // Guardar en sessionStorage para futuras referencias
+      sessionStorage.setItem('userData', JSON.stringify(this.usuario));
+    } else {
+      console.error("❌ No se encontró usuario en Firebase");
+    }
+  }
 
   ngOnDestroy(): void {
     if (this.authSubscription) {
@@ -74,8 +119,9 @@ export class CabeceraComponent {
         this.usuario = null;
         this.userEvent.emit(null);
         this.loadingEvent.emit(false);
-        this.router.navigate(['/bienvenida']);
+        this.router.navigate(['/bienvenido']);
         localStorage.clear();
+        sessionStorage.clear();
       })
       .catch((err) => {});
     }, 1000);

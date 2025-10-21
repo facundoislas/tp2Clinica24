@@ -59,7 +59,11 @@ export class FormAdminComponent {
  
 
   ngOnInit() {
-    sessionStorage.clear();
+    // Solo limpiar sessionStorage si NO hay un administrador logueado
+    const adminLogueado = sessionStorage.getItem("tipo") === "admin";
+    if(!adminLogueado) {
+      sessionStorage.clear();
+    }
   }
 
   onFileSelected(event: any, imageNumber: number) {
@@ -74,6 +78,13 @@ export class FormAdminComponent {
   tomarResultado(resultado:boolean)
   {
     this.resultado = resultado;
+  }
+
+  limpiarFormulario() {
+    this.paciente = new Admin();
+    this.contrasena2 = '';
+    this.formRegistro.reset();
+    this.resultado = false;
   }
 
   async enviar()
@@ -104,10 +115,19 @@ export class FormAdminComponent {
           aprobado: true,
           id: user?.user.uid
         });
-        sessionStorage.setItem("user",this.paciente.email);
-        sessionStorage.setItem("muestra","true");
         
-        this.router.navigateByUrl('/home', { replaceUrl: true });
+        // Verificar si hay un administrador logueado
+        const adminLogueado = sessionStorage.getItem("tipo") === "admin";
+        
+        if(adminLogueado) {
+          // Si es admin logueado, redirigir a usuarios
+          this.router.navigateByUrl('/usuarios', { replaceUrl: true });
+        } else {
+          // Si es registro público, redirigir a login
+          sessionStorage.setItem("user",this.paciente.email);
+          sessionStorage.setItem("muestra","true");
+          this.router.navigateByUrl('/login', { replaceUrl: true });
+        }
         } 
         
         else {
