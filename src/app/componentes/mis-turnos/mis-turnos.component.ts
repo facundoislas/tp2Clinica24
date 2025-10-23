@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { CabeceraComponent } from '../cabecera/cabecera.component';
+import { LogoComponent } from '../logo/logo.component';
 import { Turno } from '../../clases/turno';
 import { Especialista } from '../../clases/especialista';
 import { Especialidad } from '../../clases/especialidad';
@@ -18,13 +19,13 @@ declare var window: any;
 @Component({
   selector: 'app-mis-turnos',
   standalone: true,
-  imports: [CabeceraComponent, CommonModule, FormsModule, ReactiveFormsModule, FiltrosPipe,EstadoColorDirective],
+  imports: [CabeceraComponent, LogoComponent, CommonModule, FormsModule, ReactiveFormsModule, FiltrosPipe,EstadoColorDirective],
   templateUrl: './mis-turnos.component.html',
   styleUrls: [ './mis-turnos.component.css']
 })
-export class MisTurnosComponent {
+export class MisTurnosComponent implements AfterViewInit {
 
-  usuario:any;
+  usuario:any = null;
   turnos:Turno[] = [];
   email!: string | null;
   loading = true;
@@ -70,56 +71,76 @@ export class MisTurnosComponent {
     
   constructor(private firebaseData:FirebaseService, private data:TurnosService, private especialidadesService: EspecialidadesService ){}
 
-  ngOnInit(): void {
-    this.cargarUsuario();
+  async ngOnInit(): Promise<void> {
+    // Cargar usuario primero y esperar a que termine
+    await this.cargarUsuario();
 
-    setTimeout(()=>{
-    },3500);
     // this.turnosFiltrados$ = new Subject();
     this.especialidadesService.getEspecialidades().subscribe( (data) => {
       this.especialidades	= data;
     });
        
-
-        this.data.getTurnosDB().subscribe(turnos => {
-          this.firebaseData.getUsuariosPorTipo("especialista").subscribe((usuarios: any[]) => {
-            this.especialistas = usuarios;
-            console.log("especialistas", this.especialistas);});   
-          this.firebaseData.getUsuariosPorTipo("paciente").subscribe((usuarios: any[]) => {
-            this.pacientes = usuarios;
-            console.log("pacientes", this.pacientes);});
+    // Solo después de que el usuario esté cargado, cargar los turnos
+    this.data.getTurnosDB().subscribe(turnos => {
+      this.firebaseData.getUsuariosPorTipo("especialista").subscribe((usuarios: any[]) => {
+        this.especialistas = usuarios;
+        console.log("especialistas", this.especialistas);
+      });   
+      this.firebaseData.getUsuariosPorTipo("paciente").subscribe((usuarios: any[]) => {
+        this.pacientes = usuarios;
+        console.log("pacientes", this.pacientes);
+      });
             
       this.turnos = [];
       
-      this.tipo = this.usuario.tipo;
-      this.email = this.usuario.email;
-      
-      if(this.usuario.tipo !== "admin"){
-        turnos.forEach(turno => {
-         
-          if(this.tipo === "paciente" && turno.paciente === this.email){
-            
-            this.turnos.push(turno);
+      // Ahora es seguro acceder a this.usuario
+      if(this.usuario) {
+        this.tipo = this.usuario.tipo;
+        this.email = this.usuario.email;
+        
+        if(this.usuario.tipo !== "admin"){
+          turnos.forEach(turno => {
            
-          }
-          else if(this.usuario.tipo === "especialista" && turno.especialista === this.email){
-            this.turnos.push(turno);
-          }
-          console.log("los turnos son", this.turnos)
-        });
+            if(this.tipo === "paciente" && turno.paciente === this.email){
+              
+              this.turnos.push(turno);
+             
+            }
+            else if(this.usuario.tipo === "especialista" && turno.especialista === this.email){
+              this.turnos.push(turno);
+            }
+            console.log("los turnos son", this.turnos)
+          });
+        }
+        else{
+          this.turnos = turnos;
+        }
       }
-      else{
-        this.turnos = turnos;
-      }
+      
       this.data.getHistoriaDB().subscribe(historias=>{
         this.historiaPrevia = historias;
         console.log(historias);
+        // Ocultar loading solo cuando todo esté cargado
+        this.loading = false;
+        // Inicializar el modal después de que el loading termine
+        setTimeout(() => {
+          this.inicializarModal();
+        }, 100);
       })
       
     });
-    this.formModal = new window.bootstrap.Modal(
-      document.getElementById('cancelarTurno')
-    );
+  }
+
+  ngAfterViewInit(): void {
+    // Inicializar el modal cuando la vista esté lista
+    this.inicializarModal();
+  }
+
+  inicializarModal() {
+    const modalElement = document.getElementById('cancelarTurno');
+    if (modalElement && window.bootstrap && !this.formModal) {
+      this.formModal = new window.bootstrap.Modal(modalElement);
+    }
   }
 
   async cargarUsuario() {
@@ -163,11 +184,19 @@ export class MisTurnosComponent {
 
   abrirPopUp(razon:string){
     this.popUpRazon = razon;
-    this.formModal.show();
+    // Verificar que el modal esté inicializado
+    if (!this.formModal) {
+      this.inicializarModal();
+    }
+    if (this.formModal) {
+      this.formModal.show();
+    }
   }
 
   cerrarPopUp(){
-    this.formModal.hide();
+    if (this.formModal) {
+      this.formModal.hide();
+    }
   }
 
   completarResenia(){

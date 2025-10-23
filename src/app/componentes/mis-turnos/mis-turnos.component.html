@@ -1,61 +1,65 @@
+<app-logo [showSpinner]="loading"></app-logo>
 
-
-
-    <div class="container card mt-5">
-        <!-- Filtro -->
-        <div style="text-align: center;" class="">
-            <br>
-            <h4 for="fecha">Filtrar Turnos</h4>
-            <input name="filtro" [(ngModel)]="filtro" class="form-control" placeholder="Ingrese el nombre de la especialidad o nombre del especialista o paciente..."/>
-        </div>
-        <!-- Filtro -->
-    
-        <div class="row">
-            <!-- Lista  -->
-            <div class="col-md-4 order-md-1 mb-4">
-                <br>
-                <br>        
-                <h4 class="text-center" style="color: black">Turnos</h4>
-                <div class="list-group bg-light">
-                    <!--button type="button" class="list-group-item btn btn-secondary" (click)="verTurno(turno)" *ngFor="let turno of turnos | filtros:filtro">
-                        <i *ngIf="turno.estado == 'pendiente'" [ngStyle]="{'color': 'rgb(180, 180, 180)'}">{{turno.especialidad}} - {{turno.dia}} de {{turno.mes}}</i>
-                        <span *ngIf="turno.estado == 'cancelado' || turno.estado == 'rechazado'" [ngStyle]="{'color': 'red'}">{{turno.especialidad}} - {{turno.dia}} de {{turno.mes}}</span>
-                        <span *ngIf="turno.estado == 'aceptado'">{{turno.especialidad}} - {{turno.dia}} de {{turno.mes}}</span>
-                        <span *ngIf="turno.estado == 'finalizado'" [ngStyle]="{'color': 'green'}">{{turno.especialidad}} - {{turno.dia}} de {{turno.mes}}</span>
-                    </button--> 
-                    <button
-                    type="button"
-                    class="list-group-item list-group-item-action"
-                    *ngFor="let turno of turnos | filtros:filtro"
-                    [appEstadoColor]="turno.estado"
-                    (click)="verTurno(turno)"
-                  ><i >{{turno.especialidad}} - {{turno.dia}} de {{turno.mes}}</i></button>
-                <div style="text-align: center;" *ngIf="turnos.length == 0">
-    
-                    <br>
-                    <p>No se encontró ningun turno</p>
-                </div> 
-                </div>
+<div class="fondo-principal" *ngIf="!loading">
+    <div class="content-overlay">
+        <div class="container card mt-5">
+            <!-- Filtro -->
+            <div style="text-align: center;" class="mb-4">
+                <h4>Filtrar Turnos</h4>
+                <input name="filtro" [(ngModel)]="filtro" class="form-control" placeholder="Ingrese el nombre de la especialidad o nombre del especialista o paciente..."/>
             </div>
-            <!-- Lista  -->
+            <!-- Filtro -->
     
-            <!-- Detalles -->
-            <div class="col-md-8 order-md-2">
-                <br><br>
-                <h4 style="text-align: center;" class="mb-3">Información</h4>
-                <div class="mb-3">
+            <div class="row">
+                <!-- Lista  -->
+                <div class="col-md-4 order-md-1 mb-4">
+                    <h4 class="text-center mb-4">Turnos</h4>
+                    <div class="list-group">
+                        <button
+                            type="button"
+                            class="list-group-item list-group-item-action"
+                            *ngFor="let turno of turnos | filtros:filtro"
+                            [appEstadoColor]="turno.estado"
+                            (click)="verTurno(turno)">
+                            <i>{{turno.especialidad}} - {{turno.dia}} de {{turno.mes}}</i>
+                        </button>
+                        <div style="text-align: center;" *ngIf="turnos.length == 0" class="mt-3">
+                            <p style="color: #e5e7eb;">No se encontró ningún turno</p>
+                        </div> 
+                    </div>
+                </div>
+                <!-- Lista  -->
+    
+                <!-- Detalles -->
+                <div class="col-md-8 order-md-2">
+                    <h4 style="text-align: center;" class="mb-4">Información</h4>
+                    <div class="mb-3">
                     <label for="fecha">Fecha</label>
                     <input name="mail" [(ngModel)]="fechaAux" [readonly]="true" class="form-control"/>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 mb-3" *ngIf="usuario.tipo == 'paciente'">
-                        <label for="fecha">Especialista</label>
-                        <input name="fecha" [(ngModel)]="especialistaNombreCompleto" [readonly]="true" class="form-control"/>
+                    <!-- Para Paciente: solo muestra Especialista -->
+                    <div class="col-md-6 mb-3" *ngIf="usuario && usuario.tipo == 'paciente'">
+                        <label for="especialista">Especialista</label>
+                        <input name="especialista" [(ngModel)]="especialistaNombreCompleto" [readonly]="true" class="form-control"/>
                     </div>
-                    <div class="col-md-6 mb-3" *ngIf="usuario.tipo == 'especialista'">
-                        <label for="fecha">Paciente</label>
-                        <input name="fecha" [(ngModel)]="pacienteNombreCompleto" [readonly]="true" class="form-control"/>
+                    
+                    <!-- Para Especialista: solo muestra Paciente -->
+                    <div class="col-md-6 mb-3" *ngIf="usuario && usuario.tipo == 'especialista'">
+                        <label for="paciente">Paciente</label>
+                        <input name="paciente" [(ngModel)]="pacienteNombreCompleto" [readonly]="true" class="form-control"/>
                     </div>
+                    
+                    <!-- Para Admin: muestra ambos -->
+                    <div class="col-md-6 mb-3" *ngIf="usuario && usuario.tipo == 'admin'">
+                        <label for="especialista-admin">Especialista</label>
+                        <input name="especialista-admin" [(ngModel)]="especialistaNombreCompleto" [readonly]="true" class="form-control"/>
+                    </div>
+                    <div class="col-md-6 mb-3" *ngIf="usuario && usuario.tipo == 'admin'">
+                        <label for="paciente-admin">Paciente</label>
+                        <input name="paciente-admin" [(ngModel)]="pacienteNombreCompleto" [readonly]="true" class="form-control"/>
+                    </div>
+                    
                     <div class="col-md-6 mb-3">
                         <label for="apellido">Especialidad</label>
                         <input name="apellido" [(ngModel)]="especialidad" [readonly]="true" class="form-control"/>
@@ -63,67 +67,86 @@
                 </div>
                 <div class="mb-3" *ngIf="estado == 'finalizado'">
                     <label for="apellido">Turno</label>
-                        <div class="card" style="background-color: #fff;">
-                            <p>Diagnóstico: {{turnoElegido.comentario}}</p>
-                            <p *ngIf="usuario.tipo == 'especialista' && turnoElegido.calificacion !=='' ">Calificación: {{turnoElegido.calificacion}}</p>
+                        <div class="info-card turno-card">
+                            <div class="info-item">
+                                <span class="info-label">Diagnóstico:</span>
+                                <span class="info-value">{{turnoElegido.comentario}}</span>
+                            </div>
+                            <div class="info-item" *ngIf="usuario && usuario.tipo == 'especialista' && turnoElegido.calificacion !==''">
+                                <span class="info-label">Calificación:</span>
+                                <span class="info-value">{{turnoElegido.calificacion}}</span>
+                            </div>
                         </div>
                         <div *ngFor="let historia of historiaPrevia">
                             <div class="mb-3" *ngIf="historia.paciente == turnoElegido.paciente && historia.especialista == turnoElegido.especialista">
                                 <label for="apellido">Historia Clínica</label>
-                                <div class="card" style="background-color: #fff;">
-                                    <p>Altura: {{historia.altura}}</p>
-                                    <p>Peso: {{historia.peso}}</p>
-                                    <p>Presion: {{historia.presion}}</p>
-                                    <p>Temperatura: {{historia.temperatura}}</p>
-                                    <hr>
-                                    <h5>Dinámicos</h5>
-                                    <p *ngFor="let dinamico of historia.dinamicos">{{dinamico.clave}}: {{dinamico.valor}}</p>
-    
+                                <div class="info-card historia-card">
+                                    <div class="info-grid">
+                                        <div class="info-item">
+                                            <span class="info-label">Altura:</span>
+                                            <span class="info-value">{{historia.altura}} cm</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Peso:</span>
+                                            <span class="info-value">{{historia.peso}} kg</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Presión:</span>
+                                            <span class="info-value">{{historia.presion}}</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Temperatura:</span>
+                                            <span class="info-value">{{historia.temperatura}}°C</span>
+                                        </div>
+                                    </div>
+                                    <hr class="info-divider">
+                                    <h5 class="dinamicos-title">Dinámicos</h5>
+                                    <div class="dinamicos-list">
+                                        <div class="info-item" *ngFor="let dinamico of historia.dinamicos">
+                                            <span class="info-label">{{dinamico.clave}}:</span>
+                                            <span class="info-value">{{dinamico.valor}}</span>
+                                        </div>
+                                    </div>
                                 </div>
                         </div>
                    
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label for="fecha">Estado</label>
-                    <br>
-                    <button class="w-100 btn notButton" [ngClass]="{'btn-secondary': estado == 'pendiente','btn-danger': estado == 'cancelado' || estado == 'rechazado', 'btn-primary': estado == 'aceptado', 'btn-success': estado == 'finalizado'}">{{estado}}</button> 
+                    <div class="mb-3">
+                        <label for="fecha">Estado</label>
+                        <button class="w-100 btn notButton" [ngClass]="{'btn-secondary': estado == 'pendiente','btn-danger': estado == 'cancelado' || estado == 'rechazado', 'btn-primary': estado == 'aceptado', 'btn-success': estado == 'finalizado'}">{{estado}}</button> 
+                    </div>
+                    <!-- Botones Paciente -->
+                    <div style="text-align: center;" class="mt-4" *ngIf="usuario && usuario.tipo == 'paciente'">
+                        <button *ngIf="estado != 'finalizado' && estado != 'cancelado' && estado != 'rechazado' && estado != ''" class="w-50 btn btn-danger" (click)="abrirPopUp('cancelar')">Cancelar turno</button> 
+                        <button *ngIf="comentario != ''" (click)="abrirPopUp('reseña')" class="w-30 btn btn-primary calificadores">Ver reseña</button> 
+                        <button *ngIf="estado == 'finalizado'" (click)="abrirPopUp('calificar')" class="w-30 btn btn-primary calificadores">Calificar atención</button> 
+                        <button *ngIf="comentario != '' && estado == 'finalizado'" (click)="abrirPopUp('encuesta')" class="w-30 btn btn-primary calificadores">Completar encuesta</button> 
+                    </div>
+                    <!-- Botones Paciente -->
+        
+                    <!-- Botones Especialista -->
+                    <div style="text-align: center;" class="mt-4" *ngIf="usuario && usuario.tipo == 'especialista'">
+                        <button *ngIf="estado != 'aceptado' && estado != 'rechazado' && estado != 'finalizado' && estado != 'cancelado' && estado != ''" class="w-30 btn btn-primary calificadores" (click)="modificarTurnoSinComentario('aceptado')">Aceptar turno</button> 
+                        <button *ngIf="estado == 'aceptado'" class="w-50 btn btn-success" (click)="abrirPopUp('finalizado')">Finalizar turno</button> 
+                        <button *ngIf="estado != 'aceptado' && estado != 'rechazado' && estado != 'finalizado' && estado != 'cancelado' && estado != ''" class="w-30 btn btn-warning calificadores" (click)="abrirPopUp('rechazar')">Rechazar turno</button> 
+                        <button *ngIf="estado != 'aceptado' && estado != 'rechazado' && estado != 'finalizado' && estado != 'cancelado' && estado != ''" class="w-30 btn btn-danger calificadores" (click)="abrirPopUp('cancelar')">Cancelar turno</button> 
+                        <button *ngIf="comentario != ''" (click)="abrirPopUp('reseña')" class="w-50 btn btn-primary">Ver reseña</button> 
+                    </div>
+                    <!-- Botones Especialista -->
+        
+                    <!-- Botones Admin -->
+                    <div style="text-align: center;" class="mt-4" *ngIf="usuario && usuario.tipo == 'admin'">
+                        <button *ngIf="estado != 'aceptado' && estado != 'finalizado' && estado != 'rechazado' && estado != 'cancelado' && estado != ''" class="w-50 btn btn-warning" (click)="abrirPopUp('cancelar')">Cancelar turno</button> 
+                    </div>
+                    <!-- Botones Admin -->
                 </div>
-                <br><br><br>
-                <!-- Botones Paciente -->
-                <div style="text-align: center;" *ngIf="usuario.tipo == 'paciente'">
-                    <button *ngIf="estado != 'finalizado' && estado != 'cancelado' && estado != 'rechazado' && estado != ''" class="w-50 btn btn-danger" (click)="abrirPopUp('cancelar')">Cancelar turno</button> 
-                    <button *ngIf="comentario != ''" (click)="abrirPopUp('reseña')" class="w-30 btn btn-primary calificadores">Ver reseña</button> 
-                    <button *ngIf="estado == 'finalizado'" (click)="abrirPopUp('calificar')" class="w-30 btn btn-primary calificadores"> Calificar atención</button> 
-                    <button *ngIf="comentario != '' && estado == 'finalizado'" (click)="abrirPopUp('encuesta')" class="w-30 btn btn-primary calificadores">Completar encuesta</button> 
-                    <br>
-                </div>
-                <!-- Botones Paciente -->
+                <!-- Detalles -->
     
-                <!-- Botones Especialista -->
-                <div style="text-align: center;" *ngIf="usuario.tipo == 'especialista'">
-                    <button *ngIf="estado != 'aceptado' && estado != 'rechazado' && estado != 'finalizado' && estado != 'cancelado' && estado != ''" class="w-30 btn btn-primary calificadores" (click)="modificarTurnoSinComentario('aceptado')">Aceptar turno</button> 
-                    <button *ngIf="estado == 'aceptado'" class="w-50 btn btn-success" (click)="abrirPopUp('finalizado')">Finalizar turno</button> 
-                    <button *ngIf="estado != 'aceptado' && estado != 'rechazado' && estado != 'finalizado' && estado != 'cancelado' && estado != ''" class="w-30 btn btn-warning calificadores" (click)="abrirPopUp('rechazar')">Rechazar turno</button> 
-                    <button *ngIf="estado != 'aceptado' && estado != 'rechazado' && estado != 'finalizado' && estado != 'cancelado' && estado != ''" class="w-30 btn btn-danger calificadores" (click)="abrirPopUp('cancelar')">Cancelar turno</button> 
-                    <button *ngIf="comentario != ''" (click)="abrirPopUp('reseña')" class="w-50 btn btn-primary">Ver reseña</button> 
-                    <br>
-                </div>
-                <!-- Botones Especialista -->
-    
-                <!-- Botones Admin -->
-                <div style="text-align: center;" *ngIf="usuario.tipo == 'admin'">
-                    <button *ngIf="estado != 'aceptado' && estado != 'finalizado' && estado != 'rechazado' && estado != 'cancelado' && estado != ''" class="w-50 btn btn-warning" (click)="abrirPopUp('cancelar')">Cancelar turno</button> 
-                    <br>
-                </div>
-                <!-- Botones Admin -->
             </div>
-            <!-- Detalles -->
-    
         </div>
-    </div>
- 
-    <!-- PopUp -->
+    
+        <!-- PopUp -->
     <div class="modal fade" id="cancelarTurno" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content text-bg-dark" style="text-align: center;">
@@ -280,7 +303,9 @@
             </div>
             <!-- encuesta -->
                 
+                </div>
             </div>
         </div>
-
+    </div>
+</div>
 

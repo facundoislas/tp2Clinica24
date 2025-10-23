@@ -1,47 +1,719 @@
-/* Eliminado el fondo local, ahora usa el fondo global del app.component */
+/* Contenedor principal */
+.fondo-principal {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto;
+}
 
-  .card{
-    background-color: #919390;
-    padding: 70px;
-    opacity: 0.9;
-    
+/* Overlay para mejorar la legibilidad */
+.content-overlay {
+  background: rgba(0, 0, 0, 0.4);
+  min-height: 100vh;
+  padding: 40px 20px;
 }
-.card-color{
-    background-color: #ac9741;
+
+/* Contenedor principal de turnos */
+.container.card {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 1400px;
+  margin: 0 auto;
 }
+
+/* Título de filtro */
+h4 {
+  color: #14b8a6;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Input de filtro */
+.form-control {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  color: #fff;
+  padding: 12px 20px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 0.2rem rgba(20, 184, 166, 0.25);
+  color: #fff;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Lista de turnos */
+.list-group {
+  background: transparent !important;
+  border-radius: 15px;
+}
+
+.list-group-item {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+  margin-bottom: 12px;
+  border-radius: 15px !important;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 15px 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.list-group-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+  transform: translateX(8px) scale(1.02);
+  cursor: pointer;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Estados de turno con diseños modernos */
+
+/* Finalizado - Verde con gradiente */
+.estado-finalizado {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(56, 142, 60, 0.3)) !important;
+  border-color: #4caf50 !important;
+  border-left: 5px solid #4caf50 !important;
+}
+
+.estado-finalizado::before {
+  background: linear-gradient(135deg, #4caf50, #66bb6a);
+}
+
+.estado-finalizado:hover {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.4), rgba(56, 142, 60, 0.4)) !important;
+  border-color: #66bb6a !important;
+  box-shadow: 0 6px 25px rgba(76, 175, 80, 0.4);
+}
+
+/* Pendiente - Gris/Plateado */
+.estado-pendiente {
+  background: linear-gradient(135deg, rgba(158, 158, 158, 0.3), rgba(117, 117, 117, 0.3)) !important;
+  border-color: #9e9e9e !important;
+  border-left: 5px solid #9e9e9e !important;
+}
+
+.estado-pendiente::before {
+  background: linear-gradient(135deg, #9e9e9e, #bdbdbd);
+}
+
+.estado-pendiente:hover {
+  background: linear-gradient(135deg, rgba(158, 158, 158, 0.4), rgba(117, 117, 117, 0.4)) !important;
+  border-color: #bdbdbd !important;
+  box-shadow: 0 6px 25px rgba(158, 158, 158, 0.4);
+}
+
+/* Cancelado - Rojo con gradiente */
+.estado-cancelado {
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.3), rgba(211, 47, 47, 0.3)) !important;
+  border-color: #f44336 !important;
+  border-left: 5px solid #f44336 !important;
+}
+
+.estado-cancelado::before {
+  background: linear-gradient(135deg, #f44336, #e57373);
+}
+
+.estado-cancelado:hover {
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.4), rgba(211, 47, 47, 0.4)) !important;
+  border-color: #e57373 !important;
+  box-shadow: 0 6px 25px rgba(244, 67, 54, 0.4);
+}
+
+/* Rechazado - Naranja/Rojo oscuro */
+.estado-rechazado {
+  background: linear-gradient(135deg, rgba(255, 87, 34, 0.3), rgba(230, 74, 25, 0.3)) !important;
+  border-color: #ff5722 !important;
+  border-left: 5px solid #ff5722 !important;
+}
+
+.estado-rechazado::before {
+  background: linear-gradient(135deg, #ff5722, #ff7043);
+}
+
+.estado-rechazado:hover {
+  background: linear-gradient(135deg, rgba(255, 87, 34, 0.4), rgba(230, 74, 25, 0.4)) !important;
+  border-color: #ff7043 !important;
+  box-shadow: 0 6px 25px rgba(255, 87, 34, 0.4);
+}
+
+/* Aceptado - Azul/Turquesa */
+.estado-aceptado {
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.3), rgba(25, 118, 210, 0.3)) !important;
+  border-color: #2196f3 !important;
+  border-left: 5px solid #2196f3 !important;
+}
+
+.estado-aceptado::before {
+  background: linear-gradient(135deg, #2196f3, #42a5f5);
+}
+
+.estado-aceptado:hover {
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.4), rgba(25, 118, 210, 0.4)) !important;
+  border-color: #42a5f5 !important;
+  box-shadow: 0 6px 25px rgba(33, 150, 243, 0.4);
+}
+
+/* Estado por defecto */
+.estado-default {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.estado-default::before {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Icono de estado (opcional) */
+.list-group-item i {
+  font-style: normal;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.list-group-item i::before {
+  content: '●';
+  font-size: 1.2rem;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.estado-finalizado i::before {
+  color: #66bb6a;
+}
+
+.estado-pendiente i::before {
+  color: #bdbdbd;
+}
+
+.estado-cancelado i::before {
+  color: #e57373;
+}
+
+.estado-rechazado i::before {
+  color: #ff7043;
+}
+
+.estado-aceptado i::before {
+  color: #42a5f5;
+}
+
+/* Labels */
+label {
+  color: #14b8a6;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Inputs de información */
+input[readonly] {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e5e7eb;
+}
+
+/* Botones de estado */
+.notButton {
+  cursor: default;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 12px;
+}
+
+/* Botones de acción */
+.btn {
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  margin: 5px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
+  border: none;
+  box-shadow: 0 4px 15px rgba(20, 184, 166, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0d9488, #0f766e);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+  border: none;
+  box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #d32f2f, #c62828);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+  border: none;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #388e3c, #2e7d32);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  border: none;
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+  color: #fff;
+}
+
+.btn-warning:hover {
+  background: linear-gradient(135deg, #f57c00, #ef6c00);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  border: none;
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #5a6268, #4e555b);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+}
+
+.calificadores {
+  margin: 10px;
+}
+
+/* Card interna */
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 10px 0;
+}
+
+.card p {
+  color: #e5e7eb;
+  margin: 8px 0;
+}
+
+/* Tarjetas de información modernas */
+.info-card {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.15), rgba(6, 182, 212, 0.15));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(20, 184, 166, 0.3);
+  border-radius: 20px;
+  padding: 25px;
+  margin: 15px 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #14b8a6, #06b6d4, #14b8a6);
+  background-size: 200% auto;
+  animation: gradientShift 3s linear infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Tarjeta de turno */
+.turno-card {
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.15), rgba(25, 118, 210, 0.15));
+  border-color: rgba(33, 150, 243, 0.4);
+}
+
+.turno-card::before {
+  background: linear-gradient(90deg, #2196f3, #42a5f5, #2196f3);
+}
+
+/* Tarjeta de historia clínica */
+.historia-card {
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.15), rgba(25, 118, 210, 0.15));
+  border-color: rgba(33, 150, 243, 0.4);
+}
+
+.historia-card::before {
+  background: linear-gradient(90deg, #2196f3, #42a5f5, #2196f3);
+}
+
+/* Items de información */
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  color: #14b8a6;
+  font-weight: 700;
+  font-size: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  color: #e5e7eb;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: right;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Grid para datos de historia clínica */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+}
+
+/* Divisor */
+.info-divider {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.5), transparent);
+  margin: 20px 0;
+}
+
+/* Título de dinámicos */
+.dinamicos-title {
+  color: #14b8a6;
+  font-weight: 700;
+  font-size: 1.3rem;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.dinamicos-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #14b8a6, transparent);
+  border-radius: 3px;
+}
+
+/* Lista de dinámicos */
+.dinamicos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dinamicos-list .info-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0;
+}
+
+/* Modal */
+.modal-content {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
+.card-color {
+  background: transparent;
+}
+
+.card-color h1 {
+  color: #14b8a6;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Textarea */
+textarea.form-control {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  color: #fff;
+  resize: vertical;
+}
+
+textarea.form-control:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 0.2rem rgba(20, 184, 166, 0.25);
+  color: #fff;
+}
+
+/* Estrellas */
 .star-wrapper {
-    direction: rtl;
+  direction: rtl;
 }
+
 .star-wrapper span {
-text-decoration: none;
-transition: all 0.5s;
-margin: 4px;
+  text-decoration: none;
+  transition: all 0.5s;
+  margin: 4px;
+  color: rgba(255, 255, 255, 0.3);
 }
+
 .star-wrapper span:hover {
-color: gold;
-transform: scale(1.3);
-cursor: pointer;
+  color: gold;
+  transform: scale(1.3);
+  cursor: pointer;
 }
+
 .s1:hover ~ span {
-color: gold;
+  color: gold;
 }
+
 .s2:hover ~ span {
-color: gold;
+  color: gold;
 }
+
 .s3:hover ~ span {
-color: gold;
+  color: gold;
 }
+
 .s4:hover ~ span {
-color: gold;
+  color: gold;
 }
+
 .s5:hover ~ span {
-color: gold;
+  color: gold;
 }
 
-.checked{
-color: gold;
-}
-.calificadores{
-    margin: 10px;
+.checked {
+  color: gold;
 }
 
+/* Mensajes de error */
+p[style*="color: red"] {
+  color: #f44336 !important;
+  font-weight: 600;
+}
+
+/* Range input */
+.form-range {
+  accent-color: #14b8a6;
+}
+
+/* Checkbox switch */
+.form-check-input {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.form-check-input:checked {
+  background-color: #14b8a6;
+  border-color: #14b8a6;
+}
+
+.form-check-label {
+  color: #e5e7eb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container.card {
+    padding: 20px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+  
+  .calificadores {
+    width: 100% !important;
+    margin: 5px 0 !important;
+  }
+
+  .info-card {
+    padding: 20px 15px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .info-value {
+    width: 100%;
+    text-align: left;
+  }
+
+  .dinamicos-title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .info-label {
+    font-size: 0.9rem;
+  }
+
+  .info-value {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.container.card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.list-group-item {
+  animation: slideInLeft 0.4s ease-out;
+}
+
+.list-group-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.list-group-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.list-group-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.list-group-item:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.list-group-item:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+/* Efecto de pulso para estados importantes */
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Título de la sección de turnos */
+.text-center.mb-4 {
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.text-center.mb-4::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #14b8a6, transparent);
+  border-radius: 3px;
+}

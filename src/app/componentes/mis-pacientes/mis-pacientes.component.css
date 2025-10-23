@@ -1,18 +1,32 @@
 /* Contenedor de mis pacientes - usa el fondo global */
 .pacientes-container {
   min-height: 100vh;
-  padding: 20px;
+  padding: 100px 20px 40px;
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #1a202c 100%);
 }
 
-  .volver-btn {
-    position: absolute;
-    top: 110px;
-    right: 10%;
-    background-color: #f44336;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-  }
+.volver-btn {
+  position: absolute;
+  top: 110px;
+  right: 10%;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
+
+.volver-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+.volver-btn:active {
+  transform: translateY(0) scale(0.98);
+}

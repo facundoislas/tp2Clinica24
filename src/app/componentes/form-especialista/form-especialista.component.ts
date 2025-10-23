@@ -39,6 +39,7 @@ export class FormEspecialistaComponent {
   private storage = getStorage();
   resultado!:boolean;
   especialidades:Especialidad[] = [];
+  especialidadesSeleccionadas: {especialidad: string}[] = [];
   formRegistro!:any;
   mostrarNuevaEspecialidad: boolean = false;
   nuevaEspecialidad: string = '';
@@ -55,7 +56,6 @@ export class FormEspecialistaComponent {
       apellido:['', [Validators.required, Validators.minLength(2)]],
       edad:['', [Validators.required, Validators.min(0), Validators.max(150)]],
       dni: ['', [Validators.required, Validators.min(1000000), Validators.max(100000000)]],
-      especialidad: ['', []],
       email:['', [Validators.required, Validators.email]],
       contrasena:['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],
       contrasena2:['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],
@@ -75,8 +75,31 @@ export class FormEspecialistaComponent {
     });
   }
 
-  get especialidad(){
-    return this.formRegistro.get('especialidad')?.value;
+  // Verifica si al menos una especialidad está seleccionada
+  get tieneEspecialidadSeleccionada(): boolean {
+    return this.especialidadesSeleccionadas.length > 0;
+  }
+
+  // Verifica si una especialidad está seleccionada
+  isEspecialidadSeleccionada(especialidad: string): boolean {
+    return this.especialidadesSeleccionadas.some(e => e.especialidad === especialidad);
+  }
+
+  // Toggle especialidad seleccionada
+  toggleEspecialidad(especialidad: string, event: any): void {
+    const isChecked = event.target.checked;
+    
+    if (isChecked) {
+      // Agregar especialidad
+      this.especialidadesSeleccionadas.push({ especialidad: especialidad });
+    } else {
+      // Remover especialidad
+      this.especialidadesSeleccionadas = this.especialidadesSeleccionadas.filter(
+        e => e.especialidad !== especialidad
+      );
+    }
+    
+    console.log("Especialidades seleccionadas:", this.especialidadesSeleccionadas);
   }
 
   ngOnInit() {
@@ -96,6 +119,12 @@ export class FormEspecialistaComponent {
    
   async enviar()
   {
+    // Validar que haya al menos una especialidad seleccionada
+    if(!this.tieneEspecialidadSeleccionada) {
+      this.MostarMensaje("Debe seleccionar al menos una especialidad", true);
+      return;
+    }
+
     if(this.formRegistro.valid)
     {
       if(this.especialista.pass == this.contrasena2)
@@ -120,7 +149,7 @@ export class FormEspecialistaComponent {
           dni: this.especialista.dni,
           contraseña: this.especialista.pass,
           edad: this.especialista.edad,
-          especialidad: this.formRegistro.get('especialidad')?.value,
+          especialidad: this.especialidadesSeleccionadas,
           foto1: downloadURL,
           aprobado: false,
           id: user?.user.uid
@@ -239,20 +268,29 @@ export class FormEspecialistaComponent {
     this.foto1 = null as any;
     this.mostrarNuevaEspecialidad = false;
     this.nuevaEspecialidad = '';
+    this.especialidadesSeleccionadas = [];
   }
 
-  onEspecialidadChange(event: any) {
-    const valor = event.target.value;
-    if (valor === 'nueva') {
-      this.mostrarNuevaEspecialidad = true;
-      this.formRegistro.patchValue({ especialidad: '' });
-    } else {
-      this.mostrarNuevaEspecialidad = false;
-    }
+  mostrarFormularioNuevaEspecialidad() {
+    this.mostrarNuevaEspecialidad = true;
   }
 
   async agregarNuevaEspecialidad() {
     if (this.nuevaEspecialidad.trim()) {
+      // Normalizar el texto para comparación (minúsculas y sin espacios extra)
+      const especialidadNormalizada = this.nuevaEspecialidad.trim().toLowerCase();
+      
+      // Verificar si la especialidad ya existe
+      const especialidadExistente = this.especialidades.find(
+        esp => esp.especialidad.toLowerCase() === especialidadNormalizada
+      );
+      
+      if (especialidadExistente) {
+        this.MostarMensaje('Esta especialidad ya existe. Por favor, selecciónela de la lista.', true);
+        this.cancelarNuevaEspecialidad();
+        return;
+      }
+      
       try {
         const col = collection(this.fire, 'especialidades');
         const nuevaEsp = { especialidad: this.nuevaEspecialidad.trim() };
@@ -260,23 +298,35 @@ export class FormEspecialistaComponent {
         await addDoc(col, nuevaEsp);
         
         this.especialidades.push(nuevaEsp as Especialidad);
-        this.formRegistro.patchValue({ especialidad: this.nuevaEspecialidad.trim() });
-        // Solo asignar el string del nombre de la especialidad
-        this.especialista.especialidad = [nuevaEsp as Especialidad];
+        
+        // Seleccionar automáticamente la nueva especialidad
+        this.especialidadesSeleccionadas.push({ especialidad: this.nuevaEspecialidad.trim() });
         
         this.cancelarNuevaEspecialidad();
-        this.MostarMensaje('Especialidad agregada exitosamente', false);
+        this.MostarMensaje('Especialidad agregada y seleccionada exitosamente', false);
       } catch (error) {
         console.error('Error al agregar especialidad:', error);
         this.MostarMensaje('Error al agregar la especialidad', true);
       }
+    } else {
+      this.MostarMensaje('Debe ingresar un nombre para la especialidad', true);
     }
   }
 
   cancelarNuevaEspecialidad() {
     this.mostrarNuevaEspecialidad = false;
     this.nuevaEspecialidad = '';
-    this.formRegistro.patchValue({ especialidad: '' });
+  }
+
+  // Verifica si la especialidad ingresada ya existe
+  especialidadYaExiste(): boolean {
+    if (!this.nuevaEspecialidad.trim()) {
+      return false;
+    }
+    const especialidadNormalizada = this.nuevaEspecialidad.trim().toLowerCase();
+    return this.especialidades.some(
+      esp => esp.especialidad.toLowerCase() === especialidadNormalizada
+    );
   }
 
 }

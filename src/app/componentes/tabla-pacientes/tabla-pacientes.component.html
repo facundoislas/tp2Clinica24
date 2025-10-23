@@ -1,48 +1,48 @@
-    
-  <section id="tabs" class="project-tab">
-   
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-               
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        
-                        <h1 style="text-align: center;">Mis Pacientes</h1>
+<div class="tabla-pacientes-container">
+  
+  <h1 class="titulo-gestion">Mis Pacientes</h1>
 
-                        <table class="table" cellspacing="0" style="text-align: center" >
-                                <thead>
-                                    <tr>
-                                      <th>Nombre</th>
-                                      <th>Apellido</th>
-                                      <th>Edad</th>
-                       
-                                      <th>Correo</th>
-                                      <th>Obra Social</th>
-                                      <th>Historia Clinica</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="text-align: center">
-                                    <tr *ngFor="let user of listaPacientesEsp">
-                                        <td>{{user.nombre}}</td>
-                                        <td>{{user.apellido}}</td>
-                                        <td>{{user.edad}}</td>
-                                       
+  <!-- Tabla de Pacientes -->
+  <div class="tabla-wrapper">
+    <table class="tabla-pacientes-moderna">
+      
+      <!-- Encabezado de la Tabla -->
+      <thead>
+        <tr>
+          <th class="th-first">Nombre</th>
+          <th>Apellido</th>
+          <th>Edad</th>
+          <th>Correo</th>
+          <th>Obra Social</th>
+          <th class="th-last text-center">Historia Clínica</th>
+        </tr>
+      </thead>
 
-                                        <td>{{user.email}}</td>
-                                        <td>{{user.obraSocial}}</td>
-                                        <td><button class="btn btn-info" (click)="seleccionarPaciente(user.email)" >Historia Clinica</button></td>
-                                        
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
+      <tbody>
+        <!-- Filas dinámicas de pacientes -->
+        <tr *ngFor="let user of listaPacientesEsp" class="fila-hover">
+          <td [attr.data-label]="'Nombre'" class="nombre-cell">{{user.nombre}}</td>
+          <td [attr.data-label]="'Apellido'" class="apellido-cell">{{user.apellido}}</td>
+          <td [attr.data-label]="'Edad'" class="edad-cell">{{user.edad}}</td>
+          <td [attr.data-label]="'Correo'" class="email-cell">{{user.email}}</td>
+          <td [attr.data-label]="'Obra Social'" class="obra-social-cell">{{user.obraSocial}}</td>
+          
+          <!-- Historia Clínica -->
+          <td [attr.data-label]="'Historia Clínica'" class="text-center acciones-cell">
+            <button class="btn-historia" (click)="seleccionarPaciente(user.email)">
+              Ver Historia Clínica
+            </button>
+          </td>
+        </tr>
 
-                            
+        <!-- Mensaje cuando no hay pacientes -->
+        <tr *ngIf="listaPacientesEsp.length === 0">
+          <td colspan="6" class="no-pacientes">
+            No tienes pacientes registrados aún
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+</div>

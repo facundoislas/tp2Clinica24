@@ -71,9 +71,9 @@
              
 
               <!-- Botón Ver Mis Horarios -->
-              <!--button (click)="abrirMisHorarios()" class="perfil-btn-horarios">
+              <button (click)="abrirMisHorarios()" class="perfil-btn-horarios">
                 Ver Mis Horarios
-              </button-->
+              </button>
             </div>
 
           </div>
@@ -156,9 +156,9 @@
               
 
               <!-- Botón Historial Clínico -->
-              <!--button routerLink="/historial" class="perfil-btn-horarios">
+              <button routerLink="/historial" class="perfil-btn-horarios">
                 Ver Historial Clínico
-              </button-->
+              </button>
             </div>
 
           </div>
@@ -227,80 +227,82 @@
             </div>
 
           </div>
-          <!-- MODAL DE HORARIOS PARA ESPECIALISTA -->
-          <div class="modal-horarios-container" *ngIf="userData?.tipo === 'especialista' && mostrar === true">
-                <div class="modal-content card" style="text-align: center; max-width: 1200px;max-height: 600px; margin: 0 auto;">
-                  <br>
-                  <h1 class="title">Disponibilidad Horaria</h1>
-                  <br>
-                  <div style="margin: 0 auto; float: none;" class="w-75 row" *ngFor="let dias of dias; let i=index">
-                    <div class="col-md-3 mb-3">
-                      <button (click)="cambiarEstado(dias.dia, disponibilidades[i])"
-                              [ngClass]="{'btn-success': disponibilidades[i] === 'Habilitado', 'btn-danger': disponibilidades[i] === 'Inhabilitado'}"
-                              class="btn disponibilidad">{{ dias.dia }} {{ disponibilidades[i] }}</button>
-                    </div>
-                    <div class="col-md-3 mb-3" >
-                      <div class="form-floating mb-3">
-                        <div class="btn-group w-100" dropdown >
-                            <div *ngIf="disponibilidades[i] != 'Habilitado'">
-                          <button id="button-basic" dropdownToggle type="button"
-                          class="btn btn btn-secondary dropdown-toggle"
-                          aria-controls="dropdown-basic">{{ dias.ini }}<span class="caret"></span>
-                        </button></div>
-                          <div *ngIf="disponibilidades[i] == 'Habilitado'">
-                            <mat-form-field>
-                                <mat-select (change)="cambiarHorario(dias.dia, 'inicio', $event)" [(ngModel)]="dias.ini">
-                                    <mat-option *ngFor="let esp of horarios" [value]="esp">{{esp}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                      <div class="form-floating mb-3">
-                        <div class="btn-group w-100" dropdown >
-                            <div *ngIf="disponibilidades[i] != 'Habilitado'">
-                          <button id="button-basic" dropdownToggle type="button"
-                                  class="btn btn btn-secondary dropdown-toggle"
-                                  aria-controls="dropdown-basic">{{ dias.fin }}<span class="caret"></span>
-                          </button></div>
-                          
-                          <div *ngIf="disponibilidades[i] == 'Habilitado'">
-                            <mat-form-field>
-                                <mat-select (change)="cambiarHorario(dias.dia, 'fin', $event)" [(ngModel)]="dias.fin">
-                                    <mat-option *ngFor="let esp of horarios" [value]="esp">{{esp}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                      <div class="form-floating mb-3">
-                        <div class="btn-group w-100" dropdown>
-                            <div *ngIf="disponibilidades[i] != 'Habilitado'">
-                          <button id="button-basic2" dropdownToggle type="button"
-                                  class="btn btn btn-secondary dropdown-toggle"
-                                  aria-controls="dropdown-basic">{{ especialidadesPorDia[i] }}<span class="caret"></span>
-                          </button></div>
-                        
-                          <div *ngIf="disponibilidades[i] == 'Habilitado'">
-                            <mat-form-field>
-                                <mat-select (change)="cambiarEspecialidad(dias.dia, $event)" [(ngModel)]="especialidadesPorDia[i]">
-                                    <mat-option *ngFor="let esp of userData.especialidad" [value]="esp">{{esp.especialidad}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                  </div>
-                  <button style="margin: 0 auto; float: none;" class="btn btn-primary" (click)="cerrarModulo()">Confirmar</button>
+          <!-- HORARIOS PARA ESPECIALISTA -->
+          <div class="horarios-section" *ngIf="userData?.tipo === 'especialista' && mostrar === true">
+            
+            <!-- Header -->
+            <div class="horarios-header-main">
+              <h2 class="horarios-titulo-main">Disponibilidad Horaria</h2>
+              <p class="horarios-subtitulo-main">Configure sus horarios de atención por día</p>
+            </div>
 
-                  <br>
+            <!-- Grid de días (4 por fila) -->
+            <div class="horarios-grid">
+              <div class="dia-card" *ngFor="let dias of dias; let i=index">
+                
+                <!-- Botón de estado del día -->
+                <button (click)="cambiarEstado(dias.dia, disponibilidades[i])"
+                        [ngClass]="{
+                          'dia-habilitado': disponibilidades[i] === 'Habilitado', 
+                          'dia-inhabilitado': disponibilidades[i] === 'Inhabilitado'
+                        }"
+                        class="btn-dia-toggle">
+                  {{ dias.dia }}
+                  <span class="estado-badge-small">{{ disponibilidades[i] }}</span>
+                </button>
+
+                <!-- Contenido cuando está habilitado -->
+                <div class="dia-content" *ngIf="disponibilidades[i] === 'Habilitado'">
+                  
+                  <div class="horario-group">
+                    <label class="horario-label-small">Inicio</label>
+                    <mat-form-field appearance="fill" class="mat-field-compact">
+                      <mat-select (selectionChange)="cambiarHorario(dias.dia, 'inicio', $event)" 
+                                  [(ngModel)]="dias.ini">
+                        <mat-option *ngFor="let hora of horarios" [value]="hora">{{hora}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="horario-group">
+                    <label class="horario-label-small">Fin</label>
+                    <mat-form-field appearance="fill" class="mat-field-compact">
+                      <mat-select (selectionChange)="cambiarHorario(dias.dia, 'fin', $event)" 
+                                  [(ngModel)]="dias.fin">
+                        <mat-option *ngFor="let hora of horarios" [value]="hora">{{hora}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="horario-group">
+                    <label class="horario-label-small">Especialidad</label>
+                    <mat-form-field appearance="fill" class="mat-field-compact">
+                      <mat-select (selectionChange)="cambiarEspecialidad(dias.dia, $event)" 
+                                  [(ngModel)]="especialidadesPorDia[i]">
+                        <mat-option *ngFor="let esp of userData.especialidad" [value]="esp.especialidad">
+                          {{esp.especialidad}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
                 </div>
+
+                <!-- Vista deshabilitada -->
+                <div class="dia-disabled" *ngIf="disponibilidades[i] === 'Inhabilitado'">
+                  <p class="disabled-msg">Día inhabilitado<br>Sin atención</p>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Botón de confirmación -->
+            <div class="horarios-footer-main">
+              <button class="btn-confirmar-main" (click)="cerrarModulo()">
+                Confirmar y Guardar
+              </button>
+            </div>
+
           </div>
          
       </div>

@@ -7,6 +7,7 @@ import { Directive, ElementRef, Input, OnChanges, Renderer2 } from '@angular/cor
 export class EstadoColorDirective implements OnChanges  {
 
   @Input('appEstadoColor') estado!: string;
+  private currentClasses: string[] = [];
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
@@ -15,22 +16,38 @@ export class EstadoColorDirective implements OnChanges  {
   }
 
   private setColor() {
-    let colorClass = '';
+    // Remover clases anteriores de estado
+    this.currentClasses.forEach(cls => {
+      this.renderer.removeClass(this.el.nativeElement, cls);
+    });
+    this.currentClasses = [];
 
+    // Aplicar nuevas clases según el estado
     switch (this.estado) {
       case 'finalizado':
-        colorClass = 'bg-success text-white'; // Verde para finalizado
+        this.addClasses(['estado-finalizado']);
         break;
       case 'pendiente':
-        colorClass = 'bg-secondary text-white'; // Gris para pendiente
+        this.addClasses(['estado-pendiente']);
         break;
       case 'cancelado':
-        colorClass = 'bg-danger text-white'; // Rojo para cancelado
+        this.addClasses(['estado-cancelado']);
+        break;
+      case 'rechazado':
+        this.addClasses(['estado-rechazado']);
+        break;
+      case 'aceptado':
+        this.addClasses(['estado-aceptado']);
         break;
       default:
-        colorClass = 'bg-light'; // Color por defecto
+        this.addClasses(['estado-default']);
     }
+  }
 
-    this.renderer.setAttribute(this.el.nativeElement, 'class', colorClass);
+  private addClasses(classes: string[]) {
+    classes.forEach(cls => {
+      this.renderer.addClass(this.el.nativeElement, cls);
+      this.currentClasses.push(cls);
+    });
   }
 }

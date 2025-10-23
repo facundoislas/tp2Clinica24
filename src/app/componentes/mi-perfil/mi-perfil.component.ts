@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterLink } from '@angular/router';
 import { LogoComponent } from '../logo/logo.component';
+import { AlertServiceService } from '../../servicios/alert-service.service';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class MiPerfilComponent {
   seccion:string = 'menu';
   tipoUsuarioARegistrar:string = '';
 
-  constructor(private firebaseService: FirebaseService, private horarioEspService: HorariosEspecialistaService) { }
+  constructor(private firebaseService: FirebaseService, private horarioEspService: HorariosEspecialistaService, private alert: AlertServiceService) { }
 
   ngOnInit(): void {
     console.log("=== MI-PERFIL COMPONENT INIT ===");
@@ -86,7 +87,22 @@ export class MiPerfilComponent {
           if (this.userData.email == hora.email) {
             this.horariosEspecialista = hora;
             this.disponibilidades = this.horariosEspecialista.estados;
-            this.especialidadesPorDia = this.horariosEspecialista.especialidadesPorDia;
+            // Inicializar especialidadesPorDia si viene vacío o undefined
+            if (this.horariosEspecialista.especialidadesPorDia && this.horariosEspecialista.especialidadesPorDia.length > 0) {
+              // Convertir objetos a strings si es necesario
+              this.especialidadesPorDia = this.horariosEspecialista.especialidadesPorDia.map((esp: any) => {
+                // Si es un objeto, extraer la propiedad especialidad
+                if (typeof esp === 'object' && esp !== null && esp.especialidad) {
+                  return esp.especialidad;
+                }
+                // Si ya es un string, devolverlo tal cual
+                return esp || "";
+              });
+            } else {
+              // Inicializar con array vacío de 6 elementos (uno por cada día)
+              this.especialidadesPorDia = ["", "", "", "", "", ""];
+            }
+            console.log("Especialidades cargadas:", this.especialidadesPorDia);
             this.cargarHorarios(hora);
           }
         });
@@ -173,9 +189,8 @@ export class MiPerfilComponent {
 
   }
 
-  cambiarHorario(dia:string,tipo:string, event: Event){
-    const selectElement = event.target as HTMLSelectElement;
-    const selectedValue = selectElement.value;
+  cambiarHorario(dia:string,tipo:string, event: any){
+    const selectedValue = event.value;
 
     if(tipo == "inicio"){
       switch(dia){
@@ -223,10 +238,17 @@ export class MiPerfilComponent {
     }
   }
 
-  cambiarEspecialidad(dia:string,event: Event){
-    console.log(this.especialidadesPorDia)
-    const selectElement = event.target as HTMLSelectElement;
-    const selectedValue = selectElement.value;
+  cambiarEspecialidad(dia:string,event: any){
+    // Extraer el valor seleccionado, asegurándose de que sea un string
+    let selectedValue = event.value;
+    
+    // Si por alguna razón viene como objeto, extraer solo el string
+    if (typeof selectedValue === 'object' && selectedValue !== null && selectedValue.especialidad) {
+      selectedValue = selectedValue.especialidad;
+    }
+    
+    console.log("Especialidad seleccionada para", dia, ":", selectedValue);
+    
     switch(dia){
       case "Lunes":
         this.especialidadesPorDia[0] = selectedValue;
@@ -247,6 +269,8 @@ export class MiPerfilComponent {
         this.especialidadesPorDia[5] = selectedValue;
         break;
     }
+    
+    console.log("Array actualizado:", this.especialidadesPorDia);
   }
 
   actualizarHorarioEspecialista(){
@@ -262,11 +286,24 @@ export class MiPerfilComponent {
     this.horariosEspecialista.vierFin = this.dias[4].fin;
     this.horariosEspecialista.sabInicio = this.dias[5].ini;
     this.horariosEspecialista.sabFin = this.dias[5].fin;
+    
+    // Actualizar especialidades por día, asegurándose de que sean strings
+    this.horariosEspecialista.especialidadesPorDia = this.especialidadesPorDia.map((esp: any) => {
+      // Si es un objeto, extraer el string
+      if (typeof esp === 'object' && esp !== null && esp.especialidad) {
+        return esp.especialidad;
+      }
+      // Si ya es string, devolverlo tal cual
+      return esp || "";
+    });
+    
+    console.log("Horarios a guardar:", this.horariosEspecialista);
   }
 
   cerrarModulo(){
     this.actualizarHorarioEspecialista();
     this.horarioEspService.updateHorarioEspecialistas(this.horariosEspecialista);
+    this.alert.showSuccessAlert1("", "Se han guardado tus horarios", "success");
     this.mostrar = false;
   }
 

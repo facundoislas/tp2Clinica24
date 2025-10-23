@@ -112,57 +112,89 @@
                             </div>
                         </div>
 
-                        <!-- Campo Especialidad -->
-                        <div class="form-group col-4">
-                            <label for="especialidad" class="form-label">Especialidad</label>
-                            <div class="especialidad-container">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-stethoscope"></i></span>
-                                    </div>
-                                    <select 
-                                        id="especialidad"
-                                        class="form-control"
-                                        [class.is-invalid]="formRegistro.get('especialidad')?.invalid && formRegistro.get('especialidad')?.touched"
-                                        [class.is-valid]="formRegistro.get('especialidad')?.valid && formRegistro.get('especialidad')?.touched"
-                                        formControlName="especialidad" 
-                                        [(ngModel)]="this.especialista.especialidad"
-                                        (change)="onEspecialidadChange($event)">
-                                        <option value="">Seleccione especialidad</option>
-                                        <option *ngFor="let esp of especialidades" [value]="esp.especialidad">{{esp.especialidad}}</option>
-                                        <option value="nueva">+ Agregar nueva</option>
-                                    </select>
-                                </div>
-                                
-                                <!-- Campo para nueva especialidad -->
-                                <div class="nueva-especialidad" *ngIf="mostrarNuevaEspecialidad">
-                                    <div class="input-group mt-1">
+                        <!-- Campo Especialidades (Selección Múltiple) -->
+                        <div class="form-group col-8">
+                            <label class="form-label">
+                                <i class="fa fa-stethoscope"></i> Especialidades 
+                                <span class="badge badge-info ml-2">{{especialidadesSeleccionadas.length}} seleccionadas</span>
+                            </label>
+                            
+                            <!-- Grid de especialidades con checkboxes -->
+                            <div class="especialidades-grid">
+                                <div class="especialidad-checkbox" *ngFor="let esp of especialidades">
+                                    <label class="checkbox-label">
                                         <input 
-                                            type="text" 
-                                            placeholder="Nueva especialidad"
-                                            class="form-control form-control-sm"
-                                            [(ngModel)]="nuevaEspecialidad"
-                                            [ngModelOptions]="{standalone: true}">
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-success btn-sm" (click)="agregarNuevaEspecialidad()">
-                                                <i class="fa fa-check"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-secondary btn-sm" (click)="cancelarNuevaEspecialidad()">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        </div>
-                                    </div>
+                                            type="checkbox" 
+                                            [checked]="isEspecialidadSeleccionada(esp.especialidad)"
+                                            (change)="toggleEspecialidad(esp.especialidad, $event)">
+                                        <span class="checkbox-custom"></span>
+                                        <span class="checkbox-text">{{esp.especialidad}}</span>
+                                    </label>
                                 </div>
                             </div>
-                            <div class="validation-messages" *ngIf="formRegistro.get('especialidad')?.invalid && formRegistro.get('especialidad')?.touched">
-                                <small class="text-danger" *ngIf="formRegistro.get('especialidad')?.errors?.['required']">
-                                    <i class="fa fa-exclamation-circle"></i> Requerido
+                            
+                            <!-- Botón para agregar nueva especialidad -->
+                            <div class="mt-2">
+                                <button 
+                                    type="button" 
+                                    class="btn btn-sm btn-outline-primary" 
+                                    (click)="mostrarFormularioNuevaEspecialidad()"
+                                    *ngIf="!mostrarNuevaEspecialidad">
+                                    <i class="fa fa-plus"></i> Agregar nueva especialidad
+                                </button>
+                            </div>
+                            
+                            <!-- Campo para nueva especialidad -->
+                            <div class="nueva-especialidad mt-2" *ngIf="mostrarNuevaEspecialidad">
+                                <div class="input-group">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Nueva especialidad"
+                                        class="form-control form-control-sm"
+                                        [class.input-duplicado]="especialidadYaExiste()"
+                                        [(ngModel)]="nuevaEspecialidad"
+                                        [ngModelOptions]="{standalone: true}">
+                                    <div class="input-group-append">
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-success btn-sm" 
+                                            [disabled]="especialidadYaExiste() || !nuevaEspecialidad.trim()"
+                                            (click)="agregarNuevaEspecialidad()">
+                                            <i class="fa fa-check"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm" (click)="cancelarNuevaEspecialidad()">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Mensaje de advertencia si ya existe -->
+                                <div class="alerta-duplicado" *ngIf="especialidadYaExiste()">
+                                    <small class="text-danger">
+                                        <i class="fa fa-exclamation-triangle"></i> Esta especialidad ya existe
+                                    </small>
+                                </div>
+                                <!-- Mensaje de ayuda -->
+                                <div class="ayuda-texto" *ngIf="nuevaEspecialidad.trim() && !especialidadYaExiste()">
+                                    <small class="text-success">
+                                        <i class="fa fa-check-circle"></i> Especialidad disponible
+                                    </small>
+                                </div>
+                            </div>
+                            
+                            <!-- Mensaje de validación -->
+                            <div class="validation-messages" *ngIf="!tieneEspecialidadSeleccionada">
+                                <small class="text-warning">
+                                    <i class="fa fa-exclamation-triangle"></i> Debe seleccionar al menos una especialidad
                                 </small>
                             </div>
                         </div>
 
+                    </div>
+
+                    <!-- Tercera fila: Email -->
+                    <div class="form-row">
                         <!-- Campo Email -->
-                        <div class="form-group col-4">
+                        <div class="form-group col-12">
                             <label for="email" class="form-label">Email</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -189,7 +221,7 @@
                         </div>
                     </div>
 
-                    <!-- Tercera fila: Contraseñas y Foto -->
+                    <!-- Cuarta fila: Contraseñas y Foto -->
                     <div class="form-row">
                         <!-- Campo Contraseña -->
                         <div class="form-group col-4">
@@ -278,7 +310,7 @@
                         <button 
                             type="button" 
                             class="btn btn-primary registro-btn" 
-                            [disabled]="!formRegistro.valid || !captchaValidado"
+                            [disabled]="!formRegistro.valid || !captchaValidado || !tieneEspecialidadSeleccionada"
                             (click)="enviar()">
                             <i class="fa fa-user-plus"></i> Registrarse
                         </button>

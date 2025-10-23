@@ -273,18 +273,279 @@
 }
 
 /* ========================================
-   MODAL DE HORARIOS
+   SECCIÓN DE HORARIOS - DISEÑO GRID 4 COLUMNAS
    ======================================== */
 
-.modal-horarios-container {
-  max-width: 1200px;
+/* Sección principal de horarios */
+.horarios-section {
   width: 100%;
+  max-width: 1600px;
   margin: 0 auto;
+  padding: 100px 20px 30px 20px;
+}
+
+/* Header principal */
+.horarios-header-main {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: rgb(30 46 53 / 86%);
+  border-radius: 16px;
+  border: 2px solid rgba(20, 184, 166, 0.3);
+}
+
+.horarios-titulo-main {
+  color: #14b8a6;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.horarios-subtitulo-main {
+  color: #e5e7eb;
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Grid de 3 columnas */
+.horarios-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* Card de cada día */
+.dia-card {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.65));
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.dia-card:hover {
+  border-color: rgba(20, 184, 166, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(20, 184, 166, 0.2);
+}
+
+/* Botón de toggle del día */
+.btn-dia-toggle {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: 2px solid;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-dia-toggle.dia-habilitado {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(56, 142, 60, 0.3));
+  border-color: #4caf50;
+  color: #66bb6a;
+}
+
+.btn-dia-toggle.dia-inhabilitado {
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.3), rgba(211, 47, 47, 0.3));
+  border-color: #f44336;
+  color: #e57373;
+}
+
+.estado-badge-small {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+/* Contenido del día */
+.dia-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.horario-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.horario-label-small {
+  color: #14b8a6;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* Material Select compacto */
+.mat-field-compact {
+  width: 100%;
+}
+
+.mat-field-compact ::ng-deep .mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-field-compact ::ng-deep .mat-mdc-text-field-wrapper {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0;
+}
+
+.mat-field-compact ::ng-deep .mat-mdc-form-field-infix {
+  padding: 8px 0;
+  min-height: 36px;
+}
+
+.mat-field-compact ::ng-deep .mat-mdc-select {
+  font-size: 0.85rem;
+}
+
+.mat-field-compact ::ng-deep .mat-mdc-select-value {
+  color: #e5e7eb !important;
+  font-weight: 500;
+}
+
+.mat-field-compact ::ng-deep .mat-mdc-select-arrow {
+  color: #14b8a6 !important;
+}
+
+.mat-field-compact ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+/* Opciones del select con fondo negro y letras turquesa */
+::ng-deep .mat-mdc-select-panel {
+  background: #000 !important;
+}
+
+::ng-deep .mat-mdc-option {
+  background: #000 !important;
+  color: #14b8a6 !important;
+}
+
+::ng-deep .mat-mdc-option:hover {
+  background: rgba(20, 184, 166, 0.2) !important;
+}
+
+::ng-deep .mat-mdc-option.mat-mdc-option-active {
+  background: rgba(20, 184, 166, 0.3) !important;
+  color: #14b8a6 !important;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--selected {
+  background: rgba(20, 184, 166, 0.4) !important;
+  color: #14b8a6 !important;
+}
+
+/* Vista deshabilitada */
+.dia-disabled {
+  text-align: center;
+  padding: 16px;
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px dashed rgba(244, 67, 54, 0.3);
+  border-radius: 8px;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.disabled-msg {
+  color: #e57373;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Footer con botón */
+.horarios-footer-main {
+  text-align: center;
   padding: 20px;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+.btn-confirmar-main {
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
+  color: #fff;
+  padding: 14px 40px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-confirmar-main:hover {
+  background: linear-gradient(135deg, #0d9488, #0f766e);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(20, 184, 166, 0.5);
+}
+
+.btn-confirmar-main:active {
+  transform: translateY(-1px);
+}
+
+/* Responsive - 2 columnas en tablets */
+@media (max-width: 992px) {
+  .horarios-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .horarios-titulo-main {
+    font-size: 1.75rem;
+  }
+}
+
+/* Responsive - 1 columna en móviles */
+@media (max-width: 576px) {
+  .horarios-section {
+    padding: 20px 15px;
+  }
+
+  .horarios-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .horarios-titulo-main {
+    font-size: 1.5rem;
+  }
+
+  .horarios-subtitulo-main {
+    font-size: 0.9rem;
+  }
+
+  .btn-confirmar-main {
+    width: 100%;
+    padding: 12px 30px;
+  }
+  
   .perfil-header {
     padding: 24px;
   }
@@ -361,28 +622,3 @@
     font-size: 36px;
   }
 }
-
-/* Eliminado .pantalla - ya no se usa */
-
-.backMenu{
-    border-radius: 50px;
-    background-color: #fa9b39;
-    font-size: 25px;
-    font-weight: bold;
-    img{
-        width: 50px;
-        height: 50px;
-    }
-}
-.titulo{
-    color: white;
-    margin-bottom: 20px;
-}
-
-.img-btn{
-    width: 25px;
-    height: 25px;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
