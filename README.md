@@ -1,27 +1,96 @@
-# Tpclinica2024
+# Tpclinica2025 Buena Salud
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.2.
+Web: https://clinica-22442.web.app
 
-## Development server
+# Sobre la Clínica Buena Salud
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Buena Salud una plataforma web que permite gestionar turnos médicos, usuarios y la atención de pacientes de forma online. Está diseñada para facilitar la interacción entre pacientes, especialistas y administradores, optimizando la gestión de turnos y la comunicación. Somos especialista en salud, contamos actualmente con 6 consultorios, dos laboratorios físicos en la clínica, y una sala de espera general. Está abierta al público de lunes a viernes de 8:00 a 19:00, y los sábados de 8:00 a 14:00. En ella trabajan profesionales de diversas especialidades, que ocupan los consultorios acorde a su disponibilidad, recibiendo pacientes con turno para consulta o tratamiento. Los turnos son solicitados a través de la web, seleccionando el profesional o la especialidad. La duración mínima de un turno es de 30 minutos, pero los profesionales pueden modificarla según su especialidad. Estos profesionales pueden tener más de una especialidad. Además, contamos con un sector que se encarga de la organización y administración de la clínica.
 
-## Code scaffolding
+# Pantallas
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Inicio
 
-## Build
+Descripción: Presenta la bienvenida a la clínica y acceso rápido a las opciones de iniciar sesión o registrarse como Administrador, Paciente o Especialista 
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+<img width="1897" height="857" alt="image" src="https://github.com/user-attachments/assets/a4cfb6f5-2021-463b-be2b-8411591863c6" />
 
-## Running unit tests
+## Login
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Descripción: Accesos rápidos, que redirigirán a las homes correspondientes según el perfil
 
-## Running end-to-end tests
+<img width="1872" height="802" alt="image" src="https://github.com/user-attachments/assets/69941dc7-0060-4a4e-af96-7f7c004d5521" />
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+## Registro
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Descripción: Permite crear una cuenta como paciente, especialista o administrador (solo admin puede crear otros admins).
+Acceso: Desde el botón "Registrarse" en la pantalla de inicio o desde la sección de usuarios si eres admin.
+
+Tipo de Registro: Selección de registro paciente o especialista
+<img width="1902" height="827" alt="image" src="https://github.com/user-attachments/assets/fee304af-182c-4877-8140-1e5e3fd65f92" />
+
+Registro Paciente: Debe validar su email
+<img width="1780" height="667" alt="image" src="https://github.com/user-attachments/assets/4b8c8f7f-8521-4713-97d9-bdbca5215f77" />
+
+
+Registro Especialista: Debe validar su email y ademas que sea aprobado por el administrador
+
+<img width="1733" height="775" alt="image" src="https://github.com/user-attachments/assets/5586ce1b-5633-4cfe-9807-a19d03454bd2" />
+
+
+Registro Administrador:
+
+<img width="1767" height="782" alt="image" src="https://github.com/user-attachments/assets/49f15cde-bc26-4ad4-84d0-b010e56a89ed" />
+
+## Sección Mi Perfil
+
+Descripción: Al ingresar luego del login, el usuario ingresa a su sección Perfil, donde encontrará información sobre su usuario, mostrando accesos según el perfil:
+
+Accesos Pacientes:
+  
+- Mi Perfil
+<img width="1851" height="843" alt="image" src="https://github.com/user-attachments/assets/01482289-1f20-4e52-bfb0-a211c7d8aac1" />
+
+- Turnos: Donde consultará los turnos solicitados.
+  <img width="1692" height="773" alt="image" src="https://github.com/user-attachments/assets/dd8da2d8-ed6c-45a2-a13b-3d52d36449f2" />
+
+- Solicitar Turnos: donde podrá crear un nuevo turno.
+  <img width="1775" height="557" alt="image" src="https://github.com/user-attachments/assets/bfa0db08-240b-4ce2-bde7-aabab248c13f" />
+
+- Historia Clínica: Historial de atención médica.
+
+
+
+Accesos Especialista:
+
+- Mi Perfil
+  <img width="1795" height="828" alt="image" src="https://github.com/user-attachments/assets/7450d3ff-6f4c-4d0f-8c00-28b68fd325bc" />
+
+- Mis Turnos: podrá consultar los turnos que tiene asignado este especialista.
+<img width="1736" height="755" alt="image" src="https://github.com/user-attachments/assets/9a9ce1f3-6ad3-4c1b-89a3-59bd7a06dd08" />
+
+
+- Mis Pacientes: Pacientes que fueron atendidos al menos 1 vez por el especialista.
+
+- Mis horarios: aquí podrá manejar la disponibilidad horaria para la gestión de turnos.
+  <img width="1826" height="752" alt="image" src="https://github.com/user-attachments/assets/d0566467-92d3-4dca-9635-daf15290a236" />
+
+
+Accesos Administrador
+
+- Mi Perfil
+<img width="1718" height="767" alt="image" src="https://github.com/user-attachments/assets/d93e3c55-b880-4dd9-8b01-060b0d604c9c" />
+
+  
+- Turnos: podrá consultar todos los turnos solicitados en la clínica.
+  <img width="1656" height="801" alt="image" src="https://github.com/user-attachments/assets/257a85b4-3e1f-421a-ac8a-51a597bfea4d" />
+
+- Crear Turno: podrá crear nuevos turnos en nombre de los pacientes.
+  <img width="1796" height="608" alt="image" src="https://github.com/user-attachments/assets/c3a03b29-3930-4fe5-8660-ff43b18b576b" />
+  
+
+- Usuarios: podrá consultar los usuarios generados en la clínica, allí podrá habilitar, deshabilitar accesos de especialistas y ademas podrá crear nuevos usuarios (pacientes, administradores, especialistas)
+<img width="1741" height="783" alt="image" src="https://github.com/user-attachments/assets/cae492c8-469d-4f42-8606-b2da21782b0f" />
+
+
+  
