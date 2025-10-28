@@ -119,9 +119,9 @@
                     <!-- Botones Paciente -->
                     <div style="text-align: center;" class="mt-4" *ngIf="usuario && usuario.tipo == 'paciente'">
                         <button *ngIf="estado != 'finalizado' && estado != 'cancelado' && estado != 'rechazado' && estado != ''" class="w-50 btn btn-danger" (click)="abrirPopUp('cancelar')">Cancelar turno</button> 
-                        <button *ngIf="comentario != ''" (click)="abrirPopUp('reseña')" class="w-30 btn btn-primary calificadores">Ver reseña</button> 
-                        <button *ngIf="estado == 'finalizado'" (click)="abrirPopUp('calificar')" class="w-30 btn btn-primary calificadores">Calificar atención</button> 
-                        <button *ngIf="comentario != '' && estado == 'finalizado'" (click)="abrirPopUp('encuesta')" class="w-30 btn btn-primary calificadores">Completar encuesta</button> 
+                        <button *ngIf="comentario != '' || resenia != ''" (click)="abrirPopUp('reseña')" class="w-30 btn btn-primary calificadores">Ver reseña</button> 
+                        <button *ngIf="estado == 'finalizado'" (click)="abrirPopUp('calificar')" class="w-30 btn btn-primary calificadores">{{calificacion == '' ? 'Calificar atención' : 'Ver calificación'}}</button> 
+                        <button *ngIf="comentario != '' && estado == 'finalizado'" (click)="abrirPopUp('encuesta')" class="w-30 btn btn-primary calificadores">{{turnoElegido.encuesta && turnoElegido.encuesta !== '' ? 'Ver encuesta' : 'Completar encuesta'}}</button> 
                     </div>
                     <!-- Botones Paciente -->
         
@@ -262,21 +262,22 @@
                 <!-- Calificar -->
                 <div class="card-color" *ngIf="popUpRazon == 'calificar'">
                     <br>
-                    <h1>¿Cómo calificarias la atencion de nuestro profesional?</h1>
+                    <h1>{{turnoElegido.calificacion == '' ? '¿Cómo calificarias la atencion de nuestro profesional?' : 'Calificación de la atención'}}</h1>
                     <div style="font-size: 40px" class="star-wrapper">
                         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                        <span class="fa fa-star s1" (click)="calificar(5)" [ngClass]="{'checked': estrellas == 5}"></span> 
-                        <span class="fa fa-star s2" (click)="calificar(4)" [ngClass]="{'checked': estrellas >= 4}"></span> 
-                        <span class="fa fa-star s3" (click)="calificar(3)" [ngClass]="{'checked': estrellas >= 3}"></span> 
-                        <span class="fa fa-star s4" (click)="calificar(2)" [ngClass]="{'checked': estrellas >= 2}"></span> 
-                        <span class="fa fa-star s5" (click)="calificar(1)" [ngClass]="{'checked': estrellas >= 1}"></span>
+                        <span class="fa fa-star s1" [class.readonly-star]="turnoElegido.calificacion != ''" [class.checked]="estrellas >= 5" (click)="turnoElegido.calificacion == '' ? calificar(5) : null"></span> 
+                        <span class="fa fa-star s2" [class.readonly-star]="turnoElegido.calificacion != ''" [class.checked]="estrellas >= 4" (click)="turnoElegido.calificacion == '' ? calificar(4) : null"></span> 
+                        <span class="fa fa-star s3" [class.readonly-star]="turnoElegido.calificacion != ''" [class.checked]="estrellas >= 3" (click)="turnoElegido.calificacion == '' ? calificar(3) : null"></span> 
+                        <span class="fa fa-star s4" [class.readonly-star]="turnoElegido.calificacion != ''" [class.checked]="estrellas >= 2" (click)="turnoElegido.calificacion == '' ? calificar(2) : null"></span> 
+                        <span class="fa fa-star s5" [class.readonly-star]="turnoElegido.calificacion != ''" [class.checked]="estrellas >= 1" (click)="turnoElegido.calificacion == '' ? calificar(1) : null"></span>
                     </div>
                     <div>
                         <label class="form-label" for="textAreaExample">Comentario</label>
-                        <textarea [(ngModel)]="calificacion" (ngModelChange)="resetearMensajeError()" style="margin: 0 auto; float: none;" class="form-control w-50" id="textAreaExample1" rows="4"></textarea>
+                        <textarea [(ngModel)]="calificacion" [readonly]="turnoElegido.calificacion != ''" (ngModelChange)="resetearMensajeError()" style="margin: 0 auto; float: none;" class="form-control w-50" id="textAreaExample1" rows="4"></textarea>
                         <br>
                         <p style="color: red;">{{mensajeError}}</p>
-                        <button class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="calificarTurno()">Calificar</button> 
+                        <button *ngIf="turnoElegido.calificacion == ''" class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="calificarTurno()">Calificar</button>
+                        <button *ngIf="turnoElegido.calificacion != ''" class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="cerrarPopUp()">Cerrar</button> 
                         <br>
                         <br>
                     </div>
@@ -286,18 +287,19 @@
                 <!-- encuesta -->
                 <div class="card-color" *ngIf="popUpRazon == 'encuesta'">
                 <br>
-                <h1>Encuesta</h1>
-                <label for="fecha">¿Cómo calificarias las instalaciones de nuestro establecimiento?</label>
-                <input name="mail" [(ngModel)]="preguntas[0]" class="w-75 form-control" style="margin: 0 auto; float: none;"/>
+                <h1>{{turnoElegido.encuesta && turnoElegido.encuesta !== '' ? 'Encuesta Completada' : 'Encuesta'}}</h1>
+                <label for="pregunta1">¿Cómo calificarias las instalaciones de nuestro establecimiento?</label>
+                <input name="pregunta1" [(ngModel)]="preguntas[0]" [readonly]="turnoElegido.encuesta && turnoElegido.encuesta !== ''" (ngModelChange)="resetearMensajeError()" class="w-75 form-control" style="margin: 0 auto; float: none;"/>
                 <br>
-                <label for="fecha">¿Deberiamos mejorar aspectos de nuestra clinica?</label>
-                <input name="mail" [(ngModel)]="preguntas[1]" class="w-75 form-control" style="margin: 0 auto; float: none;"/>
+                <label for="pregunta2">¿Deberiamos mejorar aspectos de nuestra clinica?</label>
+                <input name="pregunta2" [(ngModel)]="preguntas[1]" [readonly]="turnoElegido.encuesta && turnoElegido.encuesta !== ''" (ngModelChange)="resetearMensajeError()" class="w-75 form-control" style="margin: 0 auto; float: none;"/>
                 <br>
-                <label for="fecha">¿Recomendaría nuestra clínica a familiares y amigos?</label>
-                <input name="mail" [(ngModel)]="preguntas[2]" class="w-75 form-control" style="margin: 0 auto; float: none;"/>
+                <label for="pregunta3">¿Recomendaría nuestra clínica a familiares y amigos?</label>
+                <input name="pregunta3" [(ngModel)]="preguntas[2]" [readonly]="turnoElegido.encuesta && turnoElegido.encuesta !== ''" (ngModelChange)="resetearMensajeError()" class="w-75 form-control" style="margin: 0 auto; float: none;"/>
                 <br>
-                <button class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="llenarEncuesta()">Completar encuesta</button> 
                 <p style="color: red;">{{mensajeError}}</p>
+                <button *ngIf="!turnoElegido.encuesta || turnoElegido.encuesta === ''" class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="llenarEncuesta()">Completar encuesta</button>
+                <button *ngIf="turnoElegido.encuesta && turnoElegido.encuesta !== ''" class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="cerrarPopUp()">Cerrar</button> 
                 <br>
                 <br>
             </div>

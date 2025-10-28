@@ -69,11 +69,18 @@
             <!-- Pie de página y Botón de Acción -->
             <div class="perfil-footer">
              
+              <!-- Botones de acción -->
+              <div class="perfil-buttons-container">
+                <!-- Botón Ver Mis Horarios -->
+                <button (click)="abrirMisHorarios()" class="perfil-btn-horarios">
+                  <i class="fa fa-clock-o"></i> Ver Mis Horarios
+                </button>
 
-              <!-- Botón Ver Mis Horarios -->
-              <button (click)="abrirMisHorarios()" class="perfil-btn-horarios">
-                Ver Mis Horarios
-              </button>
+                <!-- Botón Configurar Duraciones -->
+                <button (click)="abrirModalDuraciones()" class="perfil-btn-duraciones">
+                  <i class="fa fa-hourglass-half"></i> Configurar Duración de Turnos
+                </button>
+              </div>
             </div>
 
           </div>
@@ -172,9 +179,9 @@
                 
                 <!-- Sin foto para admin, solo iniciales -->
                 <div class="perfil-foto-container">
-                  <div class="perfil-foto-admin">
-                    <span class="perfil-iniciales">{{userData?.nombre?.charAt(0)}}{{userData?.apellido?.charAt(0)}}</span>
-                  </div>
+                  <img class="perfil-foto"
+                       [src]="userData?.foto1"
+                       [alt]="'Foto de ' + userData?.nombre + ' ' + userData?.apellido">
                   
                   <!-- Badge de admin -->
                   
@@ -259,7 +266,7 @@
                     <mat-form-field appearance="fill" class="mat-field-compact">
                       <mat-select (selectionChange)="cambiarHorario(dias.dia, 'inicio', $event)" 
                                   [(ngModel)]="dias.ini">
-                        <mat-option *ngFor="let hora of horarios" [value]="hora">{{hora}}</mat-option>
+                        <mat-option *ngFor="let hora of getHorariosPorDia(dias.dia)" [value]="hora">{{hora}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
@@ -269,7 +276,7 @@
                     <mat-form-field appearance="fill" class="mat-field-compact">
                       <mat-select (selectionChange)="cambiarHorario(dias.dia, 'fin', $event)" 
                                   [(ngModel)]="dias.fin">
-                        <mat-option *ngFor="let hora of horarios" [value]="hora">{{hora}}</mat-option>
+                        <mat-option *ngFor="let hora of getHorariosPorDia(dias.dia)" [value]="hora">{{hora}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
@@ -303,6 +310,62 @@
               </button>
             </div>
 
+          </div>
+
+          <!-- MODAL PARA CONFIGURAR DURACIONES DE TURNOS -->
+          <div class="modal-overlay" *ngIf="mostrarModalDuraciones" (click)="cerrarModalDuraciones()">
+            <div class="modal-duraciones" (click)="$event.stopPropagation()">
+              
+              <!-- Header del Modal -->
+              <div class="modal-header">
+                <h3 class="modal-title">
+                  <i class="fa fa-hourglass-half"></i> Configurar Duración de Turnos
+                </h3>
+                <button class="modal-close-btn" (click)="cerrarModalDuraciones()">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+
+              <!-- Contenido del Modal -->
+              <div class="modal-body">
+                <p class="modal-description">
+                  Configure la duración de los turnos para cada una de sus especialidades. 
+                  La duración mínima es de 30 minutos.
+                </p>
+
+                <!-- Lista de especialidades con inputs -->
+                <div class="especialidades-duracion-list">
+                  <div class="especialidad-duracion-item" *ngFor="let esp of userData?.especialidad; let i = index">
+                    <div class="especialidad-info">
+                      <i class="fa fa-stethoscope"></i>
+                      <span class="especialidad-nombre">{{esp.especialidad}}</span>
+                    </div>
+                    <div class="duracion-input-group">
+                      <label class="duracion-label">Duración (minutos):</label>
+                      <input 
+                        type="number" 
+                        class="duracion-input" 
+                        [(ngModel)]="duracionesTemporal[i]"
+                        min="30"
+                        step="15"
+                        placeholder="30">
+                      <span class="duracion-unit">min</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Footer del Modal -->
+              <div class="modal-footer">
+                <button class="btn-modal-cancelar" (click)="cerrarModalDuraciones()">
+                  <i class="fa fa-times"></i> Cancelar
+                </button>
+                <button class="btn-modal-guardar" (click)="guardarDuraciones()">
+                  <i class="fa fa-check"></i> Guardar Cambios
+                </button>
+              </div>
+
+            </div>
           </div>
          
       </div>

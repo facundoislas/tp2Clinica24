@@ -31,8 +31,21 @@ export class MiPerfilComponent {
   horasDefault=[8,9,10,11,12,13,14,15,16,17,18,19];
   disponibilidades = ["Habilitado","Habilitado","Habilitado","Habilitado","Habilitado","Habilitado"];
   horarios = ["8:00","9:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00"];
+  horariosSabado = ["8:00","9:00","10:00","11:00","12:00","13:00","14:00"];
   horariosEspecialista!:HorariosEspecialista;
   especialidadesPorDia:string[] = [];
+  
+  // Variables para el modal de duraciones
+  mostrarModalDuraciones: boolean = false;
+  duracionesTemporal: number[] = [];
+
+  // Método para obtener los horarios según el día
+  getHorariosPorDia(dia: string): string[] {
+    if (dia === "Sabado") {
+      return this.horariosSabado;
+    }
+    return this.horarios;
+  }
 
   seccion:string = 'menu';
   tipoUsuarioARegistrar:string = '';
@@ -305,6 +318,59 @@ export class MiPerfilComponent {
     this.horarioEspService.updateHorarioEspecialistas(this.horariosEspecialista);
     this.alert.showSuccessAlert1("", "Se han guardado tus horarios", "success");
     this.mostrar = false;
+  }
+
+  // Métodos para el modal de duraciones
+  abrirModalDuraciones() {
+    // Inicializar el array temporal con las duraciones actuales o 30 por defecto
+    this.duracionesTemporal = [];
+    if (this.userData && this.userData.especialidad) {
+      this.userData.especialidad.forEach((esp: any) => {
+        this.duracionesTemporal.push(esp.duracion || 30);
+      });
+    }
+    this.mostrarModalDuraciones = true;
+  }
+
+  cerrarModalDuraciones() {
+    this.mostrarModalDuraciones = false;
+    this.duracionesTemporal = [];
+  }
+
+  async guardarDuraciones() {
+    try {
+      // Validar que todas las duraciones sean >= 30
+      const todasValidas = this.duracionesTemporal.every(duracion => duracion >= 30);
+      
+      if (!todasValidas) {
+        this.alert.showSuccessAlert1("", "La duración mínima de un turno es de 30 minutos", "warning");
+        return;
+      }
+
+      // Actualizar el array de especialidades con las nuevas duraciones
+      const especialidadesActualizadas = this.userData.especialidad.map((esp: any, index: number) => {
+        return {
+          especialidad: esp.especialidad,
+          duracion: this.duracionesTemporal[index] || 30
+        };
+      });
+
+      // Actualizar en Firebase
+      await this.firebaseService.actualizarEspecialidadesConDuracion(this.userData.email, especialidadesActualizadas);
+      
+      // Actualizar userData local
+      this.userData.especialidad = especialidadesActualizadas;
+      
+      // Actualizar sessionStorage
+      sessionStorage.setItem('userData', JSON.stringify(this.userData));
+      
+      this.alert.showSuccessAlert1("", "Duraciones de turnos guardadas correctamente", "success");
+      this.cerrarModalDuraciones();
+      
+    } catch (error) {
+      console.error("Error al guardar duraciones:", error);
+      this.alert.showSuccessAlert1("", "Error al guardar las duraciones", "error");
+    }
   }
 
   

@@ -32,6 +32,9 @@ export class LoginComponent {
   logueado!:boolean;
   ProgresoDeAncho!:string;
   formRegistro!:any;
+  
+  // Usuarios de acceso rápido
+  usuariosAccesoRapido: any[] = [];
  
 
   clase="progress-bar progress-bar-info progress-bar-striped ";
@@ -61,12 +64,39 @@ export class LoginComponent {
 
  
 
-  ngOnInit() {
+  async ngOnInit() {
     // Solo limpiar sessionStorage si no estamos autenticados
     const currentUser = sessionStorage.getItem('user');
     if (!currentUser) {
       sessionStorage.clear();
     }
+    
+    // Cargar usuarios de acceso rápido
+    await this.cargarUsuariosAccesoRapido();
+  }
+  
+  async cargarUsuariosAccesoRapido() {
+    const emailsAccesoRapido = [
+      { email: 'kobrolexobru-1395@yopmail.com', password: '123456', nombre: 'Susana' },
+      { email: 'croffaquauxippou-3190@yopmail.com', password: '123123', nombre: 'Marcelo' },
+      { email: 'prousajeuppoddo-8188@yopmail.com', password: '123456', nombre: 'Moria' },
+      { email: 'touppoibrouquotrou-9644@yopmail.com', password: '123123', nombre: 'Dr. Felipe' },
+      { email: 'joibrofounihe-6605@yopmail.com', password: '123123', nombre: 'Dr. Buenamano' },
+      { email: 'racejihoibrei-1918@yopmail.com', password: '111111', nombre: 'Admin' }
+    ];
+    
+    for (const user of emailsAccesoRapido) {
+      const userData = await this.firebase.getUsuarioEmail(user.email);
+      if (userData) {
+        this.usuariosAccesoRapido.push({
+          ...userData,
+          password: user.password,
+          nombreCorto: user.nombre
+        });
+      }
+    }
+    
+    console.log("Usuarios de acceso rápido cargados:", this.usuariosAccesoRapido);
   }
 
  
@@ -270,13 +300,36 @@ export class LoginComponent {
       });
     }
 
+    getClaseBotonAccesoRapido(tipo: string): string {
+      switch(tipo) {
+        case 'paciente':
+          return 'paciente-btn';
+        case 'especialista':
+          return 'especialista-btn';
+        case 'admin':
+          return 'admin-btn';
+        default:
+          return '';
+      }
+    }
     
-   async mostrarFoto(email: string){
-      await this.firebase.getUsuarioEmail(email).then(data =>{
-        return (data?.["foto1"])
-      });   
-      
-   }
+    getTipoTexto(tipo: string): string {
+      switch(tipo) {
+        case 'paciente':
+          return 'Paciente';
+        case 'especialista':
+          return 'Especialista';
+        case 'admin':
+          return 'Administrador';
+        default:
+          return tipo;
+      }
+    }
+    
+    onImageError(event: any) {
+      // Si la imagen falla al cargar, usar una imagen por defecto
+      event.target.src = 'assets/imagenes/paciente.png';
+    }
     
    
 }

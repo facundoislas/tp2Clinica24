@@ -465,7 +465,6 @@ input[readonly] {
   transform: translateX(-50%);
   width: 80px;
   height: 3px;
-  background: linear-gradient(90deg, transparent, #14b8a6, transparent);
   border-radius: 3px;
 }
 
@@ -559,7 +558,28 @@ textarea.form-control:focus {
 }
 
 .checked {
-  color: gold;
+  color: gold !important;
+}
+
+/* Estrellas en modo solo lectura */
+.readonly-star {
+  cursor: default !important;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.readonly-star:hover {
+  transform: none !important;
+  color: gold !important;
+}
+
+.readonly-star.checked {
+  color: gold !important;
+}
+
+/* Asegurar que las estrellas checked siempre sean doradas */
+.star-wrapper .checked {
+  color: gold !important;
 }
 
 /* Mensajes de error */
@@ -714,6 +734,5 @@ p[style*="color: red"] {
   transform: translateX(-50%);
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, transparent, #14b8a6, transparent);
   border-radius: 3px;
 }

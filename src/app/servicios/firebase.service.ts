@@ -71,6 +71,25 @@ updateUsuario(id: string, aprobado: boolean):Promise<any>
       return collectionData(col, { idField: 'id' });
     }
 
+    async actualizarEspecialidadesConDuracion(email: string, especialidades: any[]): Promise<void> {
+      try {
+        const usersRef = collection(this.firestore, 'Usuarios');
+        const q = query(usersRef, where('email', '==', email));
+        const querySnapshot = await getDocs(q);
+  
+        if (!querySnapshot.empty) {
+          const userDoc = querySnapshot.docs[0];
+          const docRef = doc(this.firestore, 'Usuarios', userDoc.id);
+          await updateDoc(docRef, { especialidad: especialidades });
+          console.log('Especialidades con duración actualizadas correctamente');
+        } else {
+          console.log('No se encontró usuario con ese email');
+        }
+      } catch (error) {
+        console.error('Error al actualizar especialidades:', error);
+        throw error;
+      }
+    }
 
     
 }

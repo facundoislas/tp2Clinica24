@@ -1,45 +1,901 @@
-/* Eliminado el fondo local, ahora usa el fondo global del app.component */
-  .card {
-    background-color: #243725;
-    color: #fff;
-    margin-top: 23px;
+/* ============================================
+   CONTENEDOR PRINCIPAL
+   ============================================ */
+.crear-turno-container {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #00000052;
 }
 
-.card-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+.crear-turno-content {
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.especialidad-card, .especialista-card {
-    cursor: pointer;
-    transition: transform 0.2s;
+/* ============================================
+   HEADER
+   ============================================ */
+.turno-header {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #20c997;
 }
 
-.especialidad-card:hover, .especialista-card:hover {
+.turno-title {
+  font-size: 38px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.turno-title i {
+  font-size: 36px;
+}
+
+.turno-subtitle {
+    font-size: 23px;
+    opacity: 1;
+    font-weight: 500;
+    color: #00ffb4;
+}
+
+/* ============================================
+   PASO TÍTULO
+   ============================================ */
+.paso-titulo {
+  background: #2d3142;
+  color: #20c997;
+  padding: 20px 30px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid #3a3f51;
+}
+
+.paso-numero {
+  background: #20c997;
+  color: #1a1d29;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+/* ============================================
+   ESPECIALIDADES GRID
+   ============================================ */
+.especialidades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 25px;
+}
+
+.especialidad-item {
+  cursor: pointer;
+}
+
+.especialidad-card-modern {
+  background: #2d3142;
+  border: 2px solid #3a3f51;
+  border-radius: 20px;
+  padding: 25px 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.especialidad-card-modern:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(32, 201, 151, 0.2);
+  border-color: #20c997;
+  background: #353a4c;
+}
+
+.especialidad-icon {
+  width: 55px;
+  height: 55px;
+  background: #20c997;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  transition: all 0.3s ease;
+}
+
+.especialidad-card-modern:hover .especialidad-icon {
+  transform: scale(1.05);
+}
+
+.especialidad-icon i {
+  font-size: 26px;
+  color: #1a1d29;
+}
+
+.especialidad-nombre {
+  font-size: 16px;
+  font-weight: 600;
+  color: #e0e6ed;
+  margin: 0;
+}
+
+/* ============================================
+   PACIENTES GRID (Solo Admin)
+   ============================================ */
+.pacientes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.paciente-item {
+  cursor: pointer;
+}
+
+.paciente-card-modern {
+  background: #2d3142;
+  border: 2px solid #3a3f51;
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.paciente-card-modern:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(32, 201, 151, 0.2);
+  border-color: #20c997;
+  background: #353a4c;
+}
+
+.paciente-foto-container {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #20c997;
+  box-shadow: 0 4px 15px rgba(32, 201, 151, 0.2);
+}
+
+.paciente-foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.paciente-info {
+  margin-top: 15px;
+}
+
+.paciente-nombre {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e0e6ed;
+  margin: 0 0 8px 0;
+}
+
+.paciente-email {
+  font-size: 13px;
+  color: #8e9aaf;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.paciente-email i {
+  color: #20c997;
+}
+
+.paciente-seleccionado {
+  background: #2d3142;
+  color: #20c997;
+  padding: 15px 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid #3a3f51;
+}
+
+.paciente-seleccionado i {
+  color: #20c997;
+  font-size: 20px;
+}
+
+/* ============================================
+   ESPECIALISTAS GRID
+   ============================================ */
+.especialidad-seleccionada {
+  background: #2d3142;
+  color: #20c997;
+  padding: 15px 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid #3a3f51;
+}
+
+.especialidad-seleccionada i {
+  color: #20c997;
+  font-size: 20px;
+}
+
+.sin-resultados {
+  background: #2d3142;
+  border: 2px solid #3a3f51;
+  border-radius: 15px;
+  padding: 50px 30px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.sin-resultados i {
+  font-size: 60px;
+  color: #f5576c;
+  margin-bottom: 20px;
+}
+
+.sin-resultados p {
+  font-size: 18px;
+  color: #8e9aaf;
+  margin-bottom: 25px;
+}
+
+.especialistas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.especialista-item {
+  cursor: pointer;
+}
+
+.especialista-card-modern {
+  background: #2d3142;
+  border: 2px solid #3a3f51;
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.especialista-card-modern:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(32, 201, 151, 0.2);
+  border-color: #20c997;
+  background: #353a4c;
+}
+
+.especialista-foto-container {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #20c997;
+  box-shadow: 0 4px 15px rgba(32, 201, 151, 0.2);
+}
+
+.especialista-foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.especialista-info {
+  margin-top: 15px;
+}
+
+.especialista-nombre {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e0e6ed;
+  margin: 0 0 8px 0;
+}
+
+.especialista-especialidad {
+  font-size: 14px;
+  color: #8e9aaf;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.especialista-especialidad i {
+  color: #20c997;
+}
+
+/* ============================================
+   SECCIÓN HORARIOS
+   ============================================ */
+.seccion-horarios {
+  background: rgba(45, 49, 66, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  border: 2px solid #3a3f51;
+}
+
+.seleccion-resumen {
+  background: #2d3142;
+  border: 2px solid #3a3f51;
+  border-radius: 15px;
+  padding: 20px 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.resumen-item {
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: #e0e6ed;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.resumen-item:last-child {
+  margin-bottom: 0;
+}
+
+.resumen-item i {
+  color: #20c997;
+  font-size: 18px;
+}
+
+/* ============================================
+   DÍAS GRID
+   ============================================ */
+.dias-section {
+  margin-bottom: 35px;
+}
+
+.seccion-subtitulo {
+  background: #2d3142;
+  color: #20c997;
+  border: 2px solid #3a3f51;
+  padding: 15px 25px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.seccion-subtitulo i {
+  color: #20c997;
+  font-size: 22px;
+}
+
+.dias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 15px;
+}
+
+.dia-card {
+  background: #2d3142;
+  border: 2px solid #3a3f51;
+  border-radius: 15px;
+  padding: 15px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #e0e6ed;
+}
+
+.dia-card:hover:not(.dia-inhabilitado) {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(32, 201, 151, 0.2);
+  border-color: #20c997;
+  background: #353a4c;
+}
+
+.dia-card.dia-selected {
+  background: #20c997;
+  color: #1a1d29;
+  border-color: #20c997;
+  transform: translateY(-3px);
+}
+
+.dia-card.dia-inhabilitado {
+  background: #23252e;
+  color: #5a5e6e;
+  cursor: not-allowed;
+  opacity: 0.6;
+  border-color: #2a2d38;
+}
+
+.dia-nombre {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.dia-numero {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 5px 0;
+}
+
+.dia-mes {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+/* ============================================
+   HORARIOS GRID
+   ============================================ */
+.horarios-section {
+  margin-top: 30px;
+}
+
+.sin-horarios {
+  background: #2d3142;
+  border: 2px solid #3a3f51;
+  border-radius: 15px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.sin-horarios i {
+  font-size: 50px;
+  color: #f5576c;
+  margin-bottom: 15px;
+}
+
+.sin-horarios p {
+  font-size: 17px;
+  color: #8e9aaf;
+  margin: 0;
+}
+
+.horarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 15px;
+}
+
+.horario-btn {
+  background: #2d3142;
+  border: 2px solid #20c997;
+  color: #e0e6ed;
+  padding: 15px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.horario-btn:hover {
+  background: #20c997;
+  color: #1a1d29;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(32, 201, 151, 0.3);
+}
+
+.horario-btn i {
+  font-size: 16px;
+}
+
+/* ============================================
+   BOTONES
+   ============================================ */
+.acciones-footer {
+  margin-top: 35px;
+  text-align: center;
+}
+
+.btn-volver {
+  background: #2d3142;
+  color: #e0e6ed;
+  border: 2px solid #3a3f51;
+  padding: 14px 30px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-volver:hover {
+  background: #353a4c;
+  border-color: #20c997;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   SECCIÓN ÉXITO
+   ============================================ */
+.seccion-exito {
+  background: #2d3142;
+  border: 2px solid #3a3f51;
+  border-radius: 25px;
+  padding: 60px 40px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.exito-icon {
+  width: 120px;
+  height: 120px;
+  background: #20c997;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30px;
+  animation: successPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes successPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
     transform: scale(1.05);
+  }
 }
 
-.especialidad-card .card-text, .especialista-card .card-text {
-    font-size: 1.2em;
-    font-weight: bold;
+.exito-icon i {
+  font-size: 60px;
+  color: #1a1d29;
 }
 
-.modal-content {
-    background-color: #e5eff6;
-    color: #000000;
+.exito-titulo {
+  font-size: 32px;
+  font-weight: 800;
+  color: #20c997;
+  margin-bottom: 15px;
 }
 
-.btn {
-    margin: 20px;
+.exito-mensaje {
+  font-size: 18px;
+  color: #8e9aaf;
+  margin-bottom: 35px;
 }
 
-.btn-primary, .btn-success {
-    width: 150px;
+.btn-mis-turnos {
+  background: #20c997;
+  color: #1a1d29;
+  border: none;
+  padding: 16px 40px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(32, 201, 151, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.horarios {
+.btn-mis-turnos:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(32, 201, 151, 0.4);
+}
+
+/* ============================================
+   MODAL DE CONFIRMACIÓN
+   ============================================ */
+.modal-overlay-turno {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-confirmacion {
+  background: #2d3142;
+  border: 2px solid #3a3f51;
+  border-radius: 25px;
+  width: 90%;
+  max-width: 550px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  animation: slideUp 0.3s ease;
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header-turno {
+  background: #20c997;
+  color: #1a1d29;
+  padding: 25px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-titulo-turno {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-titulo-turno i {
+  font-size: 28px;
+}
+
+.modal-close-btn-turno {
+  background: rgba(26, 29, 41, 0.2);
+  border: none;
+  color: #1a1d29;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.modal-close-btn-turno:hover {
+  background: rgba(26, 29, 41, 0.3);
+  transform: rotate(90deg);
+}
+
+.modal-body-turno {
+  padding: 35px 30px;
+}
+
+.modal-descripcion-turno {
+  color: #8e9aaf;
+  font-size: 15px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.turno-info-card {
+  background: #23252e;
+  border: 2px solid #3a3f51;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 0;
+  border-bottom: 2px solid #3a3f51;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.info-icon {
+  width: 50px;
+  height: 50px;
+  background: #20c997;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info-icon i {
+  font-size: 24px;
+  color: #1a1d29;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.info-label {
+  font-size: 13px;
+  color: #8e9aaf;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-size: 17px;
+  color: #e0e6ed;
+  font-weight: 700;
+}
+
+.modal-advertencia {
+  background: rgba(255, 193, 7, 0.1);
+  border-left: 4px solid #ffc107;
+  padding: 15px 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-advertencia i {
+  font-size: 24px;
+  color: #ffc107;
+}
+
+.modal-advertencia p {
+  margin: 0;
+  font-size: 14px;
+  color: #e0e6ed;
+}
+
+.modal-footer-turno {
+  padding: 20px 30px;
+  border-top: 2px solid #3a3f51;
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  background: #23252e;
+}
+
+.btn-modal-cancelar-turno,
+.btn-modal-confirmar-turno {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-modal-cancelar-turno {
+  background: #3a3f51;
+  color: #e0e6ed;
+  border: 2px solid #4a5060;
+}
+
+.btn-modal-cancelar-turno:hover {
+  background: #4a5060;
+}
+
+.btn-modal-confirmar-turno {
+  background: #20c997;
+  color: #1a1d29;
+  box-shadow: 0 4px 12px rgba(32, 201, 151, 0.3);
+}
+
+.btn-modal-confirmar-turno:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(32, 201, 151, 0.4);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .crear-turno-container {
+    padding: 20px 15px;
+  }
+
+  .turno-title {
+    font-size: 32px;
+  }
+
+  .turno-subtitle {
+    font-size: 16px;
+  }
+
+  .paso-titulo {
+    font-size: 20px;
+    padding: 15px 20px;
+  }
+
+  .especialidades-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+  }
+
+  .especialistas-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dias-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+
+  .horarios-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .modal-confirmacion {
+    width: 95%;
+  }
+
+  .modal-footer-turno {
+    flex-direction: column;
+  }
+
+  .btn-modal-cancelar-turno,
+  .btn-modal-confirmar-turno {
     width: 100%;
-    margin: 2px 0;
+    justify-content: center;
+  }
 }

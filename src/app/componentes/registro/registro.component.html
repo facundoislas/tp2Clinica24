@@ -2,20 +2,18 @@
     <div class="content-overlay">
         <main class="container" *ngIf="seccion == 'menu'">
             <div class="content-row">
-                <div class="card-section">
-                    <div class="welcome-card">
-                        <img alt="Registro Paciente" class="rounded-circle card-image" height="235" src="./assets/imagenes/paciente.png" width="243">
-                        <h2>¡Soy Paciente!</h2>
-                        <p>Te podrás registrar como paciente de nuestra clínica</p>
-                        <p><a class="welcome-btn" role="button" (click)="cambiarSeccion('paciente')">Registrarse como Paciente</a></p>
+                <div class="card-section" (click)="cambiarSeccion('paciente')">
+                    <div class="welcome-card clickeable">
+                        <div class="image-container">
+                            <img alt="Registro Paciente" class="card-image" src="./assets/imagenes/paciente.png">
+                        </div>
                     </div>
                 </div>
-                <div class="card-section">
-                    <div class="welcome-card">
-                        <img alt="Registro Especialista" class="rounded-circle card-image" height="235" src="./assets/imagenes/especialista.png" width="243">
-                        <h2>¡Soy Especialista!</h2>
-                        <p>Te podrás registrar como integrante de nuestro staff</p>
-                        <p><a class="welcome-btn" role="button" (click)="cambiarSeccion('especialista')">Registrarse como Especialista</a></p>
+                <div class="card-section" (click)="cambiarSeccion('especialista')">
+                    <div class="welcome-card clickeable">
+                        <div class="image-container">
+                            <img alt="Registro Especialista" class="card-image" src="./assets/imagenes/especialista.png">
+                        </div>
                     </div>
                 </div>
             </div>

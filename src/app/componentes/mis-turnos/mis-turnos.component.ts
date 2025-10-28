@@ -115,6 +115,9 @@ export class MisTurnosComponent implements AfterViewInit {
         else{
           this.turnos = turnos;
         }
+        
+        // Ordenar turnos por fecha (del más nuevo al más viejo)
+        this.ordenarTurnosPorFecha();
       }
       
       this.data.getHistoriaDB().subscribe(historias=>{
@@ -154,12 +157,13 @@ export class MisTurnosComponent implements AfterViewInit {
       if(tur.especialista == turno.especialista && tur.dia == turno.dia && tur.mes == turno.mes && tur.anio == turno.anio && tur.hora == turno.hora &&
         tur.especialidad == turno.especialidad){
         this.turnoElegido = tur;
-        this.fechaAux = tur.hora + "Hs " + tur.dia + " " + tur.mes + " " + tur.anio;
+        this.fechaAux = tur.dia + " " + tur.mes + " " + tur.anio + " " + tur.hora + "Hs." 
         this.especialidad = tur.especialidad;
         this.buscarEspecialista(tur.especialista);
         this.buscarPaciente(tur.paciente);
         this.estado = tur.estado;
         this.comentario = tur.comentario;
+        this.resenia = tur.resenia || ""; // Cargar la reseña desde el turno
         this.calificacion = tur.calificacion;
       }
     });
@@ -178,12 +182,60 @@ export class MisTurnosComponent implements AfterViewInit {
 
   calificar(estrellas:number){
     this.estrellas = estrellas;
+    console.log("Estrellas seleccionadas:", this.estrellas);
   }
 
  
 
   abrirPopUp(razon:string){
     this.popUpRazon = razon;
+    
+    // Si es el modal de calificar
+    if (razon === 'calificar') {
+      if (this.turnoElegido.calificacion !== '') {
+        // Cargar datos existentes
+        const match = this.turnoElegido.calificacion.match(/^(\d+) estrella[s]?: (.+)/);
+        if (match) {
+          this.estrellas = parseInt(match[1]);
+          this.calificacion = match[2];
+          console.log("Calificación existente cargada - Estrellas:", this.estrellas, "Comentario:", this.calificacion);
+        } else {
+          // Si no tiene el formato, asumir que es solo texto sin estrellas
+          this.calificacion = this.turnoElegido.calificacion;
+          this.estrellas = 0;
+        }
+      } else {
+        // Si no hay calificación, resetear valores
+        this.estrellas = 0;
+        this.calificacion = "";
+        console.log("Modal de calificación abierto - sin calificación previa");
+      }
+    }
+    
+    // Si es el modal de encuesta
+    if (razon === 'encuesta') {
+      if (this.turnoElegido.encuesta && this.turnoElegido.encuesta !== '') {
+        try {
+          // Intentar parsear las respuestas guardadas en formato JSON
+          const respuestas = JSON.parse(this.turnoElegido.encuesta);
+          this.preguntas[0] = respuestas.pregunta1 || "";
+          this.preguntas[1] = respuestas.pregunta2 || "";
+          this.preguntas[2] = respuestas.pregunta3 || "";
+          console.log("Encuesta existente cargada:", this.preguntas);
+        } catch (error) {
+          // Si falla el parse, intentar con formato antiguo (string separado por comas)
+          const respuestasArray = this.turnoElegido.encuesta.split(', ');
+          if (respuestasArray.length === 3) {
+            this.preguntas = respuestasArray;
+          }
+        }
+      } else {
+        // Si no hay encuesta, resetear valores
+        this.preguntas = ["","",""];
+        console.log("Modal de encuesta abierto - sin encuesta previa");
+      }
+    }
+    
     // Verificar que el modal esté inicializado
     if (!this.formModal) {
       this.inicializarModal();
@@ -197,6 +249,11 @@ export class MisTurnosComponent implements AfterViewInit {
     if (this.formModal) {
       this.formModal.hide();
     }
+    // Resetear solo las estrellas temporales si era el modal de calificar
+    if (this.popUpRazon === 'calificar') {
+      this.estrellas = 0;
+    }
+    this.mensajeError = "";
   }
 
   completarResenia(){
@@ -318,6 +375,7 @@ export class MisTurnosComponent implements AfterViewInit {
     this.reseniaAux = "";
     this.resenia = "";
     this.calificacion = "";
+    this.estrellas = 0;
   }
 
   modificarTurnoSinComentario(estado:string){
@@ -333,17 +391,44 @@ export class MisTurnosComponent implements AfterViewInit {
     if(this.calificacion == ""){
       this.mensajeError = "Complete el comentario";
     }
+    else if(this.estrellas == 0){
+      this.mensajeError = "Seleccione una calificación con estrellas";
+    }
     else{
-      this.turnoElegido.calificacion = this.calificacion;
+      // Guardar en formato "5 estrellas: comentario"
+      const estrellasTexto = this.estrellas === 1 ? "estrella" : "estrellas";
+      this.turnoElegido.calificacion = `${this.estrellas} ${estrellasTexto}: ${this.calificacion}`;
       this.data.updateTurnos(this.turnoElegido);
-      this.limpiarData();
+      
+      // NO limpiar comentario y resenia para que el botón "Ver reseña" siga visible
+      // Solo limpiar los campos temporales de calificación
+      this.estrellas = 0;
+      this.mensajeError = "";
+      
       this.cerrarPopUp();
     }
   }
   llenarEncuesta(){
-      this.turnoElegido.encuesta = `${this.preguntas[0]}, ${this.preguntas[1]}, ${this.preguntas[2]}`;
+      // Validar que todas las preguntas estén respondidas
+      if(this.preguntas[0] === "" || this.preguntas[1] === "" || this.preguntas[2] === ""){
+        this.mensajeError = "Por favor complete todas las preguntas de la encuesta";
+        return;
+      }
+      
+      // Guardar las respuestas como un array en formato JSON string
+      const respuestasArray = {
+        pregunta1: this.preguntas[0],
+        pregunta2: this.preguntas[1],
+        pregunta3: this.preguntas[2]
+      };
+      
+      this.turnoElegido.encuesta = JSON.stringify(respuestasArray);
       this.data.updateTurnos(this.turnoElegido);
-      this.limpiarData();
+      
+      // Limpiar solo las preguntas
+      this.preguntas = ["","",""];
+      this.mensajeError = "";
+      
       this.cerrarPopUp();
   }
 
@@ -391,6 +476,52 @@ export class MisTurnosComponent implements AfterViewInit {
         numero = 12;
         break;
     }
+  }
+
+  ordenarTurnosPorFecha() {
+    this.turnos.sort((a, b) => {
+      // Convertir mes de texto a número
+      const mesA = this.convertirMesANumero(a.mes);
+      const mesB = this.convertirMesANumero(b.mes);
+      
+      // Crear fechas completas para comparar
+      const fechaA = new Date(
+        parseInt(a.anio),
+        mesA - 1,
+        parseInt(a.dia),
+        parseInt(a.hora.split(':')[0]),
+        parseInt(a.hora.split(':')[1])
+      );
+      
+      const fechaB = new Date(
+        parseInt(b.anio),
+        mesB - 1,
+        parseInt(b.dia),
+        parseInt(b.hora.split(':')[0]),
+        parseInt(b.hora.split(':')[1])
+      );
+      
+      // Ordenar de más nuevo a más viejo (descendente)
+      return fechaB.getTime() - fechaA.getTime();
+    });
+  }
+
+  convertirMesANumero(mes: string): number {
+    const meses: {[key: string]: number} = {
+      "Enero": 1,
+      "Febrero": 2,
+      "Marzo": 3,
+      "Abril": 4,
+      "Mayo": 5,
+      "Junio": 6,
+      "Julio": 7,
+      "Agosto": 8,
+      "Septiembre": 9,
+      "Octubre": 10,
+      "Noviembre": 11,
+      "Diciembre": 12
+    };
+    return meses[mes] || 1;
   }
 
 }

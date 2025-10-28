@@ -1,86 +1,285 @@
+<div class="crear-turno-container">
+  <div class="crear-turno-content">
+    
+    <!-- Header -->
+    <div class="turno-header" *ngIf="etapa != 'confirmar' && etapa != 'fin'">
+      <h1 class="turno-title">
+        <i class="fa fa-calendar-plus-o"></i> {{usuario?.tipo === 'admin' ? 'Crear Turno' : 'Solicitar Turno'}}
+      </h1>
+      <p class="turno-subtitle">Complete los pasos para reservar su turno</p>
+    </div>
 
-    <div class="h-100 text-center">
-        <div class="container-fluid p-4 mt-5">
-          <div class="card">
-            <h1 *ngIf="etapa != 'confirmar' && etapa != 'fin'">Solicitar Turno</h1>
-      
-            <br>
-      
-            <!-- Dropdown especialidades -->
-            <div class="row" *ngIf="etapa == 'especialidad'">
-              <div class="col-12">
-                <h4>Especialidad</h4>
-              </div>
-              <div *ngFor="let especialidad of especialidades" class="col-md-3 mb-3">
-                <div class="card especialidad-card" (click)="elegirEspecialidad(especialidad.especialidad)">
-                  <div class="card-body">
-                    <p class="card-text">{{especialidad.especialidad}}</p>
-                  </div>
-                </div>
-              </div>
+    <!-- PASO 0: Selección de Paciente (Solo Admin) -->
+    <div class="seccion-pacientes" *ngIf="etapa == 'paciente'">
+      <h3 class="paso-titulo">
+        <span class="paso-numero">1</span> Seleccione el Paciente
+      </h3>
+      <div class="pacientes-grid">
+        <div *ngFor="let paciente of pacientes" class="paciente-item" (click)="elegirPaciente(paciente)">
+          <div class="paciente-card-modern">
+            <div class="paciente-foto-container">
+              <img [src]="paciente.foto1 || 'assets/imagenes/paciente.png'" 
+                   class="paciente-foto" 
+                   [alt]="paciente.apellido"
+                   (error)="onImageError($event)">
             </div>
-            <!-- Dropdown especialidades -->
-      
-            <!-- Dropdown especialistas -->
-            <div *ngIf="etapa == 'especialista'">
-              <div class="row">
-                <div class="col-12">
-                  <h4>Especialista</h4>
-                  <p *ngIf="especialistasPorEspecialidad.length == 0">No se encuentran especialistas con esta especialidad. Elija otra por favor.</p>
-                </div>
-                <div *ngFor="let esp of especialistasPorEspecialidad" class="col-md-3 mb-3">
-                  <div class="card especialista-card" (click)="elegirEspecialista(esp.nombre, esp.apellido)">
-                    <img [src]="esp.img_1" class="card-img-top" [alt]="esp.apellido">
-                    <div class="card-body">
-                      <p class="card-text">{{esp.nombre + ' ' + esp.apellido}}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 text-end">
-                <button class="btn btn-success" (click)="volver('especialidad')">Volver</button>
-              </div>
+            <div class="paciente-info">
+              <h4 class="paciente-nombre">{{paciente.nombre}} {{paciente.apellido}}</h4>
+              <p class="paciente-email">
+                <i class="fa fa-envelope"></i> {{paciente.email}}
+              </p>
             </div>
-            <!-- Dropdown especialistas -->
-      
-            <!-- HORARIOS DISPONIBLES -->
-            <div class="modal-content rounded-4 shadow text-center" *ngIf="etapa == 'horario'">
-              <div class="modal-body p-5 pt-0">
-                <div class="d-flex justify-content-end align-items-center">
-                  <span>{{diaString}} {{dia}} de {{mes}}</span>
-                  <button class="btn btn-secondary mx-2" (click)="sumarRestarDias('antes')" [disabled]="restarDia"><</button>
-                  <button class="btn btn-secondary" (click)="sumarRestarDias('despues')" [disabled]="!sumarDia">></button>
-                </div>
-                <h4 class="mt-4">Horarios disponibles</h4>
-                <div class="row">
-                  <h3>{{noHayDatos}}</h3>
-                  <div *ngFor="let horario of horariosDisponiblesOtroFormato" class="col-6 col-md-2 mb-2">
-                    <button type="button" class="btn btn-success w-100" (click)="elegirHorario(horario)">{{horario}}</button>
-                  </div>
-                </div>
-                <button class="btn btn-primary mt-3" (click)="volver('especialista')">Volver</button>
-              </div>
-            </div>
-            <!-- HORARIOS DISPONIBLES -->
-      
-            <!-- Confirmar turno -->
-            <div *ngIf="etapa == 'confirmar'" class="my-3">
-              <h1>Confirmar turno</h1>
-              <p>Especialidad <br>{{especialidadElegida}}</p>
-              <p>Especialista <br>{{especialistaElegidoStr}}</p>
-              <p>Horario <br>{{diaElegido}}</p>
-              <button class="btn btn-success" (click)="confirmar()">Confirmar</button>
-              <button class="btn btn-primary mt-3" (click)="volver('horario')">Volver</button>
-            </div>
-            <!-- Confirmar turno -->
-      
-            <!-- Turno Solicitado -->
-            <div *ngIf="etapa == 'fin'" class="my-3">
-              <h1>Turno Solicitado</h1>
-              <p>Ir a mis turnos</p>
-              <button class="btn btn-success mt-3" (click)="volver('irMisTurno')">Mis Turnos</button>
-            </div>
-            <!-- Turno Solicitado -->
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- PASO 1/2: Selección de Especialidad -->
+    <div class="seccion-especialidades" *ngIf="etapa == 'especialidad'">
+      <h3 class="paso-titulo">
+        <span class="paso-numero">{{usuario?.tipo === 'admin' ? '2' : '1'}}</span> Seleccione una Especialidad
+      </h3>
+      
+      <!-- Mostrar paciente seleccionado si es admin -->
+      <p class="paciente-seleccionado" *ngIf="usuario?.tipo === 'admin' && pacienteElegidoStr">
+        <i class="fa fa-user"></i> Paciente: <strong>{{pacienteElegidoStr}}</strong>
+      </p>
+      
+      <div class="especialidades-grid">
+        <div *ngFor="let especialidad of especialidades" class="especialidad-item" (click)="elegirEspecialidad(especialidad.especialidad)">
+          <div class="especialidad-card-modern">
+            <div class="especialidad-icon">
+              <i class="fa fa-stethoscope"></i>
+            </div>
+            <h4 class="especialidad-nombre">{{especialidad.especialidad}}</h4>
+            <div class="especialidad-hover-effect"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="acciones-footer">
+        <button class="btn-volver" (click)="volver(usuario?.tipo === 'admin' ? 'paciente' : 'home')">
+          <i class="fa fa-arrow-left"></i> Volver
+        </button>
+      </div>
+    </div>
+
+    <!-- PASO 2/3: Selección de Especialista -->
+    <div class="seccion-especialistas" *ngIf="etapa == 'especialista'">
+      <h3 class="paso-titulo">
+        <span class="paso-numero">{{usuario?.tipo === 'admin' ? '3' : '2'}}</span> Seleccione un Especialista
+      </h3>
+      
+      <!-- Mostrar paciente seleccionado si es admin -->
+      <p class="paciente-seleccionado" *ngIf="usuario?.tipo === 'admin' && pacienteElegidoStr">
+        <i class="fa fa-user"></i> Paciente: <strong>{{pacienteElegidoStr}}</strong>
+      </p>
+      
+      <p class="especialidad-seleccionada">
+        <i class="fa fa-check-circle"></i> Especialidad: <strong>{{especialidadElegida}}</strong>
+      </p>
+      
+      <div *ngIf="especialistasPorEspecialidad.length == 0" class="sin-resultados">
+        <i class="fa fa-info-circle"></i>
+        <p>No se encuentran especialistas con esta especialidad.</p>
+        <button class="btn-volver" (click)="volver('especialidad')">
+          <i class="fa fa-arrow-left"></i> Elegir otra especialidad
+        </button>
+      </div>
+
+      <div class="especialistas-grid" *ngIf="especialistasPorEspecialidad.length > 0">
+        <div *ngFor="let esp of especialistasPorEspecialidad" class="especialista-item" (click)="elegirEspecialista(esp.nombre, esp.apellido, esp.email)">
+          <div class="especialista-card-modern">
+            <div class="especialista-foto-container">
+              <img [src]="esp.foto1 || 'assets/imagenes/especialista.png'" 
+                   class="especialista-foto" 
+                   [alt]="esp.apellido"
+                   (error)="onImageError($event)">
+            </div>
+            <div class="especialista-info">
+              <h4 class="especialista-nombre">{{esp.nombre}} {{esp.apellido}}</h4>
+              <p class="especialista-especialidad">
+                <i class="fa fa-user-md"></i> {{especialidadElegida}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acciones-footer" *ngIf="especialistasPorEspecialidad.length > 0">
+        <button class="btn-volver" (click)="volver('especialidad')">
+          <i class="fa fa-arrow-left"></i> Volver
+        </button>
+      </div>
+    </div>
+
+    <!-- PASO 3/4: Selección de Día y Horario -->
+    <div class="seccion-horarios" *ngIf="etapa == 'horario'">
+      <h3 class="paso-titulo">
+        <span class="paso-numero">{{usuario?.tipo === 'admin' ? '4' : '3'}}</span> Seleccione Día y Horario
+      </h3>
+      
+      <div class="seleccion-resumen">
+        <div class="resumen-item" *ngIf="usuario?.tipo === 'admin'">
+          <i class="fa fa-user"></i> <strong>Paciente:</strong> {{pacienteElegidoStr}}
+        </div>
+        <div class="resumen-item">
+          <i class="fa fa-check-circle"></i> <strong>Especialidad:</strong> {{especialidadElegida}}
+        </div>
+        <div class="resumen-item">
+          <i class="fa fa-user-md"></i> <strong>Especialista:</strong> {{especialistaElegidoStr}}
+        </div>
+      </div>
+
+      <!-- Grid de días (15 días) -->
+      <div class="dias-section">
+        <h4 class="seccion-subtitulo">
+          <i class="fa fa-calendar"></i> Seleccione un día
+        </h4>
+        <div class="dias-grid">
+          <div *ngFor="let diaDisponible of diasDisponibles; let i = index" 
+               class="dia-card" 
+               [class.dia-selected]="diaSeleccionadoIndex === i"
+               [class.dia-inhabilitado]="!diaDisponible.disponible"
+               (click)="seleccionarDia(i)">
+            <div class="dia-nombre">{{diaDisponible.diaNombre}}</div>
+            <div class="dia-numero">{{diaDisponible.diaNumero}}</div>
+            <div class="dia-mes">{{diaDisponible.mesNombre}}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Horarios disponibles para el día seleccionado -->
+      <div class="horarios-section" *ngIf="diaSeleccionadoIndex !== -1">
+        <h4 class="seccion-subtitulo">
+          <i class="fa fa-clock-o"></i> Horarios disponibles para {{diasDisponibles[diaSeleccionadoIndex]?.diaNombre}} {{diasDisponibles[diaSeleccionadoIndex]?.diaNumero}} de {{diasDisponibles[diaSeleccionadoIndex]?.mesNombre}}
+        </h4>
+        
+        <div *ngIf="noHayDatos" class="sin-horarios">
+          <i class="fa fa-calendar-times-o"></i>
+          <p>{{noHayDatos}}</p>
+        </div>
+
+        <div class="horarios-grid" *ngIf="!noHayDatos && horariosDisponiblesDelDia.length > 0">
+          <button *ngFor="let horario of horariosDisponiblesDelDia" 
+                  class="horario-btn" 
+                  (click)="elegirHorario(horario)">
+            <i class="fa fa-clock-o"></i>
+            {{formatearHora(horario)}}
+          </button>
+        </div>
+      </div>
+
+      <div class="acciones-footer">
+        <button class="btn-volver" (click)="volver('especialista')">
+          <i class="fa fa-arrow-left"></i> Volver
+        </button>
+      </div>
+    </div>
+
+    <!-- Turno Solicitado -->
+    <div *ngIf="etapa == 'fin'" class="seccion-exito">
+      <div class="exito-icon">
+        <i class="fa fa-check-circle"></i>
+      </div>
+      <h2 class="exito-titulo">¡Turno Solicitado Exitosamente!</h2>
+      <p class="exito-mensaje">Su turno ha sido registrado correctamente.</p>
+      <button class="btn-mis-turnos" (click)="volver('irMisTurno')">
+        <i class="fa fa-list-alt"></i> Ver Mis Turnos
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL DE CONFIRMACIÓN -->
+<div class="modal-overlay-turno" *ngIf="etapa == 'confirmar'" (click)="cerrarModalConfirmacion()">
+  <div class="modal-confirmacion" (click)="$event.stopPropagation()">
+    
+    <!-- Header del Modal -->
+    <div class="modal-header-turno">
+      <h3 class="modal-titulo-turno">
+        <i class="fa fa-check-circle"></i> Confirmar Turno
+      </h3>
+      <button class="modal-close-btn-turno" (click)="cerrarModalConfirmacion()">
+        <i class="fa fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Contenido del Modal -->
+    <div class="modal-body-turno">
+      <p class="modal-descripcion-turno">
+        Por favor, revise los datos de su turno antes de confirmar:
+      </p>
+
+      <!-- Información del Turno -->
+      <div class="turno-info-card">
+        <div class="info-row" *ngIf="usuario?.tipo === 'admin'">
+          <div class="info-icon">
+            <i class="fa fa-user"></i>
+          </div>
+          <div class="info-content">
+            <span class="info-label">Paciente</span>
+            <span class="info-value">{{pacienteElegidoStr}}</span>
+          </div>
+        </div>
+        
+        <div class="info-row">
+          <div class="info-icon">
+            <i class="fa fa-stethoscope"></i>
+          </div>
+          <div class="info-content">
+            <span class="info-label">Especialidad</span>
+            <span class="info-value">{{especialidadElegida}}</span>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon">
+            <i class="fa fa-user-md"></i>
+          </div>
+          <div class="info-content">
+            <span class="info-label">Especialista</span>
+            <span class="info-value">{{especialistaElegidoStr}}</span>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon">
+            <i class="fa fa-calendar"></i>
+          </div>
+          <div class="info-content">
+            <span class="info-label">Fecha y Hora</span>
+            <span class="info-value">{{diaElegido}}</span>
+          </div>
+        </div>
+
+        <div class="info-row" *ngIf="duracionTurno">
+          <div class="info-icon">
+            <i class="fa fa-hourglass-half"></i>
+          </div>
+          <div class="info-content">
+            <span class="info-label">Duración</span>
+            <span class="info-value">{{duracionTurno}} minutos</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-advertencia">
+        <i class="fa fa-info-circle"></i>
+        <p>Una vez confirmado, el turno quedará registrado en el sistema.</p>
+      </div>
+    </div>
+
+    <!-- Footer del Modal -->
+    <div class="modal-footer-turno">
+      <button class="btn-modal-cancelar-turno" (click)="cerrarModalConfirmacion()">
+        <i class="fa fa-times"></i> Cancelar
+      </button>
+      <button class="btn-modal-confirmar-turno" (click)="confirmar()">
+        <i class="fa fa-check"></i> Confirmar Turno
+      </button>
+    </div>
+
+  </div>
+</div>

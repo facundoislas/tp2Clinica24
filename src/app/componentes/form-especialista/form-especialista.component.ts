@@ -54,7 +54,7 @@ export class FormEspecialistaComponent {
     this.formRegistro = this.fb.group({
       nombre:['', [Validators.required, Validators.minLength(3)]],
       apellido:['', [Validators.required, Validators.minLength(2)]],
-      edad:['', [Validators.required, Validators.min(0), Validators.max(150)]],
+      edad:['', [Validators.required, Validators.min(18), Validators.max(120)]],
       dni: ['', [Validators.required, Validators.min(1000000), Validators.max(100000000)]],
       email:['', [Validators.required, Validators.email]],
       contrasena:['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],

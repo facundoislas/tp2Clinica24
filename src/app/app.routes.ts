@@ -22,11 +22,11 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { animation: 'LoginPage' } },
   { path: 'registro', loadComponent:()=> import('./componentes/registro/registro.component').then((c) => c.RegistroComponent), data: { animation: 'RegistroPage' } },
   { path: 'usuarios', component: UsuariosComponent, canActivate:[authGuard], data: { animation: 'UsuariosPage' } },
-  { path: 'perfil', component: MiPerfilComponent, data: { animation: 'PerfilPage' } },
-  { path: 'turnos', component: MisTurnosComponent, data: { animation: 'TurnosPage' } },
-  { path: 'crearTurno', component: CrearTurnoComponent, data: { animation: 'CrearTurnoPage' } },
-  { path: 'historial', component: HistoriaClinicaComponent, data: { animation: 'HistorialPage' } },
-  { path: 'pacientes', component: MisPacientesComponent, data: { animation: 'PacientesPage' } },
+  { path: 'perfil', component: MiPerfilComponent, canActivate:[isLoginGuard], data: { animation: 'PerfilPage' } },
+  { path: 'turnos', component: MisTurnosComponent, canActivate:[isLoginGuard], data: { animation: 'TurnosPage' } },
+  { path: 'crearTurno', component: CrearTurnoComponent, canActivate:[isLoginGuard], data: { animation: 'CrearTurnoPage' } },
+  { path: 'historial', component: HistoriaClinicaComponent, canActivate:[isLoginGuard], data: { animation: 'HistorialPage' } },
+  { path: 'pacientes', component: MisPacientesComponent, canActivate:[isLoginGuard], data: { animation: 'PacientesPage' } },
   { path: 'estadisticas',loadComponent:()=> import('./componentes/estadisticas/estadisticas.component').then((c) => c.EstadisticasComponent),canActivate:[authGuard], data: { animation: 'EstadisticasPage' } },
   { path: '**', component: ErrorComponent, data: { animation: 'ErrorPage' } }
 
