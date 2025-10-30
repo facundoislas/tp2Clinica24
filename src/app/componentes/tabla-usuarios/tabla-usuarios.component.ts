@@ -83,7 +83,37 @@ export class TablaUsuariosComponent {
 
 
   exportToExcel(): void {
-    this.excelExportService.exportAsExcelFile(this.usuarios, 'usuarios');
+    try {
+      // Formatear los datos para el Excel con campos relevantes y nombres en español
+      const datosFormateados = this.usuarios.map(usuario => {
+        const datos: any = {
+          'Nombre': usuario.nombre || '',
+          'Apellido': usuario.apellido || '',
+          'Email': usuario.email || '',
+          'DNI': usuario.dni || '',
+          'Edad': usuario.edad || '',
+          'Tipo': usuario.tipo || '',
+        };
+
+        // Agregar campos específicos según el tipo de usuario
+        if (usuario.tipo === 'paciente') {
+          datos['Obra Social'] = usuario.obraSocial || '';
+        }
+
+        if (usuario.tipo === 'especialista') {
+          datos['Especialidades'] = this.getEspecialidades(usuario);
+          datos['Aprobado'] = usuario.aprobado ? 'Sí' : 'No';
+        }
+
+        return datos;
+      });
+
+      this.excelExportService.exportAsExcelFile(datosFormateados, 'usuarios_clinica');
+      console.log('Excel exportado correctamente');
+    } catch (error) {
+      console.error('Error al exportar a Excel:', error);
+      alert('Error al exportar los datos a Excel. Por favor, intente nuevamente.');
+    }
   }
 
   getEspecialidades(user:any): string {

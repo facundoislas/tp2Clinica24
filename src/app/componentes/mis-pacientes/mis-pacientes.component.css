@@ -2,7 +2,6 @@
 .pacientes-container {
   min-height: 100vh;
   padding: 100px 20px 40px;
-  background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #1a202c 100%);
 }
 
 .volver-btn {

@@ -34,10 +34,10 @@
       </div>
     </div>
 
-    <!-- PASO 1/2: Selección de Especialidad -->
-    <div class="seccion-especialidades" *ngIf="etapa == 'especialidad'">
+    <!-- PASO 1/2: Selección de Especialista -->
+    <div class="seccion-especialistas" *ngIf="etapa == 'especialista'">
       <h3 class="paso-titulo">
-        <span class="paso-numero">{{usuario?.tipo === 'admin' ? '2' : '1'}}</span> Seleccione una Especialidad
+        <span class="paso-numero">{{usuario?.tipo === 'admin' ? '2' : '1'}}</span> Seleccione un Especialista
       </h3>
       
       <!-- Mostrar paciente seleccionado si es admin -->
@@ -45,8 +45,65 @@
         <i class="fa fa-user"></i> Paciente: <strong>{{pacienteElegidoStr}}</strong>
       </p>
       
-      <div class="especialidades-grid">
-        <div *ngFor="let especialidad of especialidades" class="especialidad-item" (click)="elegirEspecialidad(especialidad.especialidad)">
+      <div *ngIf="especialistas.length == 0" class="sin-resultados">
+        <i class="fa fa-info-circle"></i>
+        <p>No se encuentran especialistas disponibles.</p>
+      </div>
+
+      <div class="especialistas-grid" *ngIf="especialistas.length > 0">
+        <div *ngFor="let esp of especialistas" class="especialista-item" (click)="elegirEspecialista(esp)">
+          <div class="especialista-card-modern">
+            <div class="especialista-foto-container">
+              <img [src]="esp.foto1 || 'assets/imagenes/especialista.png'" 
+                   class="especialista-foto" 
+                   [alt]="esp.apellido"
+                   (error)="onImageError($event)">
+            </div>
+            <div class="especialista-info">
+              <h4 class="especialista-nombre">{{esp.nombre}} {{esp.apellido}}</h4>
+              <p class="especialista-especialidades">
+                <i class="fa fa-user-md"></i> 
+                <span *ngFor="let especialidad of esp.especialidad; let last = last">
+                  {{especialidad.especialidad}}<span *ngIf="!last">, </span>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acciones-footer" *ngIf="especialistas.length > 0">
+        <button class="btn-volver" (click)="volver(usuario?.tipo === 'admin' ? 'paciente' : 'home')">
+          <i class="fa fa-arrow-left"></i> Volver
+        </button>
+      </div>
+    </div>
+
+    <!-- PASO 2/3: Selección de Especialidad -->
+    <div class="seccion-especialidades" *ngIf="etapa == 'especialidad'">
+      <h3 class="paso-titulo">
+        <span class="paso-numero">{{usuario?.tipo === 'admin' ? '3' : '2'}}</span> Seleccione una Especialidad
+      </h3>
+      
+      <!-- Mostrar paciente seleccionado si es admin -->
+      <p class="paciente-seleccionado" *ngIf="usuario?.tipo === 'admin' && pacienteElegidoStr">
+        <i class="fa fa-user"></i> Paciente: <strong>{{pacienteElegidoStr}}</strong>
+      </p>
+      
+      <p class="especialidad-seleccionada">
+        <i class="fa fa-user-md"></i> Especialista: <strong>{{especialistaElegidoStr}}</strong>
+      </p>
+      
+      <div *ngIf="especialistaElegido?.especialidad?.length == 0" class="sin-resultados">
+        <i class="fa fa-info-circle"></i>
+        <p>Este especialista no tiene especialidades registradas.</p>
+        <button class="btn-volver" (click)="volver('especialista')">
+          <i class="fa fa-arrow-left"></i> Elegir otro especialista
+        </button>
+      </div>
+
+      <div class="especialidades-grid" *ngIf="especialistaElegido?.especialidad?.length > 0">
+        <div *ngFor="let especialidad of especialistaElegido.especialidad" class="especialidad-item" (click)="elegirEspecialidad(especialidad.especialidad)">
           <div class="especialidad-card-modern">
             <div class="especialidad-icon">
               <i class="fa fa-stethoscope"></i>
@@ -57,57 +114,8 @@
         </div>
       </div>
       
-      <div class="acciones-footer">
-        <button class="btn-volver" (click)="volver(usuario?.tipo === 'admin' ? 'paciente' : 'home')">
-          <i class="fa fa-arrow-left"></i> Volver
-        </button>
-      </div>
-    </div>
-
-    <!-- PASO 2/3: Selección de Especialista -->
-    <div class="seccion-especialistas" *ngIf="etapa == 'especialista'">
-      <h3 class="paso-titulo">
-        <span class="paso-numero">{{usuario?.tipo === 'admin' ? '3' : '2'}}</span> Seleccione un Especialista
-      </h3>
-      
-      <!-- Mostrar paciente seleccionado si es admin -->
-      <p class="paciente-seleccionado" *ngIf="usuario?.tipo === 'admin' && pacienteElegidoStr">
-        <i class="fa fa-user"></i> Paciente: <strong>{{pacienteElegidoStr}}</strong>
-      </p>
-      
-      <p class="especialidad-seleccionada">
-        <i class="fa fa-check-circle"></i> Especialidad: <strong>{{especialidadElegida}}</strong>
-      </p>
-      
-      <div *ngIf="especialistasPorEspecialidad.length == 0" class="sin-resultados">
-        <i class="fa fa-info-circle"></i>
-        <p>No se encuentran especialistas con esta especialidad.</p>
-        <button class="btn-volver" (click)="volver('especialidad')">
-          <i class="fa fa-arrow-left"></i> Elegir otra especialidad
-        </button>
-      </div>
-
-      <div class="especialistas-grid" *ngIf="especialistasPorEspecialidad.length > 0">
-        <div *ngFor="let esp of especialistasPorEspecialidad" class="especialista-item" (click)="elegirEspecialista(esp.nombre, esp.apellido, esp.email)">
-          <div class="especialista-card-modern">
-            <div class="especialista-foto-container">
-              <img [src]="esp.foto1 || 'assets/imagenes/especialista.png'" 
-                   class="especialista-foto" 
-                   [alt]="esp.apellido"
-                   (error)="onImageError($event)">
-            </div>
-            <div class="especialista-info">
-              <h4 class="especialista-nombre">{{esp.nombre}} {{esp.apellido}}</h4>
-              <p class="especialista-especialidad">
-                <i class="fa fa-user-md"></i> {{especialidadElegida}}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="acciones-footer" *ngIf="especialistasPorEspecialidad.length > 0">
-        <button class="btn-volver" (click)="volver('especialidad')">
+      <div class="acciones-footer" *ngIf="especialistaElegido?.especialidad?.length > 0">
+        <button class="btn-volver" (click)="volver('especialista')">
           <i class="fa fa-arrow-left"></i> Volver
         </button>
       </div>
@@ -116,7 +124,7 @@
     <!-- PASO 3/4: Selección de Día y Horario -->
     <div class="seccion-horarios" *ngIf="etapa == 'horario'">
       <h3 class="paso-titulo">
-        <span class="paso-numero">{{usuario?.tipo === 'admin' ? '4' : '3'}}</span> Seleccione Día y Horario
+        <span class="paso-numero">3</span> Seleccione Día y Horario
       </h3>
       
       <div class="seleccion-resumen">
@@ -142,9 +150,7 @@
                [class.dia-selected]="diaSeleccionadoIndex === i"
                [class.dia-inhabilitado]="!diaDisponible.disponible"
                (click)="seleccionarDia(i)">
-            <div class="dia-nombre">{{diaDisponible.diaNombre}}</div>
-            <div class="dia-numero">{{diaDisponible.diaNumero}}</div>
-            <div class="dia-mes">{{diaDisponible.mesNombre}}</div>
+            <div class="dia-fecha">{{formatearFechaBoton(diaDisponible.fecha)}}</div>
           </div>
         </div>
       </div>
@@ -171,7 +177,7 @@
       </div>
 
       <div class="acciones-footer">
-        <button class="btn-volver" (click)="volver('especialista')">
+        <button class="btn-volver" (click)="volver('especialidad')">
           <i class="fa fa-arrow-left"></i> Volver
         </button>
       </div>

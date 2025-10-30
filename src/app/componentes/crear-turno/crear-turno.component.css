@@ -79,8 +79,8 @@
    ============================================ */
 .especialidades-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
 }
 
 .especialidad-item {
@@ -90,18 +90,19 @@
 .especialidad-card-modern {
   background: #2d3142;
   border: 2px solid #3a3f51;
-  border-radius: 20px;
-  padding: 25px 20px;
+  border-radius: 15px;
+  padding: 20px 25px;
   text-align: center;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   position: relative;
   overflow: hidden;
-  height: 160px;
+  min-height: 90px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-start;
   align-items: center;
+  gap: 20px;
 }
 
 .especialidad-card-modern:hover {
@@ -112,14 +113,14 @@
 }
 
 .especialidad-icon {
-  width: 55px;
-  height: 55px;
+  width: 50px;
+  height: 50px;
   background: #20c997;
-  border-radius: 50%;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 12px;
+  flex-shrink: 0;
   transition: all 0.3s ease;
 }
 
@@ -133,10 +134,12 @@
 }
 
 .especialidad-nombre {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   color: #e0e6ed;
   margin: 0;
+  text-align: left;
+  flex: 1;
 }
 
 /* ============================================
@@ -340,6 +343,24 @@
   color: #20c997;
 }
 
+.especialista-especialidades {
+  font-size: 13px;
+  color: #8e9aaf;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.especialista-especialidades i {
+  color: #20c997;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
 /* ============================================
    SECCIÓN HORARIOS
    ============================================ */
@@ -407,7 +428,7 @@
 
 .dias-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 15px;
 }
 
@@ -415,12 +436,16 @@
   background: #2d3142;
   border: 2px solid #3a3f51;
   border-radius: 15px;
-  padding: 15px 10px;
+  padding: 20px;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   color: #e0e6ed;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .dia-card:hover:not(.dia-inhabilitado) {
@@ -445,22 +470,10 @@
   border-color: #2a2d38;
 }
 
-.dia-nombre {
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.dia-numero {
-  font-size: 26px;
-  font-weight: 800;
-  margin: 5px 0;
-}
-
-.dia-mes {
-  font-size: 12px;
-  font-weight: 500;
-  opacity: 0.85;
+.dia-fecha {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 /* ============================================
@@ -869,7 +882,7 @@
   }
 
   .especialidades-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: 1fr;
     gap: 15px;
   }
 
@@ -878,7 +891,7 @@
   }
 
   .dias-grid {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
 
   .horarios-grid {

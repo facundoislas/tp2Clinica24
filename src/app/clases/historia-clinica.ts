@@ -8,7 +8,7 @@ export class HistoriaClinica {
     peso:number;
     temperatura:string;
     presion:string;
-    especialidad:string
+    especialidad:string;
 
     constructor(id:string,paciente:string,especialista:string,dinamicos: {clave: string, valor: string,rango:number, numero:number, eleccion:boolean}[],altura:string,peso:number,
         temperatura:string,presion:string,especialidad:string){

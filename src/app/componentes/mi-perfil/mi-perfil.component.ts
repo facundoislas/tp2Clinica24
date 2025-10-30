@@ -96,8 +96,9 @@ export class MiPerfilComponent {
     if (this.userData && this.userData.tipo === 'especialista') {
       this.horarioEspService.getHorarioEspecialistas().subscribe(horario => {
         horario.forEach(hora => {
-          console.log(hora);
+          console.log("aca",hora);
           if (this.userData.email == hora.email) {
+            console.log("entre");
             this.horariosEspecialista = hora;
             this.disponibilidades = this.horariosEspecialista.estados;
             // Inicializar especialidadesPorDia si viene vacío o undefined

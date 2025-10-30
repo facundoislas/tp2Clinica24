@@ -119,41 +119,21 @@ export class CrearTurnoComponent {
     // Si es admin, empezar con la selección de paciente
     if (this.usuario && this.usuario.tipo === 'admin') {
       this.etapa = "paciente";
+    } else {
+      // Si es paciente, empezar con la selección de especialista
+      this.etapa = "especialista";
     }
   }
 
   elegirPaciente(paciente: any) {
     this.pacienteElegido = paciente;
     this.pacienteElegidoStr = `${paciente.nombre} ${paciente.apellido}`;
-    this.etapa = "especialidad";
+    // Admin sigue el flujo de elegir especialista primero
+    this.etapa = "especialista";
   }
 
   elegirEspecialidad(especialidadElegida:string){
-    this.especialistasPorEspecialidad = [];
     this.especialidadElegida = especialidadElegida;
-    
-    this.especialistas.forEach((esp: any) => {
-      esp.especialidad.forEach((especialidad: any)=>{
-        if(especialidad.especialidad == especialidadElegida){
-          this.especialistasPorEspecialidad.push(esp);
-        }
-      })
-    });
-   
-    this.volver("especialista");
-  }
-
-  elegirEspecialista(nombre:string, apellido:string, email:string){
-    let indice = -1;
-    
-    this.especialistas.forEach((esp, index) => {
-      if(esp.nombre == nombre && esp.apellido == apellido){
-        indice = index;
-      }
-    });
-
-    this.especialistaElegido = this.especialistas[indice];
-    this.especialistaElegidoStr = this.especialistaElegido.nombre + " " + this.especialistaElegido.apellido;
     
     // Obtener la duración del turno para la especialidad elegida
     const especialidadDelEspecialista = this.especialistaElegido.especialidad.find(
@@ -165,6 +145,14 @@ export class CrearTurnoComponent {
     this.generarDiasDisponibles();
     
     this.volver('horario');
+  }
+
+  elegirEspecialista(especialista: any){
+    this.especialistaElegido = especialista;
+    this.especialistaElegidoStr = this.especialistaElegido.nombre + " " + this.especialistaElegido.apellido;
+    
+    // Pasar a elegir especialidad del especialista elegido
+    this.volver('especialidad');
   }
 
   generarDiasDisponibles() {
@@ -362,16 +350,21 @@ export class CrearTurnoComponent {
       this.etapa = "paciente";
       this.diaSeleccionadoIndex = -1;
       this.horariosDisponiblesDelDia = [];
+      this.especialistaElegido = null;
+      this.especialidadElegida = null;
     }
     else if(lugar == "especialidad"){
       this.etapa = "especialidad";
       this.diaSeleccionadoIndex = -1;
       this.horariosDisponiblesDelDia = [];
+      this.especialidadElegida = null;
     }
     else if(lugar == "especialista"){
       this.etapa = "especialista";
       this.diaSeleccionadoIndex = -1;
       this.horariosDisponiblesDelDia = [];
+      this.especialistaElegido = null;
+      this.especialidadElegida = null;
     }
     else if(lugar == "horario"){
       this.etapa = "horario";
@@ -401,6 +394,13 @@ export class CrearTurnoComponent {
     const ampm = h >= 12 ? 'PM' : 'AM';
     const horas12 = h % 12 || 12;
     return `${horas12.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
+  }
+
+  formatearFechaBoton(fecha: Date): string {
+    const dia = fecha.getDate().toString().padStart(2, '0');
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const anio = fecha.getFullYear();
+    return `${dia}-${mes}-${anio}`;
   }
 
   diaSemanaString(numero:number){

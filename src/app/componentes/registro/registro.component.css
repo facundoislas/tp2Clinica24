@@ -73,11 +73,10 @@
   cursor: pointer;
 }
 
-/* Contenedor de imagen con fondo */
+/* Contenedor de imagen con fondo - Rectangular Vertical */
 .image-container {
   background: linear-gradient(135deg, #a5f3e4, #7dd3c0);
-  border-radius: 25px;
-  padding: 15px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,8 +85,7 @@
   transition: all 0.3s ease;
   pointer-events: none;
   border: 4px solid rgba(20, 184, 166, 0.4);
-  width: 380px;
-  height: 380px;
+  width: 280px;
 }
 
 .welcome-card.clickeable:hover .image-container {
@@ -96,17 +94,17 @@
   border-color: #14b8a6;
 }
 
-/* Imágenes de las tarjetas - rectangulares */
+/* Imágenes de las tarjetas - rectangulares verticales */
 .card-image {
   border: 4px solid #14b8a6;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
-  border-radius: 18px;
-  object-fit: contain;
+  border-radius: 15px;
+  object-fit: cover;
   margin-bottom: 0;
   display: block;
-  width: 340px;
-  height: 340px;
+  width: 100%;
+  height: 100%;
 }
 
 /* Estilos de texto removidos - Ya no se muestran textos, solo imágenes */
@@ -166,17 +164,15 @@
   }
   
   .image-container {
-    border-radius: 18px;
-    padding: 12px;
+    border-radius: 15px;
     margin-bottom: 0;
-    width: 280px;
-    height: 280px;
+    width: 210px;
   }
   
   .card-image {
-    width: 240px;
-    height: 240px;
-    border-radius: 14px;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
   }
 }
 
@@ -191,17 +187,15 @@
   }
   
   .image-container {
-    border-radius: 15px;
-    padding: 10px;
+    border-radius: 12px;
     margin-bottom: 0;
-    width: 220px;
-    height: 220px;
+    width: 180px;
   }
   
   .card-image {
-    width: 190px;
-    height: 190px;
-    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
   }
 }
 
@@ -216,16 +210,14 @@
   }
   
   .image-container {
-    padding: 20px;
-    width: 480px;
-    height: 480px;
-    border-radius: 28px;
+    width: 340px;
+    border-radius: 25px;
   }
   
   .card-image {
-    width: 430px;
-    height: 430px;
-    border-radius: 22px;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
   }
 }
       

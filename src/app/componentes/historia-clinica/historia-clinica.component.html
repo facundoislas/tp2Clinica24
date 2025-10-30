@@ -1,25 +1,112 @@
-<div style="text-align: center;" class="mt-5">
-    <br>
-    <h1>Historia Clinica de: {{paciente.nombre}} {{paciente.apellido}}</h1>
-</div>
-
-
-
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div *ngFor="let historia of historias" class="card mb-4 shadow-sm historia-card">
-                <div class="card-body">
-                    <ul class="list-group">
-                        <li class="list-group-item historia-item"><b>Altura: </b><span>{{historia.altura}} cm</span></li>
-                        <li class="list-group-item historia-item"><b>Peso: </b><span>{{historia.peso}} kg</span></li>
-                        <li class="list-group-item historia-item"><b>Temperatura: </b><span>{{historia.temperatura}} °C</span></li>
-                        <li class="list-group-item historia-item"><b>Presión: </b><span>{{historia.presion}} mmHg</span></li>
-                        <li class="list-group-item historia-item"><b>Especialidad: </b><span>{{historia.especialidad}}</span></li>
-                        <li *ngFor="let dinamico of historia.dinamicos" class="list-group-item historia-item"><b>{{dinamico.clave}}: </b><span>{{dinamico.valor}}</span><span>{{dinamico.numero}}</span><span>{{dinamico.rango}}</span><span>{{dinamico.eleccion}}</span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+<div class="historia-clinica-container">
+  <div class="historia-clinica-content">
+    
+    <!-- Header -->
+    <div class="historia-header">
+      <h1 class="historia-titulo">
+        <i class="fa fa-file-text-o"></i> Historia Clínica
+      </h1>
+      <h2 class="paciente-nombre">{{paciente.nombre}} {{paciente.apellido}}</h2>
+      <p class="paciente-info" *ngIf="paciente.dni">
+        <i class="fa fa-id-card"></i> DNI: {{paciente.dni}} 
+        <span *ngIf="paciente.edad"> | Edad: {{paciente.edad}} años</span>
+      </p>
     </div>
+
+    <!-- Sin historias -->
+    <div *ngIf="historias.length === 0" class="sin-historias">
+      <i class="fa fa-folder-open-o"></i>
+      <p>No hay historias clínicas registradas para este paciente.</p>
+    </div>
+
+    <!-- Lista de historias -->
+    <div class="historias-lista">
+      <div *ngFor="let historia of historias; let i = index" class="historia-card">
+        
+        <!-- Encabezado de la historia -->
+        <div class="historia-card-header">
+          <div class="historia-numero">
+            <i class="fa fa-file-medical"></i>
+            <span>Consulta #{{historias.length - i}}</span>
+          </div>
+          <div class="historia-metadata">
+            <div class="metadata-item">
+              <i class="fa fa-stethoscope"></i>
+              <span>{{historia.especialidad}}</span>
+            </div>
+            <div class="metadata-item">
+              <i class="fa fa-user-md"></i>
+              <span>{{getNombreEspecialista(historia.especialista)}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Datos fijos -->
+        <div class="historia-card-body">
+          <h3 class="seccion-titulo">
+            <i class="fa fa-heartbeat"></i> Datos Vitales
+          </h3>
+          
+          <div class="datos-grid">
+            <div class="dato-item">
+              <div class="dato-icon">
+                <i class="fa fa-arrows-v"></i>
+              </div>
+              <div class="dato-info">
+                <span class="dato-label">Altura</span>
+                <span class="dato-valor">{{historia.altura}} cm</span>
+              </div>
+            </div>
+
+            <div class="dato-item">
+              <div class="dato-icon">
+                <i class="fa fa-balance-scale"></i>
+              </div>
+              <div class="dato-info">
+                <span class="dato-label">Peso</span>
+                <span class="dato-valor">{{historia.peso}} kg</span>
+              </div>
+            </div>
+
+            <div class="dato-item">
+              <div class="dato-icon">
+                <i class="fa fa-thermometer-half"></i>
+              </div>
+              <div class="dato-info">
+                <span class="dato-label">Temperatura</span>
+                <span class="dato-valor">{{historia.temperatura}} °C</span>
+              </div>
+            </div>
+
+            <div class="dato-item">
+              <div class="dato-icon">
+                <i class="fa fa-heartbeat"></i>
+              </div>
+              <div class="dato-info">
+                <span class="dato-label">Presión</span>
+                <span class="dato-valor">{{historia.presion}} mmHg</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Datos dinámicos -->
+          <div *ngIf="historia.dinamicos && historia.dinamicos.length > 0" class="datos-dinamicos">
+            <h3 class="seccion-titulo">
+              <i class="fa fa-list-alt"></i> Datos Adicionales
+            </h3>
+            
+            <div class="dinamicos-grid">
+              <div *ngFor="let dinamico of historia.dinamicos" class="dinamico-item">
+                <span class="dinamico-label">{{dinamico.clave}}:</span>
+                <span class="dinamico-valor">
+                  {{dinamico.valor}}{{dinamico.numero}}{{dinamico.rango}}{{dinamico.eleccion ? 'Sí' : (dinamico.eleccion === false ? 'No' : '')}}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
