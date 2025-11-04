@@ -51,16 +51,22 @@ export class TablaPacientesComponent {
 
   traerPacientesEsp()
   {
+    // Limpiar la lista antes de llenarla
+    this.listaPacientesEsp = [];
+    
     this.usuarios.forEach(usuario => {
-      const historiasUsuario = this.historias.filter(historia => historia.paciente === usuario.email);
-      historiasUsuario.forEach(historia => {
-        if (historia.especialista == this.mail) {
-            this.listaPacientesEsp.push(usuario)
-            };
-            });
+      // Verificar si el paciente tiene al menos una historia con este especialista
+      const tieneHistoriaConEspecialista = this.historias.some(historia => 
+        historia.paciente === usuario.email && historia.especialista === this.mail
+      );
       
+      // Solo agregar el paciente una vez si tiene al menos una historia con este especialista
+      if (tieneHistoriaConEspecialista && !this.listaPacientesEsp.some(p => p.email === usuario.email)) {
+        this.listaPacientesEsp.push(usuario);
+      }
     });
-    console.log("aca", this.listaPacientesEsp)
+    
+    console.log("Pacientes únicos del especialista:", this.listaPacientesEsp);
   }
 
   seleccionarPaciente(email: string) {

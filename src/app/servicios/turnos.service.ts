@@ -60,7 +60,9 @@ export class TurnosService {
         peso:historia.peso,
         temperatura:historia.temperatura,
         presion:historia.presion,
-        especialidad:historia.especialidad
+        especialidad:historia.especialidad,
+        fechaAtencion:historia.fechaAtencion,
+        turnoId:historia.turnoId
       });
     }
 

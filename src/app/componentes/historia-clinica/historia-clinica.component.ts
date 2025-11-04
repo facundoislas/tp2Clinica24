@@ -120,10 +120,39 @@ export class HistoriaClinicaComponent {
   }
 
   ordenarHistoriasPorFecha() {
-    // Ordenar por ID u otro criterio si no hay fecha
     this.historias.sort((a: any, b: any) => {
-      // Mantener el orden de inserción (último primero)
-      return 0;
+      // Ordenar por fecha de atención (más reciente primero)
+      const fechaA = a.fechaAtencion ? this.convertirADate(a.fechaAtencion).getTime() : 0;
+      const fechaB = b.fechaAtencion ? this.convertirADate(b.fechaAtencion).getTime() : 0;
+      return fechaB - fechaA;
     });
+  }
+
+  convertirADate(fecha: any): Date {
+    if (fecha instanceof Date) {
+      return fecha;
+    }
+    if (fecha && fecha.seconds) {
+      // Timestamp de Firebase
+      return new Date(fecha.seconds * 1000);
+    }
+    if (typeof fecha === 'string') {
+      return new Date(fecha);
+    }
+    return new Date();
+  }
+
+  formatearFecha(fecha: any): string {
+    if (!fecha) return 'Fecha no disponible';
+    
+    try {
+      const date = this.convertirADate(fecha);
+      const dia = String(date.getDate()).padStart(2, '0');
+      const mes = String(date.getMonth() + 1).padStart(2, '0');
+      const anio = date.getFullYear();
+      return `${dia}/${mes}/${anio}`;
+    } catch (error) {
+      return 'Fecha no disponible';
+    }
   }
 }

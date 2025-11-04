@@ -9,9 +9,11 @@ export class HistoriaClinica {
     temperatura:string;
     presion:string;
     especialidad:string;
+    fechaAtencion:Date;
+    turnoId:string;
 
     constructor(id:string,paciente:string,especialista:string,dinamicos: {clave: string, valor: string,rango:number, numero:number, eleccion:boolean}[],altura:string,peso:number,
-        temperatura:string,presion:string,especialidad:string){
+        temperatura:string,presion:string,especialidad:string,fechaAtencion:Date,turnoId:string){
         this.id = id;
         this.paciente = paciente;
         this.especialista = especialista;
@@ -21,5 +23,7 @@ export class HistoriaClinica {
         this.temperatura = temperatura;
         this.presion = presion;
         this.especialidad = especialidad;
+        this.fechaAtencion = fechaAtencion;
+        this.turnoId = turnoId;
     }
 }

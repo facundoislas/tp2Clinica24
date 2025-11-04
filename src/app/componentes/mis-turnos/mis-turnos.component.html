@@ -65,6 +65,14 @@
                         <input name="apellido" [(ngModel)]="especialidad" [readonly]="true" class="form-control"/>
                     </div>
                 </div>
+                
+                <!-- Estado del turno -->
+                <div class="mb-3">
+                    <label for="estado">Estado</label>
+                    <button class="w-100 btn notButton" [ngClass]="{'btn-secondary': estado == 'pendiente','btn-danger': estado == 'cancelado' || estado == 'rechazado', 'btn-primary': estado == 'aceptado', 'btn-success': estado == 'finalizado'}">{{estado}}</button> 
+                </div>
+                <!-- Estado del turno -->
+                
                 <div class="mb-3" *ngIf="estado == 'finalizado'">
                     <label for="apellido">Turno</label>
                         <div class="info-card turno-card">
@@ -77,45 +85,40 @@
                                 <span class="info-value">{{turnoElegido.calificacion}}</span>
                             </div>
                         </div>
-                        <div *ngFor="let historia of historiaPrevia">
-                            <div class="mb-3" *ngIf="historia.paciente == turnoElegido.paciente && historia.especialista == turnoElegido.especialista">
-                                <label for="apellido">Historia Clínica</label>
-                                <div class="info-card historia-card">
-                                    <div class="info-grid">
-                                        <div class="info-item">
-                                            <span class="info-label">Altura:</span>
-                                            <span class="info-value">{{historia.altura}} cm</span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">Peso:</span>
-                                            <span class="info-value">{{historia.peso}} kg</span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">Presión:</span>
-                                            <span class="info-value">{{historia.presion}}</span>
-                                        </div>
-                                        <div class="info-item">
-                                            <span class="info-label">Temperatura:</span>
-                                            <span class="info-value">{{historia.temperatura}}°C</span>
-                                        </div>
+                        <div class="mb-3" *ngIf="obtenerHistoriaDelTurno(turnoElegido.id) as historia">
+                            <label for="apellido">Historia Clínica</label>
+                            <div class="info-card historia-card">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <span class="info-label">Altura:</span>
+                                        <span class="info-value">{{historia.altura}} cm</span>
                                     </div>
-                                    <hr class="info-divider">
-                                    <h5 class="dinamicos-title">Dinámicos</h5>
-                                    <div class="dinamicos-list">
-                                        <div class="info-item" *ngFor="let dinamico of historia.dinamicos">
-                                            <span class="info-label">{{dinamico.clave}}:</span>
-                                            <span class="info-value">{{dinamico.valor}}</span>
-                                        </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Peso:</span>
+                                        <span class="info-value">{{historia.peso}} kg</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Presión:</span>
+                                        <span class="info-value">{{historia.presion}}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Temperatura:</span>
+                                        <span class="info-value">{{historia.temperatura}}°C</span>
                                     </div>
                                 </div>
+                                <hr class="info-divider">
+                                <h5 class="dinamicos-title">Mas Datos</h5>
+                                <div class="dinamicos-list">
+                                    <div class="info-item" *ngFor="let dinamico of historia.dinamicos">
+                                        <span class="info-label">{{dinamico.clave}}:</span>
+                                        <span class="info-value">{{dinamico.valor}}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                   
                     </div>
                 </div>
-                    <div class="mb-3">
-                        <label for="fecha">Estado</label>
-                        <button class="w-100 btn notButton" [ngClass]="{'btn-secondary': estado == 'pendiente','btn-danger': estado == 'cancelado' || estado == 'rechazado', 'btn-primary': estado == 'aceptado', 'btn-success': estado == 'finalizado'}">{{estado}}</button> 
-                    </div>
+                </div>
                     <!-- Botones Paciente -->
                     <div style="text-align: center;" class="mt-4" *ngIf="usuario && usuario.tipo == 'paciente'">
                         <button *ngIf="estado != 'finalizado' && estado != 'cancelado' && estado != 'rechazado' && estado != ''" class="w-50 btn btn-danger" (click)="abrirPopUp('cancelar')">Cancelar turno</button> 
@@ -218,7 +221,7 @@
                             <input name="presion" [(ngModel)]="presion" class="form-control"/>
                         </div>
                     </div>
-                    <h4>Datos Dinamicos</h4>
+                    <h4>Más Datos</h4>
                     <div class="row" *ngFor="let item of [].constructor(cantidadDatos); let i=index">
                         <div class="col-md-6 mb-3">
                             <label for="temperatura">Clave</label>
@@ -228,7 +231,7 @@
                             <label for="presion">Valor</label>
                             <input name="presion" placeholder="Ej: 4" [(ngModel)]="dinamicos[i].valor" class="form-control"/>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <!--div class="col-md-6 mb-3">
                             <label for="customRange1" class="form-label">Rango de 0 a 100</label>
                             <input name="temperatura" type="range"  min="0" max="100" placeholder="Ej: caries" [(ngModel)]="dinamicos[i].rango" class="form-range" id="customRange1"/>
                         </div>
@@ -239,7 +242,7 @@
                         <div class="col-md-6 mb-3 form-check form-switch d-flex align-items-center justify-content-center">
                             <input class="form-check-input me-2" type="checkbox" role="switch" id="flexSwitchCheckDefault" [(ngModel)]="dinamicos[i].eleccion"/>
                             <label for="flexSwitchCheckDefault" class="form-check-label">Elección</label>
-                        </div>
+                        </div-->
                     </div>
                     <div>
                         <button *ngIf="cantidadDatos > 0" class="btn btn-secondary" style="margin: 0 auto; float: none;" (click)="agregarValorDinamico('restar')">Restar dato</button>
@@ -305,9 +308,7 @@
             </div>
             <!-- encuesta -->
                 
-                </div>
             </div>
         </div>
     </div>
-</div>
 

@@ -121,8 +121,12 @@ export class MisTurnosComponent implements AfterViewInit {
       }
       
       this.data.getHistoriaDB().subscribe(historias=>{
-        this.historiaPrevia = historias;
-        console.log(historias);
+        // Filtrar solo las historias clínicas relacionadas con los turnos del usuario
+        const turnosIds = this.turnos.map(turno => turno.id);
+        this.historiaPrevia = historias.filter(historia => 
+          turnosIds.includes(historia.turnoId)
+        );
+        console.log("Historias filtradas del usuario:", this.historiaPrevia);
         // Ocultar loading solo cuando todo esté cargado
         this.loading = false;
         // Inicializar el modal después de que el loading termine
@@ -172,7 +176,8 @@ export class MisTurnosComponent implements AfterViewInit {
   agregarValorDinamico(valor:string){
     if(valor == 'sumar' && this.cantidadDatos < 3){
       this.cantidadDatos++;
-      this.dinamicos.push({clave: "", valor: "", rango: 0, numero:0, eleccion: false});
+      // Solo se usan clave y valor, los demás campos tienen valores por defecto
+      this.dinamicos.push({clave: "", valor: "", rango: 0, numero: 0, eleccion: false});
     }
     else if(valor == 'restar' && this.cantidadDatos > 0){
       this.cantidadDatos--;
@@ -327,26 +332,44 @@ export class MisTurnosComponent implements AfterViewInit {
       this.peso == 0;
       this.temperatura == 0;
       this.presion == 0;
-      let nuevaHistoria: any = null;
-      this.historiaPrevia.forEach(historia=>{
-        if(this.turnoElegido.paciente == historia.paciente && this.turnoElegido.especialista == historia.especialista){
-          nuevaHistoria = historia;
-        }
-      })
+      
       console.log("El turno elegido",this.turnoElegido, this.historiaPrevia)
-      if(nuevaHistoria !== null && this.turnoElegido.especialidad === nuevaHistoria.especialidad){
-        nuevaHistoria.especialista = this.turnoElegido.especialista,
-        nuevaHistoria.dinamicos = this.dinamicos,
-        nuevaHistoria.altura=this.altura,
-        nuevaHistoria.peso=this.peso,
-        nuevaHistoria.temperatura=this.temperatura.toString(),
-        nuevaHistoria.presion=this.presion.toString(),
-        nuevaHistoria.especialidad=this.turnoElegido.especialidad,
-        this.data.updateHistoria(nuevaHistoria);
-      }else{
-        this.data.cargarHistoriasBD(new HistoriaClinica("",this.turnoElegido.paciente,this.turnoElegido.especialista,this.dinamicos,this.altura,
-        this.peso,this.temperatura.toString(),this.presion.toString(),this.turnoElegido.especialidad));
-
+      
+      // Obtener la fecha del turno
+      const fechaTurno = this.obtenerFechaTurno();
+      
+      // Buscar historia clínica por turnoId (relación 1 a 1)
+      const historiaDelTurno = this.historiaPrevia.find(historia => 
+        historia.turnoId === this.turnoElegido.id
+      );
+      
+      if(historiaDelTurno){
+        // Actualizar historia existente para este turno
+        historiaDelTurno.especialista = this.turnoElegido.especialista;
+        historiaDelTurno.dinamicos = this.dinamicos;
+        historiaDelTurno.altura = this.altura;
+        historiaDelTurno.peso = this.peso;
+        historiaDelTurno.temperatura = this.temperatura.toString();
+        historiaDelTurno.presion = this.presion.toString();
+        historiaDelTurno.especialidad = this.turnoElegido.especialidad;
+        historiaDelTurno.fechaAtencion = fechaTurno;
+        historiaDelTurno.turnoId = this.turnoElegido.id;
+        this.data.updateHistoria(historiaDelTurno);
+      } else {
+        // Crear nueva historia clínica con el ID del turno
+        this.data.cargarHistoriasBD(new HistoriaClinica(
+          "", 
+          this.turnoElegido.paciente, 
+          this.turnoElegido.especialista, 
+          this.dinamicos, 
+          this.altura,
+          this.peso, 
+          this.temperatura.toString(), 
+          this.presion.toString(), 
+          this.turnoElegido.especialidad, 
+          fechaTurno, 
+          this.turnoElegido.id
+        ));
       }
       this.limpiarData();
       this.cerrarPopUp();
@@ -504,6 +527,20 @@ export class MisTurnosComponent implements AfterViewInit {
       // Ordenar de más nuevo a más viejo (descendente)
       return fechaB.getTime() - fechaA.getTime();
     });
+  }
+
+  obtenerFechaTurno(): Date {
+    const mesNumero = this.convertirMesANumero(this.turnoElegido.mes);
+    const dia = parseInt(this.turnoElegido.dia);
+    const anio = parseInt(this.turnoElegido.anio);
+    
+    // Crear fecha (mes - 1 porque los meses en JavaScript van de 0 a 11)
+    const fecha = new Date(anio, mesNumero - 1, dia);
+    return fecha;
+  }
+
+  obtenerHistoriaDelTurno(turnoId: string): HistoriaClinica | undefined {
+    return this.historiaPrevia.find(historia => historia.turnoId === turnoId);
   }
 
   convertirMesANumero(mes: string): number {

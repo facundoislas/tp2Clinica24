@@ -249,6 +249,37 @@ input[readonly] {
   text-transform: uppercase;
   letter-spacing: 1px;
   border-radius: 12px;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.notButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilos específicos para cada estado */
+.notButton.btn-success {
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+  border-color: #66bb6a;
+}
+
+.notButton.btn-secondary {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  border-color: #9e9e9e;
+}
+
+.notButton.btn-danger {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+  border-color: #e57373;
+}
+
+.notButton.btn-primary {
+  background: linear-gradient(135deg, #2196f3, #1976d2);
+  border-color: #42a5f5;
 }
 
 /* Botones de acción */
@@ -619,6 +650,11 @@ p[style*="color: red"] {
     font-size: 0.9rem;
   }
   
+  .notButton {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+  
   .calificadores {
     width: 100% !important;
     margin: 5px 0 !important;
@@ -656,6 +692,12 @@ p[style*="color: red"] {
   .info-value {
     font-size: 0.9rem;
     padding: 6px 12px;
+  }
+  
+  .notButton {
+    padding: 10px 15px;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
   }
 }
 
