@@ -27,7 +27,7 @@ Descripción: Permite crear una cuenta como paciente, especialista o administrad
 Acceso: Desde el botón "Registrarse" en la pantalla de inicio o desde la sección de usuarios si eres admin.
 
 Tipo de Registro: Selección de registro paciente o especialista
-<img width="1902" height="827" alt="image" src="https://github.com/user-attachments/assets/fee304af-182c-4877-8140-1e5e3fd65f92" />
+<img width="1882" height="752" alt="image" src="https://github.com/user-attachments/assets/e817a34e-65b9-44a7-915c-94f5804da714" />
 
 Registro Paciente: Debe validar su email
 <img width="1780" height="667" alt="image" src="https://github.com/user-attachments/assets/4b8c8f7f-8521-4713-97d9-bdbca5215f77" />
@@ -55,10 +55,12 @@ Accesos Pacientes:
   <img width="1692" height="773" alt="image" src="https://github.com/user-attachments/assets/dd8da2d8-ed6c-45a2-a13b-3d52d36449f2" />
 
 - Solicitar Turnos: donde podrá crear un nuevo turno.
-  <img width="1775" height="557" alt="image" src="https://github.com/user-attachments/assets/bfa0db08-240b-4ce2-bde7-aabab248c13f" />
+ <img width="1862" height="545" alt="image" src="https://github.com/user-attachments/assets/711b9f3a-47c7-400c-8975-c0ed9a7db8fc" />
+
 
 - Historia Clínica: Historial de atención médica.
 
+<img width="1723" height="890" alt="image" src="https://github.com/user-attachments/assets/48c34aef-b5e0-44b7-9c4d-51fd89ba4d44" />
 
 
 Accesos Especialista:
@@ -71,6 +73,9 @@ Accesos Especialista:
 
 
 - Mis Pacientes: Pacientes que fueron atendidos al menos 1 vez por el especialista.
+
+<img width="1646" height="885" alt="image" src="https://github.com/user-attachments/assets/20d95e7c-4477-4e98-ab1e-a33e9f9bfc55" />
+
 
 - Mis horarios: aquí podrá manejar la disponibilidad horaria para la gestión de turnos.
   <img width="1826" height="752" alt="image" src="https://github.com/user-attachments/assets/d0566467-92d3-4dca-9635-daf15290a236" />
@@ -90,7 +95,34 @@ Accesos Administrador
   
 
 - Usuarios: podrá consultar los usuarios generados en la clínica, allí podrá habilitar, deshabilitar accesos de especialistas y ademas podrá crear nuevos usuarios (pacientes, administradores, especialistas)
-<img width="1741" height="783" alt="image" src="https://github.com/user-attachments/assets/cae492c8-469d-4f42-8606-b2da21782b0f" />
+Antes:<img width="1741" height="783" alt="image" src="https://github.com/user-attachments/assets/cae492c8-469d-4f42-8606-b2da21782b0f" />
+
+Despues: 
+<img width="1741" height="911" alt="image" src="https://github.com/user-attachments/assets/ed0357c9-74f9-4235-b735-6d1f55583788" />
+
+Estadisticas: El administrador podrá Obtener Estadisticas sobre los ingresos al sistemas y los turnos.
+Home:
+
+<img width="1841" height="637" alt="image" src="https://github.com/user-attachments/assets/827522a6-4da4-4ac3-9202-255ea8ef5cd5" />
 
 
-  
+Ingreso al sistema:
+
+<img width="1867" height="776" alt="image" src="https://github.com/user-attachments/assets/c1d7fc46-d30f-44b5-8b9f-327c7d55939a" />
+
+Turnos Por Especialidad:
+
+<img width="1873" height="802" alt="image" src="https://github.com/user-attachments/assets/2542ac98-4913-4e04-b7b0-1b36519a99a0" />
+
+Turnos por Medico con filtro de fechas y de estado:
+
+<img width="1892" height="757" alt="image" src="https://github.com/user-attachments/assets/d3c0352f-36a3-46e0-8834-6e45afcbe2f2" />
+
+Turnos por Dia:
+<img width="1891" height="622" alt="image" src="https://github.com/user-attachments/assets/7a6b49f8-d0d9-434d-bf62-90c46c5f1f3a" />
+
+
+A su vez, se puede descargar la información en PDF de cualquiera de los informes.
+
+<img width="1891" height="622" alt="image" src="https://github.com/user-attachments/assets/df0daafa-0310-4d74-a51c-5ef0b9d8328f" />
+
