@@ -70,17 +70,53 @@ export class AuthService {
     }
   }
 
-  isAuth()
+  isAuth(): boolean
   {
-    return this.user;
+    // Verificar si hay usuario en sessionStorage y si está marcado como autenticado
+    const user = sessionStorage.getItem('user');
+    const muestra = sessionStorage.getItem('muestra');
+    
+    return !!(user && muestra === 'true');
   }
 
-  isAdmin()
+  isAdmin(): boolean
   {
-    if(sessionStorage.getItem('tipo') === 'admin')
-      return true;
-      else
+    // Primero verificar que esté autenticado
+    if (!this.isAuth()) {
       return false;
+    }
+    
+    const tipo = sessionStorage.getItem('tipo');
+    return tipo === 'admin';
+  }
+
+  isEspecialista(): boolean
+  {
+    if (!this.isAuth()) {
+      return false;
+    }
+    
+    const tipo = sessionStorage.getItem('tipo');
+    return tipo === 'especialista';
+  }
+
+  isPaciente(): boolean
+  {
+    if (!this.isAuth()) {
+      return false;
+    }
+    
+    const tipo = sessionStorage.getItem('tipo');
+    return tipo === 'paciente';
+  }
+
+  getUserType(): string | null
+  {
+    if (!this.isAuth()) {
+      return null;
+    }
+    
+    return sessionStorage.getItem('tipo');
   }
 
   

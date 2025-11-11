@@ -1,290 +1,635 @@
 /* ========================================
-   TABLA DE PACIENTES - DISEÑO MODERNO Y CREATIVO
+   CARDS DE PACIENTES - DISEÑO MODERNO
    ======================================== */
 
-/* Contenedor principal con fondo limpio */
-.tabla-pacientes-container {
-  max-width: 1400px;
+/* Contenedor principal */
+.pacientes-cards-container {
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #74747500 0%, #736e78 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+}
+
+/* Título principal */
+.titulo-gestion {
+  font-size: 42px;
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  margin: 0 0 40px 0;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  animation: fadeInDown 0.6s ease-out;
+}
+
+/* Grid de cards */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 30px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0;
-  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Card individual de paciente */
+.paciente-card {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  animation: slideUp 0.6s ease-out;
+}
+
+.paciente-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Header de la card con foto */
+.card-header {
+  background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
   overflow: hidden;
 }
 
-/* Título con gradiente moderno */
-.titulo-gestion {
-  font-size: 36px;
-  font-weight: 900;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  text-align: center;
-  margin: 0;
-  padding: 32px 24px 24px;
-  letter-spacing: 1px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+.card-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: pulse 4s ease-in-out infinite;
 }
 
-/* Wrapper de la tabla */
-.tabla-wrapper {
-  overflow-x: auto;
-  background-color: #f0f4f8;
-  padding: 24px;
+/* Foto del paciente */
+.foto-paciente {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
-/* Tabla moderna */
-.tabla-pacientes-moderna {
+.foto-paciente img {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 12px;
-  background-color: transparent;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
-/* Encabezado de la tabla con gradiente turquesa */
-.tabla-pacientes-moderna thead {
-  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+.paciente-card:hover .foto-paciente img {
+  transform: scale(1.1);
 }
 
-.tabla-pacientes-moderna thead tr {
-  border-radius: 12px;
+/* Información básica */
+.info-basica {
+  flex: 1;
+  position: relative;
+  z-index: 1;
 }
 
-.tabla-pacientes-moderna thead th {
-  padding: 20px 24px;
-  text-align: left;
-  text-transform: uppercase;
-  font-size: 12px;
+.nombre-completo {
+  font-size: 20px;
   font-weight: 800;
-  letter-spacing: 1.2px;
   color: white;
-  border: none;
-  background-color: transparent;
+  margin: 0 0 8px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  line-height: 1.2;
 }
 
-.tabla-pacientes-moderna thead th:first-child {
-  border-radius: 12px 0 0 12px;
+/* Badges de edad y obra social */
+.badges-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.tabla-pacientes-moderna thead th:last-child {
-  border-radius: 0 12px 12px 0;
-}
-
-.tabla-pacientes-moderna thead th.text-center {
-  text-align: center;
-}
-
-/* Filas del cuerpo con efecto card */
-.tabla-pacientes-moderna tbody tr {
-  background-color: #ffffff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 12px;
-}
-
-.tabla-pacientes-moderna tbody tr.fila-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(6, 182, 212, 0.2);
-  background-color: #f0f9ff;
-}
-
-.tabla-pacientes-moderna tbody td {
-  padding: 20px 24px;
-  font-size: 15px;
-  color: #1f2937;
-  font-weight: 600;
-  border: none;
-  background-color: transparent;
-}
-
-.tabla-pacientes-moderna tbody td:first-child {
-  border-radius: 12px 0 0 12px;
-  font-weight: 700;
-  color: #111827;
-}
-
-.tabla-pacientes-moderna tbody td:last-child {
-  border-radius: 0 12px 12px 0;
-}
-
-/* Estilos específicos para celdas */
-.nombre-cell {
-  font-weight: 700;
-  color: #111827;
-}
-
-.apellido-cell {
-  font-weight: 700;
-  color: #374151;
-}
-
-.edad-cell {
-  font-weight: 600;
-  color: #6366f1;
-  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-  padding: 8px 16px !important;
-  border-radius: 8px;
+.badge {
   display: inline-block;
-  min-width: 50px;
-  text-align: center;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
-.email-cell {
-  word-break: break-word;
-  max-width: 280px;
-  font-size: 14px;
-  color: #4b5563;
-  font-weight: 500;
+.edad-badge {
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  color: white;
 }
 
-.obra-social-cell {
-  font-size: 14px;
-  color: #374151;
-  font-weight: 600;
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  padding: 8px 16px !important;
-  border-radius: 8px;
-  display: inline-block;
-}
-
-/* Texto centrado */
-.text-center {
-  text-align: center;
-}
-
-/* Celda de acciones */
-.acciones-cell {
-  white-space: nowrap;
-}
-
-/* Botón historia clínica */
-.btn-historia {
-  padding: 12px 28px;
+.obra-social-badge {
   background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
   color: white;
-  font-size: 14px;
-  font-weight: 700;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
-  text-transform: capitalize;
-  min-width: 160px;
+}
+
+.badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Divider */
+.card-divider {
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #14b8a6, transparent);
+  margin: 0;
+}
+
+/* Sección de turnos */
+.turnos-section {
+  padding: 18px 20px;
+  background: #f8fafc;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-.btn-historia:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+.section-title svg {
+  color: #14b8a6;
+  flex-shrink: 0;
+}
+
+/* Lista de turnos */
+.turnos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.turno-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border-left: 3px solid #14b8a6;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.turno-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-left-color: #06b6d4;
+}
+
+.turno-numero {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(20, 184, 166, 0.4);
+}
+
+.turno-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.turno-fecha {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.turno-especialidad {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: capitalize;
+}
+
+.turno-estado {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  width: fit-content;
+}
+
+.estado-finalizado {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+}
+
+.estado-pendiente {
+  background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+  color: white;
+}
+
+.estado-cancelado {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.estado-rechazado {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: white;
+}
+
+.estado-aceptado {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+}
+
+/* Sin turnos */
+.sin-turnos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.sin-turnos svg {
+  color: #cbd5e1;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.sin-turnos p {
+  font-size: 14px;
+  color: #94a3b8;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Footer de la card con botón */
+.card-footer {
+  padding: 15px 20px;
+  background: white;
+}
+
+.btn-historia-clinica {
+  width: 100%;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+  font-size: 14px;
+  font-weight: 800;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-historia-clinica svg {
+  transition: transform 0.3s ease;
+}
+
+.btn-historia-clinica:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(139, 92, 246, 0.5);
   background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
 }
 
-.btn-historia:active {
-  transform: translateY(0) scale(0.98);
+.btn-historia-clinica:hover svg {
+  transform: translateX(4px);
 }
 
-/* Mensaje cuando no hay pacientes */
-.no-pacientes {
+.btn-historia-clinica:active {
+  transform: translateY(-1px);
+}
+
+/* Sin pacientes */
+.sin-pacientes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  color: #6b7280;
-  font-size: 18px;
-  font-weight: 600;
-  padding: 40px 20px !important;
-  font-style: italic;
+  padding: 80px 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  max-width: 600px;
+  margin: 40px auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.sin-pacientes svg {
+  color: #cbd5e1;
+  margin-bottom: 24px;
+  opacity: 0.7;
+}
+
+.sin-pacientes h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 16px 0;
+}
+
+.sin-pacientes p {
+  font-size: 16px;
+  color: #64748b;
+  font-weight: 500;
+  line-height: 1.6;
+  max-width: 400px;
+  margin: 0;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* ========================================
-   RESPONSIVE MÓVIL
+   RESPONSIVE
    ======================================== */
 
-@media (max-width: 1023px) {
-  .tabla-pacientes-moderna thead {
-    display: none;
-  }
-
-  .tabla-wrapper {
-    padding: 16px;
-  }
-
-  .tabla-pacientes-moderna {
-    border-spacing: 0 16px;
-  }
-
-  .tabla-pacientes-moderna tbody tr {
-    display: block;
-    margin-bottom: 20px;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  }
-
-  .tabla-pacientes-moderna tbody td {
-    display: block;
-    text-align: right;
-    padding: 14px 16px !important;
-    position: relative;
-    border: none !important;
-    border-radius: 0 !important;
-  }
-
-  .tabla-pacientes-moderna tbody td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 16px;
-    font-weight: 800;
-    color: #6366f1;
-    text-align: left;
-    width: 45%;
-    text-transform: uppercase;
-    font-size: 11px;
-    letter-spacing: 0.5px;
-  }
-
-  .email-cell {
-    max-width: 100%;
-    font-size: 13px;
-  }
-
-  .acciones-cell {
-    display: flex;
-    justify-content: flex-end;
-    padding-top: 16px !important;
-  }
-
-  .btn-historia {
-    width: auto;
-    min-width: 140px;
-  }
-
-  .titulo-gestion {
-    font-size: 28px;
-    padding: 32px 16px;
-  }
-
-  .edad-cell,
-  .obra-social-cell {
-    display: inline-block !important;
-    margin-left: auto;
+@media (max-width: 1200px) {
+  .cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 25px;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  .pacientes-cards-container {
+    padding: 30px 15px;
+  }
+
   .titulo-gestion {
+    font-size: 32px;
+    margin-bottom: 30px;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .card-header {
+    padding: 25px 20px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .foto-paciente {
+    width: 90px;
+    height: 90px;
+  }
+
+  .nombre-completo {
+    font-size: 22px;
+  }
+
+  .badges-container {
+    justify-content: center;
+  }
+
+  .turnos-section {
+    padding: 20px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  .turno-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .turno-info {
+    width: 100%;
+  }
+
+  .card-footer {
+    padding: 15px 20px;
+  }
+
+  .btn-historia-clinica {
+    padding: 14px 24px;
+    font-size: 14px;
+  }
+
+  .sin-pacientes {
+    padding: 60px 30px;
+  }
+
+  .sin-pacientes h2 {
     font-size: 24px;
-    padding: 24px 12px;
   }
 
-  .tabla-pacientes-moderna tbody td {
+  .sin-pacientes p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .titulo-gestion {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+
+  .card-header {
+    padding: 20px 15px;
+  }
+
+  .foto-paciente {
+    width: 80px;
+    height: 80px;
+  }
+
+  .nombre-completo {
+    font-size: 20px;
+  }
+
+  .badge {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  .turnos-section {
+    padding: 15px;
+  }
+
+  .section-title {
+    font-size: 14px;
+  }
+
+  .turno-item {
+    padding: 12px;
+  }
+
+  .turno-fecha {
     font-size: 13px;
-    padding: 12px !important;
   }
 
-  .btn-historia {
+  .turno-especialidad {
     font-size: 12px;
-    padding: 10px 16px;
-    min-width: 130px;
+  }
+
+  .btn-historia-clinica {
+    padding: 12px 20px;
+    font-size: 13px;
+  }
+
+  .sin-pacientes {
+    padding: 40px 20px;
+  }
+
+  .sin-pacientes svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  .sin-pacientes h2 {
+    font-size: 20px;
+  }
+}
+
+/* ===== SPINNER DE CARGA ===== */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.spinner-logo {
+  width: 120px;
+  height: 120px;
+  animation: spin 1.5s linear infinite;
+  filter: drop-shadow(0 0 30px rgba(13, 202, 240, 0.6));
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  letter-spacing: 1px;
+  animation: pulseSpinner 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseSpinner {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
   }
 }

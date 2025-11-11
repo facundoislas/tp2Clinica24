@@ -1,0 +1,34 @@
+<div class="estadisticas-dashboard-container">
+  <div class="dashboard-header">
+    <h1 class="dashboard-titulo">
+     
+      Estadísticas
+    </h1>
+   
+  </div>
+
+  <div class="estadisticas-grid">
+    <div 
+      *ngFor="let estadistica of estadisticas" 
+      class="estadistica-card"
+      [routerLink]="[estadistica.ruta]"
+      [style.--card-color]="estadistica.color">
+      
+      <div class="card-icon">
+        <i class="fa {{estadistica.icono}}"></i>
+      </div>
+
+      <div class="card-content">
+        <h3 class="card-titulo">{{estadistica.titulo}}</h3>
+        <p class="card-descripcion">{{estadistica.descripcion}}</p>
+      </div>
+
+      <div class="card-arrow">
+        <i class="fa fa-arrow-right"></i>
+      </div>
+    </div>
+  </div>
+
+ 
+</div>
+

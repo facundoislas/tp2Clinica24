@@ -1,6 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FirebaseService } from '../servicios/firebase.service';
-import { TurnosService } from '../servicios/turnos.service';
 import { Turno } from '../clases/turno';
 import { Especialista } from '../clases/especialista';
 import { Paciente } from '../clases/paciente';
@@ -8,166 +6,94 @@ import { HistoriaClinica } from '../clases/historia-clinica';
 
 @Pipe({
   name: 'filtros',
-  standalone: true
+  standalone: true,
+  pure: false // Importante para que detecte cambios en arrays
 })
 export class FiltrosPipe implements PipeTransform {
-  especialistas:Especialista[]=[];
-  pacientes:Paciente[]= [];
-  historias: HistoriaClinica[] = [];
 
-  constructor(private firebaseService:FirebaseService, private turnosService: TurnosService){}
-
-  transform(turnos:Turno[], filtro:string): Turno[] {
-    if(!turnos || !filtro){
+  transform(
+    turnos: Turno[], 
+    filtro: string, 
+    especialistas: Especialista[] = [], 
+    pacientes: Paciente[] = [], 
+    historias: HistoriaClinica[] = []
+  ): Turno[] {
+    if (!turnos || !filtro || filtro.trim() === '') {
       return turnos;
     }
 
-    filtro = filtro.toLowerCase();
-    let len = filtro.length;
+    filtro = filtro.toLowerCase().trim();
 
-    // ESTADO
-    let turnosAux = turnos.filter(turno => {
-      if(turno.estado.toLowerCase().substring(0, len) == filtro){
+    // Filtrar turnos que coincidan con CUALQUIER campo
+    return turnos.filter(turno => {
+      
+      // 1. Buscar en campos del turno
+      if (
+        turno.especialidad?.toLowerCase().includes(filtro) ||
+        turno.estado?.toLowerCase().includes(filtro) ||
+        turno.comentario?.toLowerCase().includes(filtro) ||
+        turno.hora?.toString().toLowerCase().includes(filtro) ||
+        turno.mes?.toString().toLowerCase().includes(filtro) ||
+        turno.dia?.toLowerCase().includes(filtro) ||
+        turno.anio?.toLowerCase().includes(filtro) ||
+        turno.calificacion?.toLowerCase().includes(filtro)
+      ) {
         return true;
       }
-      return false;
-    });
-    if(turnosAux.length > 0){
-      return turnosAux;
-    }
-   
 
-    // ESPECIALISTA
-    turnosAux = turnos.filter(turno => {
-      let retorno = false;
-      this.firebaseService.getUsuariosPorTipo("especialista").subscribe((usuarios: any[]) => {
-        this.especialistas = usuarios;
-        console.log("especialistas", this.especialistas);});   
-      this.especialistas.forEach(esp => {
-        if(esp.email == turno.especialista){
-          if(esp.nombre.toLowerCase().substring(0, len) == filtro){
-            retorno = true;
+      // 2. Buscar en nombre del especialista
+      const especialista = especialistas.find(esp => esp.email === turno.especialista);
+      if (especialista) {
+        const nombreCompleto = `${especialista.nombre} ${especialista.apellido}`.toLowerCase();
+        if (nombreCompleto.includes(filtro) || 
+            especialista.nombre?.toLowerCase().includes(filtro) ||
+            especialista.apellido?.toLowerCase().includes(filtro)) {
+          return true;
+        }
+      }
+
+      // 3. Buscar en nombre del paciente
+      const paciente = pacientes.find(pac => pac.email === turno.paciente);
+      if (paciente) {
+        const nombreCompleto = `${paciente.nombre} ${paciente.apellido}`.toLowerCase();
+        if (nombreCompleto.includes(filtro) || 
+            paciente.nombre?.toLowerCase().includes(filtro) ||
+            paciente.apellido?.toLowerCase().includes(filtro)) {
+          return true;
+        }
+      }
+
+      // 4. Buscar en historia clínica (solo si el turno está finalizado)
+      if (turno.estado === 'finalizado' && turno.id) {
+        // Buscar historia por turnoId
+        const historia = historias.find(h => h.turnoId === turno.id);
+        
+        if (historia) {
+          // Buscar en datos fijos de la historia
+          if (
+            historia.altura?.toLowerCase().includes(filtro) ||
+            historia.peso?.toString().toLowerCase().includes(filtro) ||
+            historia.temperatura?.toString().toLowerCase().includes(filtro) ||
+            historia.presion?.toString().toLowerCase().includes(filtro)
+          ) {
+            return true;
+          }
+
+          // Buscar en datos dinámicos (clave y valor)
+          if (historia.dinamicos && historia.dinamicos.length > 0) {
+            const coincideDinamico = historia.dinamicos.some(dinamico => 
+              dinamico.clave?.toLowerCase().includes(filtro) ||
+              dinamico.valor?.toLowerCase().includes(filtro)
+            );
+            if (coincideDinamico) {
+              return true;
+            }
           }
         }
-      });
-      return retorno;
-    });
-    if(turnosAux.length > 0){
-      return turnosAux;
-    }
-    // DINAMICOS
-  
-    turnosAux = turnos.filter(turno => {
-      let retorno = false;
-      this.turnosService.getHistoriaDB().subscribe(historias=>{
-        this.historias = historias;
-        console.log(historias);
-      })
-      this.historias.forEach(historia => {
-          if ((historia.paciente == turno.paciente && historia.especialidad == turno.especialidad) && turno.estado == "finalizado") {
-              historia.dinamicos.forEach(dinamico => {
-                  console.log(dinamico);
-                  console.log(dinamico.clave.toLowerCase());
-                  console.log(filtro);
-                  // Check if any "clave" value matches the filter condition
-                  if (dinamico.clave.toLowerCase().substring(0, len) == filtro && turno.estado == "finalizado") {
-                      retorno = true;
-                      console.log(turno);
-                  }
-              });
-          }
-      });
-      return retorno;
-  });
-  
-  if (turnosAux.length > 0) {
-      return turnosAux;
-  }
-   //DATOS FIJOS
-    turnosAux = turnos.filter(turno => {
-      let retorno = false;
-      this.turnosService.getHistoriaDB().subscribe(historias=>{
-        this.historias = historias;
-        console.log(historias);
-      })
-      this.historias.forEach(historia=>{
-          if((historia.paciente == turno.paciente && historia.especialidad == turno.especialidad) && turno.estado =="finalizado"){
-            if(historia.altura.toLowerCase().substring(0, len) == filtro && turno.estado =="finalizado"){
-              retorno = true;
-          
-            }
-            else if(historia.peso.toString().toLowerCase().substring(0, len) == filtro && turno.estado =="finalizado"){
-              retorno = true;
-              
-            }
-             else if(historia.presion.toString().toLowerCase().substring(0, len) == filtro && turno.estado =="finalizado"){
-              retorno = true;
-              
-            }
-             else if(historia.temperatura.toString().toLowerCase().substring(0, len) == filtro && turno.estado =="finalizado"){
-              retorno = true;
-             
-            }
-          
-          }
-      })
-      return retorno;
-    });
-    if(turnosAux.length > 0){
-      return turnosAux;
-    }
-    // ESPECIALIDAD
-    turnosAux = turnos.filter(turno => {
-      if(turno.especialidad.toLowerCase().substring(0, len) == filtro){
-        return true;
       }
-      else if(turno.comentario.toLowerCase().substring(0, len) == filtro){
-        return true;
-      }
-      else if(turno.hora.toString().toLowerCase().substring(0, len) == filtro){
-        return true;
-      }
-      else if(turno.mes.toString().toLowerCase().substring(0, len) == filtro){
-        return true;
-      }
-      else if(turno.estado.toLowerCase().substring(0, len) == filtro){
-        return true;
-      }
-      else if(turno.dia.toLowerCase().substring(0, len) == filtro){
-        return true;
-      }
-      else if(turno.calificacion.toLowerCase().substring(0, len) == filtro){
-        return true;
-      }
-      else if(turno.anio.toLowerCase().substring(0, len) == filtro){
-        return true;
-      }
+
       return false;
     });
-    if(turnosAux.length > 0){
-      return turnosAux;
-    }
-
-    // PACIENTE
-    turnosAux = turnos.filter(turno => {
-      let retorno = false;
-      this.firebaseService.getUsuariosPorTipo("paciente").subscribe((usuarios: any[]) => {
-        this.pacientes = usuarios;
-        console.log("pacientes", this.pacientes);});
-      this.pacientes.forEach(pac => {
-        if(pac.email == turno.paciente){
-          if(pac.nombre.toLowerCase().substring(0, len) == filtro){
-            retorno = true;
-          }
-        }
-      });
-      return retorno;
-    });
-    if(turnosAux.length > 0){
-      return turnosAux;
-    }
-
-    return [];
   }
 
 }

@@ -1,4 +1,12 @@
-<div class="tabla-usuarios-container">
+<!-- Spinner de Carga -->
+<div class="loading-overlay" *ngIf="cargando">
+  <div class="spinner-container">
+    <img src="assets/imagenes/logo2.png" alt="Cargando..." class="spinner-logo">
+    <p class="loading-text">Cargando datos...</p>
+  </div>
+</div>
+
+<div class="usuarios-cards-container">
   
   <h1 class="titulo-gestion">Gestión de Usuarios</h1>
 
@@ -8,101 +16,214 @@
       [class.activo]="filtroActivo === 'todos'"
       (click)="cambiarFiltro('todos')"
       class="btn-filtro btn-todos">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
       Todos ({{usuarios.length}})
     </button>
     <button 
       [class.activo]="filtroActivo === 'paciente'"
       (click)="cambiarFiltro('paciente')"
       class="btn-filtro btn-paciente">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <line x1="19" y1="8" x2="19" y2="14"></line>
+        <line x1="22" y1="11" x2="16" y2="11"></line>
+      </svg>
       Pacientes ({{contarUsuariosPorTipo('paciente')}})
     </button>
     <button 
       [class.activo]="filtroActivo === 'especialista'"
       (click)="cambiarFiltro('especialista')"
       class="btn-filtro btn-especialista">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+      </svg>
       Especialistas ({{contarUsuariosPorTipo('especialista')}})
     </button>
     <button 
       [class.activo]="filtroActivo === 'admin'"
       (click)="cambiarFiltro('admin')"
       class="btn-filtro btn-admin">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      </svg>
       Administradores ({{contarUsuariosPorTipo('admin')}})
     </button>
   </div>
 
-  <!-- Tabla de Usuarios -->
-  <div class="tabla-wrapper">
-    <table class="tabla-usuarios-moderna">
+  <!-- Grid de Cards -->
+  <div class="cards-grid">
+    
+    <!-- Card de Usuario -->
+    <div *ngFor="let usuario of usuariosFiltrados" class="usuario-card"
+         [ngClass]="{
+           'card-paciente-type': usuario.tipo === 'paciente',
+           'card-especialista-type': usuario.tipo === 'especialista',
+           'card-admin-type': usuario.tipo === 'admin'
+         }">
       
-      <!-- Encabezado de la Tabla -->
-      <thead>
-        <tr>
-          <th class="th-first">Nombre</th>
-          <th>Apellido</th>
-          <th>Tipo</th>
-          <th>Correo</th>
-          <th>Obra Social</th>
-          <th class="text-center">Estado</th>
-          <th class="text-center">Acción</th>
-          <th class="th-last">Especialidad/Clínica</th>
-        </tr>
-      </thead>
+      <!-- Header de la card con foto -->
+      <div class="card-header">
+        <div class="foto-usuario">
+          <img [src]="usuario.foto1 || 'assets/imagenes/default-user.png'" [alt]="usuario.nombre + ' ' + usuario.apellido" />
+        </div>
+        <div class="info-basica">
+          <h2 class="nombre-completo">{{usuario.nombre}} {{usuario.apellido}}</h2>
+          <div class="badges-container">
+            <span class="badge tipo-badge" [ngClass]="{
+              'tipo-paciente': usuario.tipo === 'paciente',
+              'tipo-especialista': usuario.tipo === 'especialista',
+              'tipo-admin': usuario.tipo === 'admin'
+            }">
+              {{usuario.tipo}}
+            </span>
+            <span class="badge edad-badge" *ngIf="usuario.edad">{{usuario.edad}} años</span>
+          </div>
+        </div>
+      </div>
 
-      <tbody>
-        <!-- Filas dinámicas de usuarios -->
-        <tr *ngFor="let user of usuariosFiltrados" class="fila-hover">
-          <td [attr.data-label]="'Nombre'">{{user.nombre}}</td>
-          <td [attr.data-label]="'Apellido'">{{user.apellido}}</td>
-          <td [attr.data-label]="'Tipo'" >{{user.tipo}}</td>
-          <td [attr.data-label]="'Correo'" class="email-cell">{{user.email}}</td>
-          <td [attr.data-label]="'Obra Social'" >{{user.obraSocial || 'N/A'}}</td>
-          
-          <!-- Estado -->
-          <td [attr.data-label]="'Estado'" class="text-center">
-            <span *ngIf="user.tipo === 'especialista'" 
-                  [class]="user.aprobado ? 'badge-habilitado' : 'badge-deshabilitado'">
-              {{user.aprobado ? 'Habilitado' : 'Deshabilitado'}}
+      <!-- Divider -->
+      <div class="card-divider"></div>
+
+      <!-- Contenido según tipo de usuario -->
+      <div class="card-body">
+        
+        <!-- PACIENTE -->
+        <div *ngIf="usuario.tipo === 'paciente'" class="paciente-info">
+          <div class="info-item">
+            <span class="info-label">Email:</span>
+            <span class="info-value">{{usuario.email}}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">DNI:</span>
+            <span class="info-value">{{usuario.dni | misPipes:'dni'}}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Obra Social:</span>
+            <span class="info-value obra-social-highlight">{{usuario.obraSocial}}</span>
+          </div>
+        </div>
+
+        <!-- ESPECIALISTA -->
+        <div *ngIf="usuario.tipo === 'especialista'" class="especialista-info">
+          <div class="info-item">
+            <span class="info-label">Email:</span>
+            <span class="info-value">{{usuario.email}}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">DNI:</span>
+            <span class="info-value">{{usuario.dni | misPipes:'dni'}}</span>
+          </div>
+          <div class="info-item full-width">
+            <span class="info-label">Especialidades:</span>
+            <span class="info-value especialidades-list">{{getEspecialidades(usuario)}}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Estado:</span>
+            <span class="estado-badge" [ngClass]="{
+              'estado-habilitado': usuario.aprobado,
+              'estado-deshabilitado': !usuario.aprobado
+            }">
+              {{usuario.aprobado ? 'Habilitado' : 'Deshabilitado'}}
             </span>
-            <span *ngIf="user.tipo !== 'especialista'" >
-              N/A
-            </span>
-          </td>
-          
-          <!-- Acción -->
-          <td [attr.data-label]="'Acción'" class="text-center acciones-cell">
-            <!-- Solo mostrar botones para especialistas -->
-            <button *ngIf="user.tipo === 'especialista' && user.aprobado" 
-                    (click)="deshabilitarEspecialista(user)"
-                    class="btn-accion btn-deshabilitar">
-              Deshabilitar
-            </button>
-            <button *ngIf="user.tipo === 'especialista' && !user.aprobado" 
-                    (click)="habilitarEspecialista(user)"
-                    class="btn-accion btn-habilitar">
-              Habilitar
-            </button>
-            <span *ngIf="user.tipo !== 'especialista'" >N/A</span>
-          </td>
-          
-          <!-- Especialidad/Historia Clínica -->
-          <td [attr.data-label]="'Especialidad/Clínica'">
-            <button *ngIf="user.tipo == 'paciente'" 
-                    class="btn-historia" 
-                    (click)="seleccionarPaciente(user.email)">
-              Ver Historia Clínica
-            </button>
-            <span *ngIf="user.tipo === 'especialista'" class="especialidades-text">
-              {{getEspecialidades(user)}}
-            </span>
-            <span *ngIf="user.tipo === 'admin'" class="admin-text">
-              Administrador
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+        </div>
+
+        <!-- ADMINISTRADOR -->
+        <div *ngIf="usuario.tipo === 'admin'" class="admin-info">
+          <div class="info-item">
+            <span class="info-label">Email:</span>
+            <span class="info-value">{{usuario.email}}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">DNI:</span>
+            <span class="info-value">{{usuario.dni | misPipes:'dni'}}</span>
+          </div>
+          <div class="admin-badge-large">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <p>Administrador del Sistema</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer con botones de acción -->
+      <div class="card-footer">
+        
+        <!-- Botones para PACIENTE -->
+        <div *ngIf="usuario.tipo === 'paciente'" class="botones-paciente">
+          <button class="btn-accion btn-historia" (click)="seleccionarPaciente(usuario.email)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Ver Historia Clínica
+          </button>
+          <button class="btn-accion btn-descargar" (click)="descargarTurnosPaciente(usuario)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Descargar Turnos
+          </button>
+        </div>
+
+        <!-- Botones para ESPECIALISTA -->
+        <div *ngIf="usuario.tipo === 'especialista'" class="botones-especialista">
+          <button *ngIf="usuario.aprobado" 
+                  (click)="deshabilitarEspecialista(usuario)"
+                  class="btn-accion btn-deshabilitar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+            </svg>
+            Deshabilitar
+          </button>
+          <button *ngIf="!usuario.aprobado" 
+                  (click)="habilitarEspecialista(usuario)"
+                  class="btn-accion btn-habilitar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Habilitar
+          </button>
+        </div>
+
+        <!-- Botones para ADMIN -->
+        <div *ngIf="usuario.tipo === 'admin'" class="botones-admin">
+          <div class="admin-readonly">
+            Sin acciones disponibles
+          </div>
+        </div>
+
+      </div>
+      
+    </div>
+    <!-- Fin Card de Usuario -->
+
   </div>
 
-  
+  <!-- Mensaje cuando no hay usuarios -->
+  <div class="sin-usuarios" *ngIf="usuariosFiltrados.length === 0">
+    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+      <circle cx="9" cy="7" r="4"></circle>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+    </svg>
+    <h2>No se encontraron usuarios</h2>
+    <p>Prueba cambiando el filtro o crea un nuevo usuario.</p>
+  </div>
 
 </div>

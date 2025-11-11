@@ -5,19 +5,43 @@ import { AlertServiceService } from '../servicios/alert-service.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const auth = inject(AuthService);
-  const alert =inject(AlertServiceService);
+  const alert = inject(AlertServiceService);
   const router = inject(Router);
-  if(auth.isAdmin()){
-    return true;}
-  else
-    {
-      alert.showSuccessAlert1("No tenes permisos para acceder a esta pagina", "no ok", "error")
+  
+  // Primero verificar si está autenticado
+  if (!auth.isAuth()) {
+    alert.showSuccessAlert1(
+      "Debes iniciar sesión para acceder a esta página", 
+      "Acceso Denegado", 
+      "warning"
+    );
+    router.navigateByUrl('/login');
+    return false;
+  }
+  
+  // Luego verificar si es administrador
+  if (auth.isAdmin()) {
+    return true;
+  } else {
+    const userType = auth.getUserType();
+    alert.showSuccessAlert1(
+      `No tienes permisos para acceder a esta página.`, 
+      "Acceso Denegado", 
+      "error"
+    );
+    
+    // Redirigir según el tipo de usuario
+    if (auth.isPaciente() || auth.isEspecialista()) {
       router.navigateByUrl('/perfil');
+    } else {
+      router.navigateByUrl('/bienvenido');
+    }
+    
     return false;
   }
 };
 
-
+/*
 export const isLoginGuard: CanActivateFn = (route, state) => {
   const auth = inject(AuthService);
   const alert =inject(AlertServiceService);
@@ -32,4 +56,4 @@ export const isLoginGuard: CanActivateFn = (route, state) => {
       router.navigateByUrl('/login');
     return false;
   }
-};
+};*/

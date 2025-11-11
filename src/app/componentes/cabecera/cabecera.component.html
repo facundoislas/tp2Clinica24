@@ -59,14 +59,26 @@
       <ng-container *ngIf="!isAuthenticated">
         <ul class="flex flex-col space-y-4">
           <li class="nav-item">
-            <a routerLink="/bienvenido" class="nav-link-modern" data-bs-dismiss="offcanvas">Home</a>
+            <a routerLink="/bienvenido" 
+               class="nav-link-modern" 
+               appResaltarItemActivo 
+               [rutaLink]="'/bienvenido'"
+               data-bs-dismiss="offcanvas">Home</a>
           </li>
           <li class="nav-item">
-            <a routerLink="/registro" class="nav-link-modern" data-bs-dismiss="offcanvas">Registro</a>
+            <a routerLink="/registro" 
+               class="nav-link-modern" 
+               appResaltarItemActivo 
+               [rutaLink]="'/registro'"
+               data-bs-dismiss="offcanvas">Registro</a>
           </li>
           <li class="nav-item pt-4">
             <!-- Botón "Iniciar Sesión" con diseño de degradado -->
-            <a routerLink="/login" class="action-btn-modern-light" data-bs-dismiss="offcanvas">
+            <a routerLink="/login" 
+               class="action-btn-modern-light" 
+               appResaltarItemActivo 
+               [rutaLink]="'/login'"
+               data-bs-dismiss="offcanvas">
                 Iniciar Sesión
             </a>
           </li>
@@ -83,45 +95,77 @@
 
         <ul class="flex flex-col space-y-4">
           <li class="nav-item">
-            <a routerLink="/perfil" class="nav-link-modern" data-bs-dismiss="offcanvas">Mi Perfil</a>
+            <a routerLink="/perfil" 
+               class="nav-link-modern" 
+               appResaltarItemActivo 
+               [rutaLink]="'/perfil'"
+               data-bs-dismiss="offcanvas">Mi Perfil</a>
           </li>
 
           <!-- Admin Links -->
           <ng-container *ngIf="usuario?.tipo === 'admin'">
             <li class="nav-item">
-              <a routerLink="/usuarios" class="nav-link-modern" data-bs-dismiss="offcanvas">Usuarios</a>
+              <a routerLink="/usuarios" 
+                 class="nav-link-modern" 
+                 appResaltarItemActivo 
+                 [rutaLink]="'/usuarios'"
+                 data-bs-dismiss="offcanvas">Usuarios</a>
             </li>
             <li class="nav-item">
-              <a routerLink="/turnos" class="nav-link-modern" data-bs-dismiss="offcanvas">Turnos</a>
+              <a routerLink="/turnos" 
+                 class="nav-link-modern" 
+                 appResaltarItemActivo 
+                 [rutaLink]="'/turnos'"
+                 data-bs-dismiss="offcanvas">Turnos</a>
             </li>
             <li class="nav-item">
-              <a routerLink="/crearTurno" class="nav-link-modern" data-bs-dismiss="offcanvas">Crear Turno</a>
+              <a routerLink="/crearTurno" 
+                 class="nav-link-modern" 
+                 appResaltarItemActivo 
+                 [rutaLink]="'/crearTurno'"
+                 data-bs-dismiss="offcanvas">Crear Turno</a>
             </li>
             <!--li class="nav-item">
               <a routerLink="/registro" class="nav-link-modern" data-bs-dismiss="offcanvas">Registrar Usuarios</a>
-            </li>
+            </li-->
             <li class="nav-item">
               <a routerLink="estadisticas" class="nav-link-modern" data-bs-dismiss="offcanvas">Estadísticas</a>
-            </li-->
+            </li>
           </ng-container>
 
           <!-- Paciente Links -->
           <ng-container *ngIf="usuario?.tipo === 'paciente'">
             <li class="nav-item">
-              <a routerLink="/turnos" class="nav-link-modern" data-bs-dismiss="offcanvas">Mis turnos</a>
+              <a routerLink="/turnos" 
+                 class="nav-link-modern" 
+                 appResaltarItemActivo 
+                 [rutaLink]="'/turnos'"
+                 data-bs-dismiss="offcanvas">Mis turnos</a>
             </li>
             <li class="nav-item">
-              <a routerLink="/crearTurno" class="nav-link-modern" data-bs-dismiss="offcanvas">Solicitar turno</a>
+              <a routerLink="/crearTurno" 
+                 class="nav-link-modern" 
+                 appResaltarItemActivo 
+                 [rutaLink]="'/crearTurno'"
+                 data-bs-dismiss="offcanvas">Solicitar turno</a>
             </li>
           </ng-container>
 
           <!-- Especialista Links -->
           <ng-container *ngIf="usuario?.tipo === 'especialista'">
             <li class="nav-item">
-              <a routerLink="/turnos" class="nav-link-modern" data-bs-dismiss="offcanvas">Mis turnos</a>
+              <a routerLink="/turnos" 
+                 class="nav-link-modern" 
+                 appResaltarItemActivo 
+                 [rutaLink]="'/turnos'"
+                 data-bs-dismiss="offcanvas">Mis turnos</a>
             </li>
             <li class="nav-item">
-              <a routerLink="/pacientes" class="nav-link-modern" data-bs-dismiss="offcanvas">Mis Pacientes</a>
+              <a routerLink="/pacientes" 
+                 class="nav-link-modern" 
+                 appResaltarItemActivo 
+                 [rutaLink]="'/pacientes'"
+                 data-bs-dismiss="offcanvas">Mis Pacientes</a>
             </li>
           </ng-container>
 

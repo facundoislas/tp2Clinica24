@@ -6,11 +6,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { FirebaseService } from '../../servicios/firebase.service';
+import { ResaltarItemActivoDirective } from '../../directivas/resaltar-item-activo.directive';
 
 @Component({
   selector: 'app-cabecera',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, ResaltarItemActivoDirective],
   templateUrl: './cabecera.component.html',
   styleUrls: ['./cabecera.component.css']
 })

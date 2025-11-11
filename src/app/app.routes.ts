@@ -9,8 +9,6 @@ import { MisTurnosComponent } from './componentes/mis-turnos/mis-turnos.componen
 import { CrearTurnoComponent } from './componentes/crear-turno/crear-turno.component';
 import { HistoriaClinicaComponent } from './componentes/historia-clinica/historia-clinica.component';
 import { MisPacientesComponent } from './componentes/mis-pacientes/mis-pacientes.component';
-import { EstadisticasComponent } from './componentes/estadisticas/estadisticas.component';
-import { TurnosEspecialidadComponent } from './componentes/turnos-especialidad/turnos-especialidad.component';
 import { authGuard } from './guards/auth.guard';
 import { isLoginGuard } from './guards/is-login.guard';
 
@@ -27,7 +25,12 @@ export const routes: Routes = [
   { path: 'crearTurno', component: CrearTurnoComponent, canActivate:[isLoginGuard], data: { animation: 'CrearTurnoPage' } },
   { path: 'historial', component: HistoriaClinicaComponent, canActivate:[isLoginGuard], data: { animation: 'HistorialPage' } },
   { path: 'pacientes', component: MisPacientesComponent, canActivate:[isLoginGuard], data: { animation: 'PacientesPage' } },
-  { path: 'estadisticas',loadComponent:()=> import('./componentes/estadisticas/estadisticas.component').then((c) => c.EstadisticasComponent),canActivate:[authGuard], data: { animation: 'EstadisticasPage' } },
+  { 
+    path: 'estadisticas', 
+    loadChildren: () => import('./modulos/estadisticas/estadisticas.module').then(m => m.EstadisticasModule),
+    canActivate: [authGuard], 
+    data: { animation: 'EstadisticasPage' } 
+  },
   { path: '**', component: ErrorComponent, data: { animation: 'ErrorPage' } }
 
 ];

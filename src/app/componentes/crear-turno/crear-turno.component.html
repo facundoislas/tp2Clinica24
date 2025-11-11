@@ -1,4 +1,12 @@
 <div class="crear-turno-container">
+  <!-- Spinner de Carga -->
+  <div class="loading-overlay" *ngIf="loading">
+    <div class="spinner-container">
+      <img src="assets/imagenes/logo2.png" alt="Cargando..." class="spinner-logo">
+      <p class="loading-text">Cargando datos...</p>
+    </div>
+  </div>
+
   <div class="crear-turno-content">
     
     <!-- Header -->
@@ -106,7 +114,11 @@
         <div *ngFor="let especialidad of especialistaElegido.especialidad" class="especialidad-item" (click)="elegirEspecialidad(especialidad.especialidad)">
           <div class="especialidad-card-modern">
             <div class="especialidad-icon">
-              <i class="fa fa-stethoscope"></i>
+              <img *ngIf="getEspecialidadImagen(especialidad.especialidad)" 
+                   [src]="getEspecialidadImagen(especialidad.especialidad)" 
+                   [alt]="especialidad.especialidad"
+                   class="especialidad-imagen">
+              <i *ngIf="!getEspecialidadImagen(especialidad.especialidad)" class="fa fa-stethoscope"></i>
             </div>
             <h4 class="especialidad-nombre">{{especialidad.especialidad}}</h4>
             <div class="especialidad-hover-effect"></div>

@@ -1,19 +1,141 @@
-<div style="background-color: aliceblue;">
-<ngx-charts-pie-chart
-  [results]="data"
-  [view]="[700, 400]"
-  [scheme]="'vivid'"
-  [doughnut]="false"
-  [gradient]="false"
-  [legend]="true"
-  [labels]="true"
-  [explodeSlices]="false"
-  [trimLabels]="true"
-  [arcWidth]="0.25"
-  [animations]="true">
-</ngx-charts-pie-chart>
-<input type="date" [(ngModel)]="startDate">
-<input type="date" [(ngModel)]="endDate">
-<button (click)="ngOnInit()">Actualizar</button>
+<div class="graficos-container">
+  <!-- Spinner de Carga -->
+  <div class="loading-overlay" *ngIf="cargando">
+    <div class="spinner-container">
+      <img src="assets/imagenes/logo2.png" alt="Cargando..." class="spinner-logo">
+      <p class="loading-text">Cargando datos...</p>
+    </div>
+  </div>
 
+  <!-- Header -->
+  <div class="graficos-header">
+    <button class="btn-volver" routerLink="/estadisticas">
+      <i class="fa fa-arrow-left"></i> Volver al Dashboard
+    </button>
+    
+    <div class="header-content">
+      <h1 class="page-titulo">
+        Turnos por Médico
+      </h1>
+    </div>
+
+    <button class="btn-descargar-pdf" (click)="descargarPDF()" *ngIf="data && data.length > 0">
+       Descargar PDF
+    </button>
+  </div>
+
+  <!-- Filtros Compactos -->
+  <div class="filtros-card-compacta">
+    <div class="filtros-inline">
+      <div class="filtro-titulo-inline">
+        <i class="fa fa-filter"></i>
+        <span>Filtrar por Fecha</span>
+      </div>
+      
+      <div class="filtro-item-inline">
+        <label for="startDate">
+          <i class="fa fa-calendar-alt"></i> Inicio
+        </label>
+        <input 
+          type="date" 
+          id="startDate"
+          [(ngModel)]="startDate" 
+          class="input-fecha-inline">
+      </div>
+
+      <div class="filtro-item-inline">
+        <label for="endDate">
+          <i class="fa fa-calendar-alt"></i> Fin
+        </label>
+        <input 
+          type="date" 
+          id="endDate"
+          [(ngModel)]="endDate" 
+          class="input-fecha-inline">
+      </div>
+
+      <div class="filtro-checkbox-inline">
+        <input 
+          type="checkbox" 
+          id="soloFinalizados"
+          [(ngModel)]="soloFinalizados"
+          (change)="cambiarFiltroEstado()"
+          class="checkbox-estado">
+        <label for="soloFinalizados" class="checkbox-label">
+          Solo Finalizados
+        </label>
+      </div>
+
+      <button class="btn-actualizar-inline" (click)="aplicarFiltros()">
+        Aplicar
+      </button>
+      
+      <button class="btn-limpiar-inline" (click)="limpiarFiltros()">
+        Limpiar
+      </button>
+    </div>
+  </div>
+
+  <!-- Gráfico Container -->
+  <div class="grafico-card">
+    <div class="grafico-content">
+      <!-- Gráfico de Barras Horizontales -->
+      <div class="grafico-wrapper">
+        <ngx-charts-bar-horizontal
+          [view]="[900, 400]"
+          [results]="data"
+          [scheme]="colorScheme"
+          [gradient]="true"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="false"
+          [showXAxisLabel]="true"
+          [showYAxisLabel]="true"
+          [xAxisLabel]="'Cantidad de Turnos'"
+          [yAxisLabel]="'Especialista'"
+          [animations]="true"
+          [showDataLabel]="true"
+          [barPadding]="20"
+          [trimYAxisTicks]="false"
+          [maxYAxisTickLength]="50"
+          [yAxisTickFormatting]="formatearNombre"
+          [xAxisTickFormatting]="formatoEntero"
+          [xAxisTicks]="xAxisTicks"
+          [showGridLines]="true"
+          [roundDomains]="true">
+        </ngx-charts-bar-horizontal>
+      </div>
+
+      <!-- Leyenda Personalizada -->
+      <div class="leyenda-container">
+        <!--div class="leyenda-titulo">
+          <span>Especialistas</span>
+        </div>
+        
+        <div class="leyenda-lista">
+          <div *ngFor="let item of data; let i = index" class="leyenda-item">
+            <div class="leyenda-color" [style.background-color]="getColor(i)"></div>
+            <div class="leyenda-info">
+              <span class="leyenda-nombre">{{item.name}}</span>
+              <span class="leyenda-valor">{{item.value}} turnos</span>
+            </div>
+            <span class="leyenda-porcentaje">{{getPorcentaje(item.value)}}%</span>
+          </div>
+        </div>
+
+        <div *ngIf="!data || data.length === 0" class="sin-datos-leyenda">
+          <i class="fa fa-info-circle"></i>
+          <p>No hay datos para el rango seleccionado</p>
+        </div>
+
+       
+    </div-->
+
+    <!-- Sin datos -->
+    <div *ngIf="!data || data.length === 0" class="sin-datos">
+      <i class="fa fa-user-md"></i>
+      <p>No hay datos disponibles para el rango seleccionado</p>
+      <small>Intenta ajustar los filtros de fecha</small>
+    </div>
+  </div>
 </div>

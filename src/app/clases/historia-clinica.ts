@@ -3,7 +3,7 @@ export class HistoriaClinica {
     id:string;
     paciente:string;
     especialista:string;
-    dinamicos: {clave: string, valor: string, rango:number, numero:number, eleccion:boolean}[];
+    dinamicos: {clave: string, valor: string}[];
     altura:string;
     peso:number;
     temperatura:string;
@@ -12,7 +12,7 @@ export class HistoriaClinica {
     fechaAtencion:Date;
     turnoId:string;
 
-    constructor(id:string,paciente:string,especialista:string,dinamicos: {clave: string, valor: string,rango:number, numero:number, eleccion:boolean}[],altura:string,peso:number,
+    constructor(id:string,paciente:string,especialista:string,dinamicos: {clave: string, valor: string}[],altura:string,peso:number,
         temperatura:string,presion:string,especialidad:string,fechaAtencion:Date,turnoId:string){
         this.id = id;
         this.paciente = paciente;

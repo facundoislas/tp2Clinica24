@@ -1,0 +1,640 @@
+.graficos-container {
+  max-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #27272781 0%, #27272781 0%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.graficos-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('../../../assets/imagenes/slider-bg-2.jpg') no-repeat center center;
+  background-size: cover;
+  opacity: 0.05;
+  z-index: 0;
+}
+
+/* Header */
+.graficos-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 15px;
+  flex-shrink: 0;
+}
+
+.spacer {
+  width: 140px;
+}
+
+.header-content {
+  flex: 1;
+  text-align: center;
+}
+
+.page-titulo {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+  margin: 0;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Botón Volver */
+.btn-volver {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 80px;
+}
+
+.btn-volver:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Botón Descargar PDF */
+.btn-descargar-pdf {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 80px;
+}
+
+.btn-descargar-pdf:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+/* Stats Cards */
+.stats-container {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-shrink: 0;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.stat-primary .stat-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.stat-success .stat-icon {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.stat-warning .stat-icon {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.stat-info .stat-icon {
+  background: linear-gradient(135deg, #0dcaf0 0%, #0891b2 100%);
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.stat-value-small {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.stat-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  color: #475569;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 3px;
+}
+
+/* Filtros Card Compacta */
+.filtros-card-compacta {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto 15px;
+  background: rgba(223, 223, 223, 0.98);
+  border-radius: 15px;
+  padding: 12px 20px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+.filtros-inline {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.filtro-titulo-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+  padding-right: 20px;
+  border-right: 2px solid #e2e8f0;
+}
+
+.filtro-titulo-inline i {
+  color: #667eea;
+  font-size: 1rem;
+}
+
+.filtro-item-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filtro-item-inline label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.filtro-item-inline label i {
+  color: #667eea;
+  font-size: 0.85rem;
+}
+
+.input-fecha-inline {
+  padding: 8px 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  background: white;
+  color: #1e293b;
+  font-weight: 500;
+  min-width: 150px;
+}
+
+.input-fecha-inline:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.btn-actualizar-inline,
+.btn-limpiar-inline {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+  white-space: nowrap;
+}
+
+.btn-actualizar-inline {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}
+
+.btn-actualizar-inline:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 18px rgba(16, 185, 129, 0.4);
+}
+
+.btn-limpiar-inline {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.btn-limpiar-inline:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 18px rgba(239, 68, 68, 0.4);
+}
+
+/* Gráfico Card */
+.grafico-card {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(223, 223, 223, 0.98);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.grafico-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  max-height: 400px;
+}
+
+/* Sin datos */
+.sin-datos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #cbd5e1;
+  text-align: center;
+}
+
+.sin-datos i {
+  font-size: 5rem;
+  margin-bottom: 20px;
+}
+
+.sin-datos p {
+  font-size: 1.5rem;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.sin-datos small {
+  font-size: 1rem;
+  color: #94a3b8;
+}
+
+/* Estilos personalizados para el gráfico de líneas */
+::ng-deep .line-chart-custom .line-series path {
+  stroke-width: 3px !important;
+}
+
+::ng-deep .line-chart-custom .gridline-path {
+  stroke: #cbd5e0 !important;
+  stroke-width: 1px !important;
+  stroke-dasharray: none !important;
+}
+
+::ng-deep .line-chart-custom .gridline-path-vertical {
+  stroke: #cbd5e0 !important;
+  stroke-width: 1px !important;
+}
+
+::ng-deep .line-chart-custom .gridline-path-horizontal {
+  stroke: #cbd5e0 !important;
+  stroke-width: 1px !important;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .graficos-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .spacer {
+    display: none;
+  }
+
+  .page-titulo {
+    font-size: 2rem;
+  }
+
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filtros-inline {
+    justify-content: center;
+  }
+
+  .filtro-titulo-inline {
+    border-right: none;
+    border-bottom: 2px solid #e2e8f0;
+    padding-right: 0;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .graficos-container {
+    padding: 20px 10px;
+  }
+
+  .page-titulo {
+    font-size: 1.75rem;
+  }
+
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+
+  .filtros-card-compacta {
+    padding: 15px;
+  }
+
+  .filtros-inline {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .filtro-item-inline {
+    width: 100%;
+  }
+
+  .input-fecha-inline {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .btn-actualizar-inline,
+  .btn-limpiar-inline {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .grafico-card {
+    padding: 20px 15px;
+  }
+
+  .grafico-wrapper {
+    min-height: 350px;
+  }
+}
+
+@media (max-width: 576px) {
+  .filtro-titulo-inline {
+    font-size: 1rem;
+  }
+
+  .filtro-item-inline label {
+    font-size: 0.85rem;
+  }
+
+  .input-fecha-inline {
+    font-size: 0.85rem;
+    padding: 7px 10px;
+  }
+
+  .btn-actualizar-inline,
+  .btn-limpiar-inline {
+    font-size: 0.85rem;
+    padding: 7px 16px;
+  }
+
+  .stat-card {
+    padding: 15px;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .stat-value-small {
+    font-size: 0.85rem;
+  }
+}
+
+/* ===== ESTILOS DE FUENTE PERSONALIZADOS PARA EL GRÁFICO ===== */
+/* Importar fuente Poppins desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/* Etiquetas de los ejes (X e Y) */
+::ng-deep .grafico-wrapper .axis-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  fill: #1e293b !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Números/texto en los ejes (ticks) */
+::ng-deep .grafico-wrapper .tick text {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  fill: #334155 !important;
+}
+
+/* Puntos de datos en la línea */
+::ng-deep .line-chart-custom .circle {
+  stroke-width: 3px !important;
+}
+
+/* Etiquetas de datos (si las hay) */
+::ng-deep .grafico-wrapper .line-label,
+::ng-deep .grafico-wrapper .data-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  fill: #1e293b !important;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Leyenda del gráfico (si existe) */
+::ng-deep .grafico-wrapper .legend-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  fill: #1e293b !important;
+}
+
+::ng-deep .grafico-wrapper .legend-label-text {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  fill: #1e293b !important;
+}
+
+/* Títulos y tooltips */
+::ng-deep .grafico-wrapper .tooltip-anchor text {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+}
+
+/* ===== SPINNER DE CARGA ===== */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.spinner-logo {
+  width: 120px;
+  height: 120px;
+  animation: spin 1.5s linear infinite;
+  filter: drop-shadow(0 0 30px rgba(13, 202, 240, 0.6));
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  letter-spacing: 1px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Responsive para el spinner */
+@media (max-width: 768px) {
+  .spinner-logo {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .loading-text {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .spinner-logo {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .loading-text {
+    font-size: 1rem;
+  }
+}

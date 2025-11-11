@@ -1,4 +1,10 @@
-<app-logo [showSpinner]="loading"></app-logo>
+<!-- Spinner de Carga -->
+<div class="loading-overlay" *ngIf="loading">
+  <div class="spinner-container">
+    <img src="assets/imagenes/logo2.png" alt="Cargando..." class="spinner-logo">
+    <p class="loading-text">Cargando datos...</p>
+  </div>
+</div>
 
 <div class="fondo-principal" *ngIf="!loading">
     <div class="content-overlay">
@@ -18,12 +24,14 @@
                         <button
                             type="button"
                             class="list-group-item list-group-item-action"
-                            *ngFor="let turno of turnos | filtros:filtro"
+                            *ngFor="let turno of turnos | filtros:filtro:especialistas:pacientes:historiaPrevia"
                             [appEstadoColor]="turno.estado"
+                            appResaltar
+                            [colorResaltar]="'rgba(32, 201, 151, 0.2)'"
                             (click)="verTurno(turno)">
                             <i>{{turno.especialidad}} - {{turno.dia}} de {{turno.mes}}</i>
                         </button>
-                        <div style="text-align: center;" *ngIf="turnos.length == 0" class="mt-3">
+                        <div style="text-align: center;" *ngIf="(turnos | filtros:filtro:especialistas:pacientes:historiaPrevia).length == 0" class="mt-3">
                             <p style="color: #e5e7eb;">No se encontró ningún turno</p>
                         </div> 
                     </div>

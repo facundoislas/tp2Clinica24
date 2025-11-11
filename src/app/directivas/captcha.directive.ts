@@ -45,10 +45,10 @@ export class CaptchaDirective implements OnInit {
   validarCaptcha(resul: string): void {
     if (this.captchaSeleccionado.numero === resul) {
       this.resultadoFinal.emit(true);
-      alert('El resultado es ok');
+      // Debug: alert('El resultado es ok');
     } else {
       this.resultadoFinal.emit(false);
-      alert('El resultado no es ok');
+      // Debug: alert('El resultado no es ok');
       this.setupCaptcha();
       this.inputElement.value = '';
     }

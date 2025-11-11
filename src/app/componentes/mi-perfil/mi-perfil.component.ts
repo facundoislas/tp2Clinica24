@@ -10,12 +10,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterLink } from '@angular/router';
 import { LogoComponent } from '../logo/logo.component';
 import { AlertServiceService } from '../../servicios/alert-service.service';
+import { MisPipesPipe } from '../../pipes/mis-pipes.pipe';
 
 
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
-  imports: [CabeceraComponent, CommonModule, FormsModule,MatSelectModule, MatFormFieldModule, RouterLink, LogoComponent],
+  imports: [CabeceraComponent, CommonModule, FormsModule,MatSelectModule, MatFormFieldModule, RouterLink, LogoComponent, MisPipesPipe],
   templateUrl: './mi-perfil.component.html',
   styleUrls: [ './mi-perfil.component.css']
 })

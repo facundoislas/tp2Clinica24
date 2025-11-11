@@ -1,15 +1,144 @@
-<div style="background-color: aliceblue;">
-    <ngx-charts-pie-chart
-      [results]="data"
-      [view]="[700, 400]"
-      [scheme]="'vivid'"
-      [doughnut]="false"
-      [gradient]="false"
-      [legend]="true"
-      [labels]="true"
-      [explodeSlices]="false"
-      [trimLabels]="true"
-      [arcWidth]="0.25"
-      [animations]="true">
-    </ngx-charts-pie-chart>    
+<div class="graficos-container">
+  <!-- Spinner de Carga -->
+  <div class="loading-overlay" *ngIf="cargando">
+    <div class="spinner-container">
+      <img src="assets/imagenes/logo2.png" alt="Cargando..." class="spinner-logo">
+      <p class="loading-text">Cargando datos...</p>
     </div>
+  </div>
+
+  <!-- Header -->
+  <div class="graficos-header">
+    <button class="btn-volver" routerLink="/estadisticas">
+      <i class="fa fa-arrow-left"></i> Volver al Dashboard
+    </button>
+    
+    <div class="header-content">
+      <h1 class="page-titulo">
+        Turnos por Día
+      </h1>
+    </div>
+
+    <button class="btn-descargar-pdf" (click)="descargarPDF()" *ngIf="data && data.length > 0">
+       Descargar PDF
+    </button>
+  </div>
+
+  <!-- Stats Cards -->
+  <!--div class="stats-container">
+    <div class="stat-card stat-primary">
+      <div class="stat-icon">
+        <i class="fa fa-calendar-check"></i>
+      </div>
+      <div class="stat-content">
+        <span class="stat-label">Total de Turnos</span>
+        <span class="stat-value">{{totalTurnos}}</span>
+      </div>
+    </div>
+
+    <div class="stat-card stat-success">
+      <div class="stat-icon">
+        <i class="fa fa-chart-line"></i>
+      </div>
+      <div class="stat-content">
+        <span class="stat-label">Promedio Diario</span>
+        <span class="stat-value">{{promedioDiario}}</span>
+      </div>
+    </div>
+
+    <div class="stat-card stat-warning">
+      <div class="stat-icon">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+      <div class="stat-content">
+        <span class="stat-label">Día con Más Turnos</span>
+        <span class="stat-value-small">{{diaConMasTurnos}}</span>
+        <span class="stat-badge">{{maxTurnos}} turnos</span>
+      </div>
+    </div>
+
+    <div class="stat-card stat-info">
+      <div class="stat-icon">
+        <i class="fa fa-arrow-down"></i>
+      </div>
+      <div class="stat-content">
+        <span class="stat-label">Día con Menos Turnos</span>
+        <span class="stat-value-small">{{diaConMenosTurnos}}</span>
+        <span class="stat-badge">{{minTurnos}} turnos</span>
+      </div>
+    </div>
+  </div-->
+
+  <!-- Filtros Compactos -->
+  <!--div class="filtros-card-compacta">
+    <div class="filtros-inline">
+      <div class="filtro-titulo-inline">
+        <i class="fa fa-filter"></i>
+        <span>Filtrar por Fecha</span>
+      </div>
+      
+      <div class="filtro-item-inline">
+        <label for="startDate">
+          <i class="fa fa-calendar-alt"></i> Inicio
+        </label>
+        <input 
+          type="date" 
+          id="startDate"
+          [(ngModel)]="startDate" 
+          class="input-fecha-inline">
+      </div>
+
+      <div class="filtro-item-inline">
+        <label for="endDate">
+          <i class="fa fa-calendar-alt"></i> Fin
+        </label>
+        <input 
+          type="date" 
+          id="endDate"
+          [(ngModel)]="endDate" 
+          class="input-fecha-inline">
+      </div>
+
+      <button class="btn-actualizar-inline" (click)="aplicarFiltros()">
+        Aplicar
+      </button>
+      
+      <button class="btn-limpiar-inline" (click)="limpiarFiltros()">
+        Limpiar
+      </button>
+    </div>
+  </div-->
+
+  <!-- Gráfico Container -->
+  <div class="grafico-card">
+    <div class="grafico-wrapper">
+      <ngx-charts-line-chart
+        [view]="[1100, 350]"
+        [results]="[{name: 'Turnos', series: data}]"
+        [scheme]="colorScheme"
+        [gradient]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        xAxisLabel="Fecha"
+        yAxisLabel="Cantidad de Turnos"
+        [animations]="true"
+        [timeline]="false"
+        [showGridLines]="true"
+        [yScaleMin]="0"
+        [yAxisTicks]="yAxisTicks"
+        [yAxisTickFormatting]="formatoEntero"
+        class="line-chart-custom">
+      </ngx-charts-line-chart>
+    </div>
+
+    <!-- Sin datos -->
+    <div *ngIf="!data || data.length === 0" class="sin-datos">
+      <i class="fa fa-calendar-times"></i>
+      <p>No hay datos de turnos para mostrar</p>
+      <small>Intenta ajustar los filtros de fecha</small>
+    </div>
+  </div>
+</div>

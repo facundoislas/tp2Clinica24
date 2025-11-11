@@ -29,6 +29,8 @@
     "chart.js": "^4.4.3",
     "file-saver": "^2.0.5",
     "firebase": "^10.12.4",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.3",
     "ng2-charts": "^6.0.1",
     "ngx-filesaver": "^18.0.0",
     "primeng": "^17.18.6",

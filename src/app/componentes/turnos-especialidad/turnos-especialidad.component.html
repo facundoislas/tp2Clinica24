@@ -1,13 +1,100 @@
+<div class="graficos-container">
+  <!-- Spinner de Carga -->
+  <div class="loading-overlay" *ngIf="cargando">
+    <div class="spinner-container">
+      <img src="assets/imagenes/logo2.png" alt="Cargando..." class="spinner-logo">
+      <p class="loading-text">Cargando datos...</p>
+    </div>
+  </div>
 
-<div style="background-color: aliceblue;">
-<ngx-charts-pie-chart
-[view]="[700, 400]"
-[scheme]="colorScheme"
-[results]="data"
-[gradient]="false"
-[legend]="true"
-[labels]="true"
-[doughnut]="false"
+  <!-- Header -->
+  <div class="graficos-header">
+    <button class="btn-volver" routerLink="/estadisticas">
+      <i class="fa fa-arrow-left"></i> Volver al Dashboard
+    </button>
+    
+    <div class="header-content">
+      <h1 class="page-titulo">
+        Turnos por Especialidad
+      </h1>
+    </div>
 
->
-</ngx-charts-pie-chart></div>
+    <button class="btn-descargar-pdf" (click)="descargarPDF()" *ngIf="data && data.length > 0">
+      Descargar PDF
+    </button>
+  </div>
+
+ 
+
+  <!-- Gráfico Container -->
+  <div class="grafico-card">
+    
+    
+    <div class="grafico-wrapper">
+      <ngx-charts-bar-vertical
+        [view]="[1000, 500]"
+        [scheme]="colorScheme"
+        [results]="data"
+        [gradient]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="false"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxisLabel]="'Especialidades'"
+        [yAxisLabel]="'Cantidad de Turnos'"
+        [animations]="true"
+        [roundDomains]="true"
+        [showDataLabel]="true"
+        [barPadding]="20"
+        [yScaleMin]="0"
+        [yAxisTicks]="yAxisTicks"
+        [yAxisTickFormatting]="formatoEntero"
+        [showGridLines]="true">
+      </ngx-charts-bar-vertical>
+    </div>
+
+    <!-- Sin datos -->
+    <div *ngIf="!data || data.length === 0" class="sin-datos">
+      <i class="fa fa-chart-bar"></i>
+      <p>No hay datos disponibles</p>
+    </div>
+  </div>
+
+  <!-- Tabla de Datos -->
+  <!--div class="datos-tabla-card">
+    <div class="tabla-header">
+      <h3><i class="fa fa-table"></i> Detalle por Especialidad</h3>
+    </div>
+    
+    <div class="tabla-wrapper">
+      <table class="tabla-especialidades">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Especialidad</th>
+            <th>Cantidad</th>
+            <th>Porcentaje</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data; let i = index">
+            <td>{{i + 1}}</td>
+            <td>
+              <div class="especialidad-cell">
+                <span class="color-indicator" [style.background-color]="getColor(i)"></span>
+                <span class="especialidad-nombre">{{item.name}}</span>
+              </div>
+            </td>
+            <td class="cantidad-cell">{{item.value}}</td>
+            <td class="porcentaje-cell">{{getPorcentaje(item.value)}}%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="!data || data.length === 0" class="sin-datos-tabla">
+      <p>No hay datos para mostrar</p>
+    </div>
+  </div-->
+</div>

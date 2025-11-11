@@ -1,11 +1,31 @@
 /* Fondo global unificado para toda la aplicación */
 .fondo {
-    background: url('./../assets/imagenes/slider-bg-2.jpg') no-repeat center center;
-    background-size: cover;
-    background-attachment: fixed;
+    display: block;
     min-height: 100vh;
     width: 100%;
     position: relative;
+}
+
+/* Overlay para mejorar las transiciones */
+.fondo::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        rgba(33, 150, 243, 0.1) 0%, 
+        rgba(30, 136, 229, 0.15) 50%, 
+        rgba(25, 118, 210, 0.1) 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Asegurar que el contenido esté por encima del overlay */
+.fondo > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* Configuración global */
@@ -13,11 +33,37 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    overflow-x: hidden;
+}
+
+/* Estilo para el contenedor de animaciones de router */
+router-outlet {
+    display: block;
+}
+
+/* Asegurar que las páginas en transición mantengan el fondo */
+.fondo > router-outlet + * {
+    background: transparent;
+}
+
+/* Smooth transition background */
+.fondo::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('./../assets/imagenes/slider-bg-2.jpg') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: -1;
 }
 
 /* Responsive para el fondo */
 @media (max-width: 768px) {
-    .fondo {
+    .fondo::after {
         background-attachment: scroll;
     }
 }

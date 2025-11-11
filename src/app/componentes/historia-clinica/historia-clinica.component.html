@@ -1,4 +1,12 @@
 <div class="historia-clinica-container">
+  <!-- Spinner de Carga -->
+  <div class="loading-overlay" *ngIf="cargando">
+    <div class="spinner-container">
+      <img src="assets/imagenes/logo2.png" alt="Cargando..." class="spinner-logo">
+      <p class="loading-text">Cargando datos...</p>
+    </div>
+  </div>
+
   <div class="historia-clinica-content">
     
     <!-- Header -->
@@ -8,9 +16,30 @@
       </h1>
       <h2 class="paciente-nombre">{{paciente.nombre}} {{paciente.apellido}}</h2>
       <p class="paciente-info" *ngIf="paciente.dni">
-        <i class="fa fa-id-card"></i> DNI: {{paciente.dni}} 
+        <i class="fa fa-id-card"></i> DNI: {{paciente.dni | misPipes:'dni'}} 
         <span *ngIf="paciente.edad"> | Edad: {{paciente.edad}} años</span>
       </p>
+
+      <!-- Controles de filtro y descarga (solo para pacientes) -->
+      <div class="controles-pdf" *ngIf="usuario && usuario.tipo === 'paciente' && historias.length > 0">
+        <div class="filtro-especialidad">
+          <label for="especialidad-select">
+            <i class="fa fa-filter"></i> Filtrar por especialidad:
+          </label>
+          <select 
+            id="especialidad-select" 
+            [(ngModel)]="especialidadSeleccionada" 
+            class="select-especialidad">
+            <option value="todas">Todas las especialidades</option>
+            <option *ngFor="let esp of especialidades" [value]="esp">{{esp}}</option>
+          </select>
+        </div>
+        
+        <button class="btn-descargar-pdf" (click)="generarPDF()">
+          <i class="fa fa-file-pdf-o"></i>
+          Descargar PDF
+        </button>
+      </div>
     </div>
 
     <!-- Sin historias -->
@@ -21,13 +50,13 @@
 
     <!-- Lista de historias -->
     <div class="historias-lista">
-      <div *ngFor="let historia of historias; let i = index" class="historia-card">
+      <div *ngFor="let historia of historiasFiltradas; let i = index" class="historia-card">
         
         <!-- Encabezado de la historia -->
         <div class="historia-card-header">
           <div class="historia-numero">
             <i class="fa fa-file-medical"></i>
-            <span>Consulta #{{historias.length - i}}</span>
+            <span>Consulta #{{historiasFiltradas.length - i}}</span>
           </div>
           <div class="historia-metadata">
             <div class="metadata-item">

@@ -279,3 +279,53 @@ nav button {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
+
+/* Estilos para el item activo del menú */
+.menu-item-activo {
+  position: relative;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(32, 201, 151, 0.25);
+}
+
+/* Indicador visual adicional con ::after */
+.menu-item-activo::after {
+  content: '●';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #20c997;
+  font-size: 1.25rem;
+  animation: pulsoIndicador 2s ease-in-out infinite;
+}
+
+/* Animación de pulso para el indicador */
+@keyframes pulsoIndicador {
+  0%, 100% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(-50%) scale(1.2);
+  }
+}
+
+/* Efecto de brillo adicional en el item activo */
+.menu-item-activo::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #20c997, #0d9488);
+  border-radius: 4px 0 0 4px;
+  box-shadow: 0 0 10px rgba(32, 201, 151, 0.5);
+}
+
+/* Asegurar que el texto esté por encima de los efectos */
+.menu-item-activo > * {
+  position: relative;
+  z-index: 1;
+}

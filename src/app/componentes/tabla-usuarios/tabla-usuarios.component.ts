@@ -3,11 +3,15 @@ import { FirebaseService } from '../../servicios/firebase.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ExcelExportService } from '../../servicios/excel-export.service';
+import { TurnosService } from '../../servicios/turnos.service';
+import { Turno } from '../../clases/turno';
+import { MisPipesPipe } from '../../pipes/mis-pipes.pipe';
+import { AlertServiceService } from '../../servicios/alert-service.service';
 
 @Component({
   selector: 'app-tabla-usuarios',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MisPipesPipe],
   templateUrl: './tabla-usuarios.component.html',
   styleUrls: [ './tabla-usuarios.component.css']
 })
@@ -17,19 +21,38 @@ export class TablaUsuariosComponent {
   public usuarios: any[] = [];
   public usuariosFiltrados: any[] = [];
   public filtroActivo: string = 'todos'; // 'todos', 'paciente', 'especialista', 'admin'
+  public turnos: Turno[] = [];
+  public especialistas: any[] = [];
+  public cargando: boolean = true; // Estado de carga
   @Output() pacienteSeleccionado = new EventEmitter<string>();
 
-  constructor( private userService: FirebaseService, private excelExportService: ExcelExportService){
+  constructor( 
+    private userService: FirebaseService, 
+    private excelExportService: ExcelExportService,
+    private turnosService: TurnosService,
+    private alertService: AlertServiceService
+  ){
     
   }
 
   traer()
   {
-
+    this.cargando = true; // Iniciar carga
     this.userService.getUsuarios().subscribe(usuarios => {
       this.usuarios = usuarios;
       this.aplicarFiltro();
-      console.log(this.usuarios)
+      console.log(this.usuarios);
+      
+      // Cargar turnos
+      this.turnosService.getTurnosDB().subscribe(turnos => {
+        this.turnos = turnos;
+      });
+      
+      // Cargar especialistas
+      this.userService.getUsuariosPorTipo('especialista').subscribe(especialistas => {
+        this.especialistas = especialistas;
+        this.cargando = false; // Finalizar carga
+      });
     })
     
   }
@@ -112,7 +135,7 @@ export class TablaUsuariosComponent {
       console.log('Excel exportado correctamente');
     } catch (error) {
       console.error('Error al exportar a Excel:', error);
-      alert('Error al exportar los datos a Excel. Por favor, intente nuevamente.');
+      this.alertService.showSuccessAlert1('Error al exportar los datos a Excel. Por favor, intente nuevamente.', 'Error', 'error');
     }
   }
 
@@ -137,6 +160,57 @@ export class TablaUsuariosComponent {
     }
     
     return '';
+  }
+
+  // Método para descargar los turnos de un paciente específico (solo finalizados y aceptados)
+  descargarTurnosPaciente(paciente: any): void {
+    try {
+      // Filtrar turnos del paciente que estén finalizados o aceptados
+      const turnosPaciente = this.turnos.filter(turno => 
+        turno.paciente === paciente.email && 
+        (turno.estado === 'finalizado' || turno.estado === 'aceptado')
+      );
+      
+      if (turnosPaciente.length === 0) {
+        this.alertService.showSuccessAlert1('Este paciente no tiene turnos finalizados o aceptados.', 'Sin turnos', 'info');
+        return;
+      }
+
+      // Formatear datos para Excel
+      const datosFormateados = turnosPaciente.map(turno => {
+        // Buscar el especialista
+        const especialista = this.especialistas.find(esp => esp.email === turno.especialista);
+        const nombreEspecialista = especialista 
+          ? `${especialista.nombre} ${especialista.apellido}` 
+          : turno.especialista;
+
+        return {
+          'Fecha': `${turno.dia}/${this.obtenerNumeroMes(turno.mes)}/${turno.anio}`,
+          'Hora': turno.hora,
+          'Especialidad': turno.especialidad,
+          'Especialista': nombreEspecialista,
+          'Estado': turno.estado,
+          'Comentario': turno.comentario || 'N/A'
+        };
+      });
+
+      // Exportar a Excel con el nombre del paciente
+      const nombreArchivo = `turnos_${paciente.nombre}_${paciente.apellido}`.toLowerCase().replace(/\s/g, '_');
+      this.excelExportService.exportAsExcelFile(datosFormateados, nombreArchivo);
+      console.log('Turnos del paciente exportados correctamente');
+    } catch (error) {
+      console.error('Error al exportar turnos del paciente:', error);
+      this.alertService.showSuccessAlert1('Error al exportar los turnos. Por favor, intente nuevamente.', 'Error', 'error');
+    }
+  }
+
+  obtenerNumeroMes(mes: string): string {
+    const meses: { [key: string]: string } = {
+      'Enero': '01', 'Febrero': '02', 'Marzo': '03', 'Abril': '04', 
+      'Mayo': '05', 'Junio': '06', 'Julio': '07', 'Agosto': '08',
+      'Septiembre': '09', 'Octubre': '10', 'Noviembre': '11', 'Diciembre': '12'
+    };
+    return meses[mes] || '01';
   }
 
 }

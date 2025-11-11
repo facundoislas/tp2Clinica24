@@ -13,13 +13,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FiltrosPipe } from '../../pipes/filtros.pipe';
 import { EstadoColorDirective } from '../../directivas/estado-color.directive';
+import { ResaltarDirective } from '../../directivas/resaltar.directive';
 
 declare var window: any;
 
 @Component({
   selector: 'app-mis-turnos',
   standalone: true,
-  imports: [CabeceraComponent, LogoComponent, CommonModule, FormsModule, ReactiveFormsModule, FiltrosPipe,EstadoColorDirective],
+  imports: [CabeceraComponent, LogoComponent, CommonModule, FormsModule, ReactiveFormsModule, FiltrosPipe, EstadoColorDirective, ResaltarDirective],
   templateUrl: './mis-turnos.component.html',
   styleUrls: [ './mis-turnos.component.css']
 })
@@ -62,7 +63,7 @@ export class MisTurnosComponent implements AfterViewInit {
   peso:number = 0;
   temperatura:number = 0;
   presion:number = 0;
-  dinamicos: {clave: string, valor: string, rango: number, numero: number, eleccion: boolean}[] = [];
+  dinamicos: {clave: string, valor: string}[] = [];
   cantidadDatos = 0;
   historiaPrevia: HistoriaClinica[]=[];
   
@@ -176,8 +177,8 @@ export class MisTurnosComponent implements AfterViewInit {
   agregarValorDinamico(valor:string){
     if(valor == 'sumar' && this.cantidadDatos < 3){
       this.cantidadDatos++;
-      // Solo se usan clave y valor, los demás campos tienen valores por defecto
-      this.dinamicos.push({clave: "", valor: "", rango: 0, numero: 0, eleccion: false});
+      // Solo clave y valor
+      this.dinamicos.push({clave: "", valor: ""});
     }
     else if(valor == 'restar' && this.cantidadDatos > 0){
       this.cantidadDatos--;

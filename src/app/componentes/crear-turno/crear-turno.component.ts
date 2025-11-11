@@ -415,4 +415,22 @@ export class CrearTurnoComponent {
     ];
     return meses[numero];
   }
+
+  // Obtener la URL de la imagen de la especialidad
+  getEspecialidadImagen(especialidad: string): string {
+    const especialidadLower = especialidad.toLowerCase();
+    
+    switch(especialidadLower) {
+      case 'cardiologia':
+      case 'cardiología':
+        return 'https://firebasestorage.googleapis.com/v0/b/clinica-22442.appspot.com/o/especialidades%2Fcardiologia.jpg?alt=media&token=7d2a7cd8-20f3-49bf-a523-0a796c280649';
+      
+      case 'neurologia':
+      case 'neurología':
+        return 'https://firebasestorage.googleapis.com/v0/b/clinica-22442.appspot.com/o/especialidades%2Fneurologia.jpg?alt=media&token=18c8ae19-1b2a-45ee-916a-19ffe2cd8d70';
+      
+      default:
+        return ''; // Retornar vacío para usar el ícono por defecto
+    }
+  }
 }
