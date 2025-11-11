@@ -29,14 +29,11 @@ export class MisPipesPipe implements PipeTransform {
   private formatearDni(value: any): string {
     if (!value) return '';
     
-    // Convertir a string y limpiar caracteres no numéricos
     const dni = value.toString().replace(/\D/g, '');
     
-    // Si no tiene números, retornar vacío
     if (dni.length === 0) return '';
     
-    // Formatear con puntos cada 3 dígitos desde la derecha
-    // Ej: 12345678 → 12.345.678
+    
     return dni.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 

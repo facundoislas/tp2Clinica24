@@ -6,9 +6,9 @@ import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/
 })
 export class ResaltarDirective {
 
-  @Input() colorResaltar: string = '#20c997'; // Color por defecto (verde teal)
-  @Input() colorOriginal: string = ''; // Color original del elemento
-  @Input() escalaResaltar: number = 1.05; // Escala al resaltar (por defecto 1.05 = 5% más grande)
+  @Input() colorResaltar: string = '#20c997'; 
+  @Input() colorOriginal: string = ''; 
+  @Input() escalaResaltar: number = 1.05; 
   
   private colorInicial: string = '';
 

@@ -7,7 +7,7 @@ import { HistoriaClinica } from '../clases/historia-clinica';
 @Pipe({
   name: 'filtros',
   standalone: true,
-  pure: false // Importante para que detecte cambios en arrays
+  pure: false 
 })
 export class FiltrosPipe implements PipeTransform {
 
@@ -24,10 +24,8 @@ export class FiltrosPipe implements PipeTransform {
 
     filtro = filtro.toLowerCase().trim();
 
-    // Filtrar turnos que coincidan con CUALQUIER campo
     return turnos.filter(turno => {
       
-      // 1. Buscar en campos del turno
       if (
         turno.especialidad?.toLowerCase().includes(filtro) ||
         turno.estado?.toLowerCase().includes(filtro) ||
@@ -41,7 +39,6 @@ export class FiltrosPipe implements PipeTransform {
         return true;
       }
 
-      // 2. Buscar en nombre del especialista
       const especialista = especialistas.find(esp => esp.email === turno.especialista);
       if (especialista) {
         const nombreCompleto = `${especialista.nombre} ${especialista.apellido}`.toLowerCase();
@@ -52,7 +49,6 @@ export class FiltrosPipe implements PipeTransform {
         }
       }
 
-      // 3. Buscar en nombre del paciente
       const paciente = pacientes.find(pac => pac.email === turno.paciente);
       if (paciente) {
         const nombreCompleto = `${paciente.nombre} ${paciente.apellido}`.toLowerCase();
@@ -63,13 +59,10 @@ export class FiltrosPipe implements PipeTransform {
         }
       }
 
-      // 4. Buscar en historia clínica (solo si el turno está finalizado)
       if (turno.estado === 'finalizado' && turno.id) {
-        // Buscar historia por turnoId
         const historia = historias.find(h => h.turnoId === turno.id);
         
         if (historia) {
-          // Buscar en datos fijos de la historia
           if (
             historia.altura?.toLowerCase().includes(filtro) ||
             historia.peso?.toString().toLowerCase().includes(filtro) ||
@@ -79,7 +72,6 @@ export class FiltrosPipe implements PipeTransform {
             return true;
           }
 
-          // Buscar en datos dinámicos (clave y valor)
           if (historia.dinamicos && historia.dinamicos.length > 0) {
             const coincideDinamico = historia.dinamicos.some(dinamico => 
               dinamico.clave?.toLowerCase().includes(filtro) ||
