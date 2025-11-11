@@ -124,5 +124,5 @@ Turnos por Dia:
 
 A su vez, se puede descargar la información en PDF de cualquiera de los informes.
 
-<img width="1891" height="622" alt="image" src="https://github.com/user-attachments/assets/df0daafa-0310-4d74-a51c-5ef0b9d8328f" />
+<img width="1820" height="718" alt="image" src="https://github.com/user-attachments/assets/37a85ce0-b857-4b28-a1ad-7d89c5046e49" />
 
